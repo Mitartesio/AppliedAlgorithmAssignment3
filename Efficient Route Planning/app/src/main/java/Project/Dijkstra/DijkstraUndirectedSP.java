@@ -73,6 +73,7 @@ public class DijkstraUndirectedSP {
     private double[] distTo;          // distTo[v] = distance  of shortest s->v path
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
+    private EdgeWeightedGraph G;
 
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every
@@ -83,7 +84,7 @@ public class DijkstraUndirectedSP {
      * @throws IllegalArgumentException if an edge weight is negative
      * @throws IllegalArgumentException unless {@code 0 <= s < V}
      */
-    public DijkstraUndirectedSP(EdgeWeightedGraph G, int s) {
+    public DijkstraUndirectedSP(EdgeWeightedGraph G, int s,int t) {
         for (Edge e : G.edges()) {
             if (e.weight() < 0)
                 throw new IllegalArgumentException("edge " + e + " has negative weight");
@@ -102,13 +103,62 @@ public class DijkstraUndirectedSP {
         pq = new IndexMinPQ<Double>(G.V());
         pq.insert(s, distTo[s]);
         while (!pq.isEmpty()) {
+
             int v = pq.delMin();
+
+            // Check if the vertex just removed is the target
+            if (v == t) {
+                double distToT = distTo[v]; // The shortest distance to t is now finalized
+                System.out.println(distToT);
+                return;
+            }
+            
             for (Edge e : G.adj(v))
                 relax(e, v);
         }
 
         // check optimality conditions
         assert check(G, s);
+    }
+
+
+    /* 
+     * New constructor for dijkstra without starting vertex
+     */
+    public DijkstraUndirectedSP(EdgeWeightedGraph G) {
+        this.G = G;
+        distTo = new double[G.V()];
+        edgeTo = new Edge[G.V()];
+    }
+
+    /* 
+     * New method to compute the shortest path from start to end vertex
+     */
+
+    public double computeShortestPath(int s, int t) {
+        validateVertex(s);
+
+        for (int v = 0; v < G.V(); v++)
+            distTo[v] = Double.POSITIVE_INFINITY;
+        distTo[s] = 0.0;
+
+        pq = new IndexMinPQ<>(G.V());
+        pq.insert(s, distTo[s]);
+
+        while (!pq.isEmpty()) {
+            int v = pq.delMin();
+
+            // Check if it's end vertex
+            if (v == t) {
+                return distTo[v]; // Return the distance
+            }
+            for (Edge e : G.adj(v)) {
+                relax(e, v);
+            }
+        }
+
+        // the target vertex t is not reachable, maybe throw exception instead
+        return Double.POSITIVE_INFINITY;
     }
 
     // relax edge e and update pq if changed

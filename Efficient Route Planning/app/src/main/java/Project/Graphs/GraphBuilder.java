@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
+import java.io.InputStream;
 
 public class GraphBuilder {
     
-    public static GraphBuilderResult buildGraphFromFile(String path) throws FileNotFoundException{
-        File myFile = new File("Efficient Route Planning/app/src/main/resources/denmark.graph");
-        Scanner myScanner = new Scanner(myFile);
+    public static GraphBuilderResult buildGraphFromInputStream(InputStream inputStream) {
+
+        Scanner myScanner = new Scanner(inputStream);
         myScanner.useLocale(Locale.US);
         int n = myScanner.nextInt();
         int m = myScanner.nextInt();
@@ -20,7 +21,7 @@ public class GraphBuilder {
         /* Input of vertexes and instantiation of verttexMap */
         HashMap<Long,float[]> vertexMap = new HashMap<>();
         HashMap<Long,Integer> longIntegerMap = new HashMap<>();
-        long[] vertexes = new long[n];
+        // long[] vertexes = new long[n];
 
         for (int i = 0; i < n; i++) {
             long vertexNumber = myScanner.nextLong();

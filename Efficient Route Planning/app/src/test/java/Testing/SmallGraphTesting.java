@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
+import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.Edge;
 
@@ -151,6 +152,16 @@ class SmallGraphTesting {
 
     }
 
+
+
+    @Test
+    public void testBidirectionalDijkstra(){
+        EdgeWeightedGraph graph = smallGraph.getGraph();
+        BidirectionalDijkstra dijkstrastoppingPoint = new BidirectionalDijkstra(graph);
+        double distance = dijkstrastoppingPoint.computeShortestPath(0, 10);
+        assertEquals(9.0, distance);
+
+    }
 
 
 

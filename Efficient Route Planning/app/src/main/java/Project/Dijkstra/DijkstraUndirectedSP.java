@@ -74,6 +74,7 @@ public class DijkstraUndirectedSP {
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
+    private int counterRelaxed = 0;
 
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every
@@ -161,6 +162,10 @@ public class DijkstraUndirectedSP {
         return Double.POSITIVE_INFINITY;
     }
 
+    public int getCounterRelaxed(){
+        return counterRelaxed;
+    }
+
     // relax edge e and update pq if changed
     private void relax(Edge e, int v) {
         int w = e.other(v);
@@ -170,6 +175,7 @@ public class DijkstraUndirectedSP {
             if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
             else                pq.insert(w, distTo[w]);
         }
+        counterRelaxed++;
     }
 
     /**

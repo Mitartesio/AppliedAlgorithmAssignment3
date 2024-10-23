@@ -24,5 +24,9 @@ public class GraphBuilderResult {
     public HashMap<Long, Integer> getLongIntegerMap() {
         return longIntegerMap;
     }
+
+    public int getIntegerRepresentation(Long n){
+        return longIntegerMap.get(n);
+    }
     
 }

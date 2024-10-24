@@ -60,6 +60,9 @@ public class BidirectionalDijkstra {
         pqt = new IndexMinPQ<>(G.V());
         pq = new IndexMinPQ<>(G.V());
 
+        pqs.insert(s,0.0);
+        pqt.insert(t, 0.0);
+
 
         while(!(pqs.isEmpty()) || !(pqt.isEmpty())){
 
@@ -82,7 +85,7 @@ public class BidirectionalDijkstra {
                 
             }
 
-            if(settled.containsKey(u)) break;
+            if(settled.get(u) == true) break;
 
             settled.put(u,true);
 

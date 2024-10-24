@@ -152,8 +152,6 @@ class SmallGraphTesting {
 
     }
 
-
-
     @Test
     public void testBidirectionalDijkstra(){
         EdgeWeightedGraph graph = smallGraph.getGraph();

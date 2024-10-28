@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        if(args[0].equals("Test")){
+        // if(args[0].equals("Test")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
         if (inputStream == null) {
             throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
@@ -27,7 +27,8 @@ public class Main {
             long startTime = System.nanoTime();
             
             //Make graph with start and end node
-            DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graphResult.getGraph(),startNode,endNode);
+            DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graphResult.getGraph());
+            dijkstra.computeShortestPath(startNode,endNode);
             //end nanotime
             long endTime = System.nanoTime();
 
@@ -35,7 +36,7 @@ public class Main {
             System.out.println(dijkstra.getCounterRelaxed() + " " + totalTime);
         }
         scanner.close();
-        }
+        // }
         
 
         // String filePath = "Efficient Route Planning/app/src/main/resources/denmark.graph";

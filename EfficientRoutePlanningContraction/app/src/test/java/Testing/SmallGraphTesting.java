@@ -130,6 +130,7 @@ public class SmallGraphTesting {
         assertTrue("Edge between vertex 1003 and vertex 1005 with weight 2 should exist", edge1003_1005_Found);
     }
 
+    // Test for checking that our early stopping criteria works
     @Test
     public void testEarlyStoppingCriteria(){
         EdgeWeightedGraph graph = smallGraph.getGraph();
@@ -139,6 +140,7 @@ public class SmallGraphTesting {
 
     }
 
+    // Test for random vertexes that our bidirectional dijkstra works as intended.
     @Test
     public void testBidirectionalDijkstra(){
         EdgeWeightedGraph graph = smallGraph.getGraph();

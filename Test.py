@@ -1,7 +1,7 @@
 import csv
 import subprocess
-from typing import Dict, List, Tuple
 import numpy as np # type: ignore
+from typing import NamedTuple, List, Tuple
 
 
 def run_java(jar: str, arg: str, input: str)->str:
@@ -13,7 +13,7 @@ def run_java(jar: str, arg: str, input: str)->str:
 
 #Create random input
 def createRandomInput()->list[tuple[int,int]]:
-    randomSeed = 5948
+    randomSeed = 92842
     listOfInputs = list()
     rng = np.random.default_rng(randomSeed)
     for i in range(1000):
@@ -23,16 +23,24 @@ def createRandomInput()->list[tuple[int,int]]:
         listOfInputs.append(randomTuple)
     return listOfInputs
 
-def benchmark(input: List[Tuple[int,int]], algorithm, jar)->List[Tuple[int,float]]:
+class Triple(NamedTuple):
+    algorithm: str
+    relaxation: int
+    time: float
+
+
+def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Triple]:
     results = []
     inputStr = " ".join(f"{element[0]} {element[1]}" for element in input)
     for line in run_java(jar, algorithm, inputStr).splitlines():
-        relaxation, time = line.split()
-        results.append((int(relaxation),float(time)))
+        algorithm, relaxation, time = line.split()
+        results.append(Triple(str(algorithm),int(relaxation),float(time)))
     return results
 
+
 INSTANCES: List[Tuple[str,str]] = [
-    ('Test', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
+    ('Djikstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    ('BiDjikstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
 ]
 
 if __name__ == '__main__':
@@ -40,13 +48,13 @@ if __name__ == '__main__':
         writer = csv.DictWriter(f,fieldnames=["method", "relaxations", "time"])
         writer.writeheader()
         randomInput = createRandomInput()
-        for algorithm, jar in INSTANCES:
-            resultList = benchmark(randomInput, algorithm, jar)
-            for tuple in resultList:
+        for test, jar in INSTANCES:
+            resultList = benchmark(randomInput, test, jar)
+            for result in resultList:
                 writer.writerow(
                     {
-                        "method": algorithm,
-                        "relaxations": tuple[0],
-                        "time": tuple[1]
+                        "method": result.algorithm,
+                        "relaxations": result.relaxation,
+                        "time": result.time
                     }
                 )

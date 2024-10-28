@@ -10,6 +10,7 @@ public class BidirectionalDijkstra {
     private double[] distToS;          // distTo[v] = distance  of shortest s->v path
     private double[] distToT;
     private double[] distTo;
+    private int counterRelaxed;
 
 
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
@@ -31,6 +32,7 @@ public class BidirectionalDijkstra {
         distToS = new double[G.V()];
         distToT = new double[G.V()];
         distTo = new double[G.V()];
+        counterRelaxed = 0;
 
         edgeTo = new Edge[G.V()]; // lets see if we will use it
         distanceTotal = Long.MAX_VALUE;
@@ -121,6 +123,7 @@ public class BidirectionalDijkstra {
             pqt=pq;
         }
 
+        counterRelaxed++;
     }
 
 
@@ -129,6 +132,10 @@ public class BidirectionalDijkstra {
         int V = distToS.length;
         if (v < 0 || v >= V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+    }
+
+    public int getCounterRelaxed(){
+        return counterRelaxed;
     }
     
 }

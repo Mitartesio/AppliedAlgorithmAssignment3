@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import Project.Graphs.GraphBuilderResult;
+import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.GraphBuilder;
 
@@ -12,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        // if(args[0].equals("Test")){
+        if(args[0].equals("Djikstra")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
         if (inputStream == null) {
             throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
@@ -33,11 +34,37 @@ public class Main {
             long endTime = System.nanoTime();
 
             float totalTime = (endTime-startTime)/1_000_000_000.0f;
-            System.out.println(dijkstra.getCounterRelaxed() + " " + totalTime);
+            System.out.println("Djikstra " + dijkstra.getCounterRelaxed() + " " + totalTime);
         }
         scanner.close();
-        // }
-        
+        }
+        if(args[0].equals("BiDjikstra")){
+            InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
+        if (inputStream == null) {
+            throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
+        }
+        GraphBuilderResult graphResult = GraphBuilder.buildGraphFromInputStream(inputStream);
+
+
+        Scanner scanner = new Scanner(System.in);
+        for(int i = 0; i<1000; i++){
+            BidirectionalDijkstra biDjikstra = new BidirectionalDijkstra(graphResult.getGraph());
+
+            int startNode = scanner.nextInt();
+            int endNode = scanner.nextInt();
+
+            long startTimeSecond = System.nanoTime();
+
+            biDjikstra.computeShortestPath(startNode, endNode);
+
+            long endTimeSecond = System.nanoTime();
+
+            float totalTimeSecond = (endTimeSecond-startTimeSecond)/1_000_000_000.0f;
+
+            System.out.println("DjikstraBirectional " + biDjikstra.getCounterRelaxed() + " " + totalTimeSecond);
+        }
+        scanner.close();
+    }
 
         // String filePath = "Efficient Route Planning/app/src/main/resources/denmark.graph";
         // GraphBuilderResult result = GraphBuilder.buildGraphFromFile(filePath);

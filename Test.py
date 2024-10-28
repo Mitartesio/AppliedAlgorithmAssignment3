@@ -28,7 +28,7 @@ def benchmark(input: list[Tuple[int,int]], algorithm, jar)->list[Tuple[int,float
     for element in input:
         inputStr += str(element[0]) + " "
         inputStr += str(element[1]) + " "
-    print(inputStr)
+    print("now")
     print(run_java(jar,algorithm,inputStr))
     # for relaxation, time in print(run_java(jar, algorithm, inputStr).split()):
         # results.append((relaxation,time))
@@ -36,7 +36,6 @@ def benchmark(input: list[Tuple[int,int]], algorithm, jar)->list[Tuple[int,float
 
 INSTANCES: List[Tuple[str,str]] = [
     ('Test', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
-    # ('HyperLogLog1024', 'hyperloglogmethod/app/build/libs/app.jar')
 ]
 
 if __name__ == '__main__':

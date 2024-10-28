@@ -21,7 +21,6 @@ public class Main {
         //Take start- and endnode
         Scanner scanner = new Scanner(System.in);
         for(int i = 0; i<1000; i++){
-            System.out.println("nu");
             int startNode = scanner.nextInt();
             int endNode = scanner.nextInt();
             //start nanoTime
@@ -33,7 +32,6 @@ public class Main {
             long endTime = System.nanoTime();
 
             float totalTime = (endTime-startTime)/1_000_000_000.0f;
-            System.out.println("starttime is" + startTime + ", " + "endtime is: " + endTime + ", totaltime is:" + totalTime);
             System.out.println(dijkstra.getCounterRelaxed() + " " + totalTime);
         }
         scanner.close();

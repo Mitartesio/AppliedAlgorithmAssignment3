@@ -24,15 +24,18 @@ def createRandomInput()->list[tuple[int,int]]:
 
 def benchmark(input: list[Tuple[int,int]], algorithm, jar)->list[Tuple[int,float]]:
     results = []
+    inputStr = ""
     for element in input:
-        input_string = f"{element[0]} {element[1]}"
-        # relaxations,time = 
-        print(run_java(jar, algorithm, input_string).split())
-        # results.append(Tuple(int(relaxations),float(time))) 
+        inputStr += str(element[0]) + " "
+        inputStr += str(element[1]) + " "
+    print(inputStr)
+    print(run_java(jar,algorithm,inputStr))
+    # for relaxation, time in print(run_java(jar, algorithm, inputStr).split()):
+        # results.append((relaxation,time))
     return results
 
 INSTANCES: List[Tuple[str,str]] = [
-    ('Dijkstra', 'EfficientRoutePlanning/app/build/libs/app.jar')
+    ('Test', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
     # ('HyperLogLog1024', 'hyperloglogmethod/app/build/libs/app.jar')
 ]
 

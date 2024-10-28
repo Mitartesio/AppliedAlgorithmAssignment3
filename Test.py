@@ -22,16 +22,12 @@ def createRandomInput()->list[tuple[int,int]]:
         listOfInputs.append(randomTuple)
     return listOfInputs
 
-def benchmark(input: list[Tuple[int,int]], algorithm, jar)->list[Tuple[int,float]]:
+def benchmark(input: List[Tuple[int,int]], algorithm, jar)->List[Tuple[int,float]]:
     results = []
-    inputStr = ""
-    for element in input:
-        inputStr += str(element[0]) + " "
-        inputStr += str(element[1]) + " "
-    print("now")
-    print(run_java(jar,algorithm,inputStr))
-    # for relaxation, time in print(run_java(jar, algorithm, inputStr).split()):
-        # results.append((relaxation,time))
+    inputStr = " ".join(f"{element[0]} {element[1]}" for element in input)
+    for line in run_java(jar, algorithm, inputStr).splitlines():
+        relaxation, time = line.split()
+        results.append((int(relaxation),float(time)))
     return results
 
 INSTANCES: List[Tuple[str,str]] = [

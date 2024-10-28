@@ -11,6 +11,7 @@ def run_java(jar: str, arg: str, input: str)->str:
     (output,_) = p.communicate(input.encode('utf-8'))
     return output.decode('utf-8')
 
+#Create random input
 def createRandomInput()->list[tuple[int,int]]:
     randomSeed = 5948
     listOfInputs = list()

@@ -5,7 +5,7 @@ from typing import NamedTuple, List, Tuple
 
 
 def run_java(jar: str, arg: str, input: str)->str:
-    p = subprocess.Popen(['java','-jar',jar, arg], 
+    p = subprocess.Popen(['java','-jar',"Xmx4g",jar, arg], 
         stdin=subprocess.PIPE, 
         stdout=subprocess.PIPE)
     (output,_) = p.communicate(input.encode('utf-8'))
@@ -39,8 +39,8 @@ def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Tripl
 
 
 INSTANCES: List[Tuple[str,str]] = [
-    ('Djikstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
-    ('BiDjikstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
+    ('Dijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
 ]
 
 if __name__ == '__main__':

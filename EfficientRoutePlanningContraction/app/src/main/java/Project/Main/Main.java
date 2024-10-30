@@ -13,6 +13,22 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
+        if(args.length==0){
+            InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
+            if (inputStream == null) {
+                throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
+            }
+            GraphBuilderResult graphResult = GraphBuilder.buildGraphFromInputStream(inputStream);
+            Scanner scanner = new Scanner(System.in);
+            while(scanner.hasNext()){
+            int startNode = scanner.nextInt();
+            int endNode = scanner.nextInt();
+            DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graphResult.getGraph());
+            dijkstra.computeShortestPath(startNode,endNode);
+            }
+            scanner.close();
+        }
+
         if(args[0].equals("Djikstra")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
         if (inputStream == null) {

@@ -30,7 +30,7 @@ public class Main {
             scanner.close();
         }
 
-        if(args[0].equals("Djikstra")){
+        if(args[0].equals("Dijkstra")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
         if (inputStream == null) {
             throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
@@ -51,11 +51,11 @@ public class Main {
             long endTime = System.nanoTime();
 
             float totalTime = (endTime-startTime)/1_000_000_000.0f;
-            System.out.println("Djikstra " + dijkstra.getCounterRelaxed() + " " + totalTime);
+            System.out.println("Dijkstra " + dijkstra.getCounterRelaxed() + " " + totalTime);
         }
         scanner.close();
         }
-        if(args[0].equals("BiDjikstra")){
+        if(args[0].equals("BiDijkstra")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
         if (inputStream == null) {
             throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
@@ -78,7 +78,7 @@ public class Main {
 
             float totalTimeSecond = (endTimeSecond-startTimeSecond)/1_000_000_000.0f;
 
-            System.out.println("DjikstraBirectional " + biDjikstra.getCounterRelaxed() + " " + totalTimeSecond);
+            System.out.println("DijkstraBirectional " + biDjikstra.getCounterRelaxed() + " " + totalTimeSecond);
         }
         scanner.close();
     }

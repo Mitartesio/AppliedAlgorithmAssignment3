@@ -29,3 +29,14 @@ jar {
         attributes 'Main-Class': 'Project.Main.Main'
     }
 }
+
+tasks.withType(Test) {
+    // Set the maximum heap size for tests
+    maxHeapSize = "4G"
+}
+
+tasks.withType(JavaExec) {
+    // Set the initial and maximum heap size for the application run
+    jvmArgs = ["-Xms2G", "-Xmx4G"]
+}
+

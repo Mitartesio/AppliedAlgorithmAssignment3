@@ -140,7 +140,7 @@ public class DijkstraUndirectedSP {
         validateVertex(s);
 
         for (int v = 0; v < G.V(); v++)
-            distTo[v] = Double.POSITIVE_INFINITY;
+        distTo[v] = Double.POSITIVE_INFINITY;
         distTo[s] = 0.0;
 
         pq = new IndexMinPQ<>(G.V());

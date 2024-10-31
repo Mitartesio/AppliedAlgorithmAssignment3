@@ -51,7 +51,6 @@ public class DenmarkGraphTesting {
         assertNotNull("Vertex 1000 should exist in the vertex map", vertex1000Coords);
         assertEquals("Longitude of vertex 1000 should be 1.0", 9.12669, vertex1000Coords[0], 0.01);
         assertEquals("Latitude of vertex 1000 should be 2.0", 55.7337, vertex1000Coords[1], 0.01);
-
         }
 
 

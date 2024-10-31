@@ -20,13 +20,12 @@ public class Main {
             }
             GraphBuilderResult graphResult = GraphBuilder.buildGraphFromInputStream(inputStream);
             Scanner scanner = new Scanner(System.in);
-            while(scanner.hasNext()){
             System.out.println("nu");
             int startNode = scanner.nextInt();
             int endNode = scanner.nextInt();
             DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graphResult.getGraph());
             dijkstra.computeShortestPath(startNode,endNode);
-            }
+            System.out.println("Test done");
             scanner.close();
         }
 

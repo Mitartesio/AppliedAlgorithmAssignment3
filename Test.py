@@ -5,7 +5,7 @@ from typing import NamedTuple, List, Tuple
 
 
 def run_java(jar: str, arg: str, input: str)->str:
-    p = subprocess.Popen(['java','-jar',"Xmx4g",jar, arg], 
+    p = subprocess.Popen(['java',"-Xmx4g",'-jar',jar, arg], 
         stdin=subprocess.PIPE, 
         stdout=subprocess.PIPE)
     (output,_) = p.communicate(input.encode('utf-8'))
@@ -63,5 +63,5 @@ INSTANCES: List[Tuple[str,str]] = [
 #                         "time": result.time
 #                     }
 #                 )
-if __name__ == "main":
+if __name__ == '__main__':
     benchmark1("10","9382","Test","EfficientRoutePlanningContraction/app/build/libs/app.jar")

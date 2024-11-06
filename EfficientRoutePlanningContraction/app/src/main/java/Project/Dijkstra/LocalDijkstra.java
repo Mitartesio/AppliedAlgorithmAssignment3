@@ -1,7 +1,10 @@
 package Project.Dijkstra;
 
-import Project.Graphs.*;
 import java.util.HashMap;
+
+import Project.Graphs.Bag;
+import Project.Graphs.Edge;
+import Project.Graphs.EdgeWeightedGraph;
 
 /******************************************************************************
  *  Compilation:  javac DijkstraUndirectedSP.java
@@ -95,8 +98,8 @@ public class LocalDijkstra {
      */
     public LocalDijkstra(EdgeWeightedGraph G, int s) {
         this.G = G;
-        distTo = new HashMap<Integer, Double>();
-        edgeTo = new HashMap<Integer, Double>();
+        distTo = new HashMap<>();
+        edgeTo = new HashMap<>();
         pq = new IndexMinPQ<>(100);
         foundNodes = 0;
         this.counter = 0;
@@ -107,7 +110,7 @@ public class LocalDijkstra {
         for(Edge edge : initialBag){
             
         }
-
+        
         }
         
     }

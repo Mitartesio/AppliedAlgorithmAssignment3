@@ -141,6 +141,10 @@ package Project.Graphs;
          }
  
      }
+
+     public Bag<Edge> adjacentEdges(int s){
+        return adj[s];
+     }
  
      /**
       * Initializes a new edge-weighted graph that is a deep copy of {@code G}.

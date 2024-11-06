@@ -98,35 +98,99 @@ public class LocalDijkstra {
      */
     public LocalDijkstra(EdgeWeightedGraph G, int s) {
         this.G = G;
-        distTo = new HashMap<>();
-        edgeTo = new HashMap<>();
-        pq = new IndexMinPQ<>(100);
-        foundNodes = 0;
+        this.distTo = new HashMap<>();
+        this.edgeTo = new HashMap<>();
+        this.pq = new IndexMinPQ<>(100);
+        this.foundNodes = 0;
         this.counter = 0;
-        found = false;
+        this.found = false;
 
         Bag<Edge> initialBag = G.adjacentEdges(s);
-        
+
         for(Edge edge : initialBag){
-            
+            //Build the graph with the starting node
+            buildGraph(edge.other(s));
+
+            for(Edge edge2 : initialBag){
+                
+                //clear edgeTo and distTo
+                edgeTo.clear();
+                distTo.clear();
+                //For the destination node we will continue until found, counter == 50 or pq is empty
+               while(counter <50 && pq.size() != 0){
+
+                //Find the smallest node and remove it from pq
+                int leastNode = relaxLocal();
+
+                //Check if leastnode is the destination node
+                if(leastNode == edge2.other(s)){
+                    if(found == true){
+
+                        //Slay
+                        this.counter++;
+                        break;
+                    }else{
+
+                        //Not slay
+                        break;
+                    }
+                }
+                buildGraph(edge.other(leastNode));
+               }
+            }
         }
-        
+        int leastNode = relaxLocal();
+
         }
+
+        private void buildGraph(int node){
+            Bag<Edge> newBag = G.adjacentEdges(node);
+            for(Edge edge : newBag){
+                if(!edgeTo.containsKey(edge.either())){
+                    edgeTo.put(edge.either(), edge.weight());
+                    pq.insert(edge.either(), edge.weight());
+                    distTo.put(edge.either(), Double.POSITIVE_INFINITY);
+   
+           }else if(!edgeTo.containsKey(edge.other(edge.either()))){
+                   edgeTo.put(edge.either2(), edge.weight());
+                    pq.insert(edge.either2(), edge.weight());
+                    distTo.put(edge.other(edge.either()), Double.POSITIVE_INFINITY);
+   
+           }else if(edgeTo.containsKey(edge.either()) && edgeTo.get(edge.either()) > edge.weight()) {
+               edgeTo.put(edge.either(), edge.weight());
+               pq.decreaseKey(edge.either(), edge.weight());
+               distTo.put(edge.either(), Double.POSITIVE_INFINITY);
+   
+           }else if(edgeTo.containsKey(edge.other(edge.either())) && edgeTo.get(edge.other(edge.either())) > edge.weight()){
+   
+               edgeTo.put(edge.either2(), edge.weight());
+               pq.decreaseKey(edge.either2(), edge.weight());
+               distTo.put(edge.either2(), Double.POSITIVE_INFINITY);
+           }
+               }
+            }
+
+        private int relaxLocal(){
+        int leastNode = pq.delMin();
+        double leastValue = edgeTo.get(leastNode);
+        distTo.put(leastNode, leastValue);
+
+        this.counter++;
+
         
+
+        return leastNode;
     }
 
+    public int getCounter(){
+        return counter;
+    }
+
+
+        }
+        
     
 
-
-    // public int relaxLocal(){
-    //     int leastNode = pq.delMin();
-    //     double leastValue = edgeTo.get(leastNode);
-    //     distTo.put(leastNode, leastValue);
-
-    //     counter++;
-
-    //     return leastNode;
-    // }
 
     /* 
      * New method to compute the shortest path from start to end vertex

@@ -1,4 +1,4 @@
-package Project.Dijkstra;
+package Testing;
 
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.*;
@@ -37,7 +37,7 @@ public class DijkstraUndirectedSPTest {
         // 5 -> 4 (1.4), 4 -> 3 (2.3), 3 -> 1 (4.4), 1 -> 0 (4.9). Other path is 5.0 straight up.
         double expectedDistance = 4.9;
 
-        //checking if expectedDistance = shortestPath. Have to add a delta? to have it not be depreciated?
+        //checking if expectedDistance = shortestPath. Have to add a delta, given we're dealing with doubles
         //the delta is the maximum difference the two values can have to each other while still being considered equal.
         assertEquals(expectedDistance, shortestPath, 0.001);
 
@@ -59,10 +59,10 @@ public class DijkstraUndirectedSPTest {
         // Create undirected dijkstra graph object
         DijkstraUndirectedSP sp = new DijkstraUndirectedSP(G, 0, 5);
 
-        // Call the computeShortestPath to ensure counter is updated
+        // Call the computeShortestPath method to update relax counter
         sp.computeShortestPath(0, 5);
 
-        // Check the number of relaxations done
+        // Set the expected number of relaxations done
         int expectedRelaxations = 6;
 
         assertEquals(expectedRelaxations, sp.getCounterRelaxed());
@@ -78,6 +78,7 @@ public class DijkstraUndirectedSPTest {
         double unreachableDistance = sp.computeShortestPath(0, 10); // Node that doesn't exist in this graph
 
         assertEquals(Double.POSITIVE_INFINITY, unreachableDistance, 0.001);
+    }
 
-}
+
 }

@@ -124,7 +124,7 @@ public class LocalDijkstra {
 
                 //Check if leastnode is the destination node
                 if(leastNode == edge2.other(s)){
-                    if(found == true){
+                    if(edge2.either() == s || edge2.either2() == s){
 
                         //Slay
                         this.counter++;

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import Project.Dijkstra.BidirectionalDijkstra;
+import Project.Dijkstra.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
@@ -17,7 +18,9 @@ public class Main {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
             GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
-            
+            // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+            ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+
 
 
         if(args[0].equals("Test")){

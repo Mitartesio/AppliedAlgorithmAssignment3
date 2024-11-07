@@ -1,6 +1,8 @@
 package Project.Dijkstra;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import Project.Graphs.Bag;
 import Project.Graphs.Edge;
@@ -78,9 +80,9 @@ public class LocalDijkstra {
     private HashMap<Integer, Double> edgeTo;            // edgeTo[v] = last edge on shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
-    private int foundNodes;
-    private boolean found;
     private int counter;
+    private int s;
+    private Set<Integer> alreadyVisited;
 
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every
@@ -97,76 +99,72 @@ public class LocalDijkstra {
      * Local Dijkstra
      */
     public LocalDijkstra(EdgeWeightedGraph G, int s) {
+        this.s = s;
         this.G = G;
         this.distTo = new HashMap<>();
         this.edgeTo = new HashMap<>();
-        this.pq = new IndexMinPQ<>(100);
-        this.foundNodes = 0;
+        this.pq = new IndexMinPQ<>(G.V());
         this.counter = 0;
-        this.found = false;
 
         Bag<Edge> initialBag = G.adjacentEdges(s);
+        this.alreadyVisited = new HashSet<>();
 
+        
         for(Edge edge : initialBag){
-            //Build the graph with the starting node
-            buildGraph(edge.other(s));
-
-            for(Edge edge2 : initialBag){
-                
-                //clear edgeTo and distTo
-                edgeTo.clear();
-                distTo.clear();
-                //For the destination node we will continue until found, counter == 50 or pq is empty
-               while(counter <50 && pq.size() != 0){
-
-                //Find the smallest node and remove it from pq
-                int leastNode = relaxLocal();
-
-                //Check if leastnode is the destination node
-                if(leastNode == edge2.other(s)){
-                    if(edge2.either() == s || edge2.either2() == s){
-
-                        //Slay
-                        this.counter++;
-                        break;
-                    }else{
-
-                        //Not slay
-                        break;
-                    }
+            int nodeCounter = 0;
+            int startNode = edge.other(s);
+            HashSet<Integer> set = initializeHashSet(initialBag, startNode);
+            while(nodeCounter < 50 && !set.isEmpty()){
+            buildGraph(startNode);
+            int leastNode = relaxLocal(); 
+            if(set.contains(leastNode)){
+                set.remove(leastNode);
+                if(distTo.get(leastNode) == edge.weight() + findEdge(initialBag, s, leastNode).weight()){
+                    counter++;
                 }
-                buildGraph(edge.other(leastNode));
-               }
+                nodeCounter++;
             }
         }
-        int leastNode = relaxLocal();
+        alreadyVisited.add(startNode);
+        }
 
+        }
+
+        private HashSet<Integer> initializeHashSet(Bag<Edge> bag, int node){
+            HashSet<Integer> set = new HashSet<>();
+            for(Edge edge : bag){
+                if(!alreadyVisited.contains(edge.other(s)) && edge.other(s) != node){
+                    set.add(edge.other(s));
+                }
+            }
+            return set;
+        }
+
+        private Edge findEdge(Bag<Edge> bag ,int s, int n){
+            for(Edge edge : bag){
+                if(edge.other(s) == n){
+                    return edge;
+                }
+            }
+            return null;
         }
 
         private void buildGraph(int node){
             Bag<Edge> newBag = G.adjacentEdges(node);
             for(Edge edge : newBag){
-                if(!edgeTo.containsKey(edge.either())){
-                    edgeTo.put(edge.either(), edge.weight());
-                    pq.insert(edge.either(), edge.weight());
-                    distTo.put(edge.either(), Double.POSITIVE_INFINITY);
-   
-           }else if(!edgeTo.containsKey(edge.other(edge.either()))){
-                   edgeTo.put(edge.either2(), edge.weight());
-                    pq.insert(edge.either2(), edge.weight());
-                    distTo.put(edge.other(edge.either()), Double.POSITIVE_INFINITY);
-   
-           }else if(edgeTo.containsKey(edge.either()) && edgeTo.get(edge.either()) > edge.weight()) {
-               edgeTo.put(edge.either(), edge.weight());
-               pq.decreaseKey(edge.either(), edge.weight());
-               distTo.put(edge.either(), Double.POSITIVE_INFINITY);
-   
-           }else if(edgeTo.containsKey(edge.other(edge.either())) && edgeTo.get(edge.other(edge.either())) > edge.weight()){
-   
-               edgeTo.put(edge.either2(), edge.weight());
-               pq.decreaseKey(edge.either2(), edge.weight());
-               distTo.put(edge.either2(), Double.POSITIVE_INFINITY);
-           }
+                if(edge.other(node) != s){
+                if(!edgeTo.containsKey(edge.other(node))){
+                    edgeTo.put(edge.other(node), edge.weight());
+                    pq.insert(edge.other(node), edge.weight());
+                    distTo.put(edge.other(node), Double.POSITIVE_INFINITY);
+                }
+                else if 
+                (edgeTo.containsKey(edge.other(node)) &&
+                 distTo.get(node) + edge.weight() < edgeTo.get(edge.other(node))) {
+                    edgeTo.put(edge.other(node), edge.weight());
+                    pq.decreaseKey(edge.other(node), edge.weight());
+                    distTo.put(edge.other(node), Double.POSITIVE_INFINITY);
+                }}
                }
             }
 
@@ -174,16 +172,11 @@ public class LocalDijkstra {
         int leastNode = pq.delMin();
         double leastValue = edgeTo.get(leastNode);
         distTo.put(leastNode, leastValue);
-
-        this.counter++;
-
-        
-
         return leastNode;
     }
 
     public int getCounter(){
-        return counter;
+        return this.counter - G.adjacentEdges(s).size();
     }
 
 

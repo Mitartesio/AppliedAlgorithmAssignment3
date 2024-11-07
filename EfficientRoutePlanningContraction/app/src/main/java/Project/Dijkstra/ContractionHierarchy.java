@@ -10,6 +10,9 @@ public class ContractionHierarchy {
         this.graph = graph;
         this.PQ = new IndexMinPQ<>(graph.V());
         createContractionHierarchy();
+        while(PQ.size() != 0){
+            System.out.println(PQ.delMin());
+        }
     }
 
     private void createContractionHierarchy(){

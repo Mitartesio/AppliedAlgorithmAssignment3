@@ -23,6 +23,9 @@ package Project.Graphs;
  *
  ******************************************************************************/
 
+ import java.io.BufferedWriter;
+ import java.io.FileWriter;
+ import java.io.IOException;
  import java.util.NoSuchElementException;
  import Project.backing_Classes.*;
  import Project.Dijkstra.*;
@@ -205,6 +208,30 @@ package Project.Graphs;
          adj[v].add(e);
          adj[w].add(e);
          E++;
+     }
+
+
+      /**
+      * Adds the undirected edge {@code e} to the specified file.
+      *
+      * @param  edgeAsString the edge we want to write into the file
+      * @throws IllegalArgumentException unless both endpoints are between {@code 0} and {@code V-1}
+      */
+
+     public void writeEdge(String edgeAsString){
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("EfficientRoutePlanningContraction/app/src/main/resources/ContractedGraphTesting1.graph", true))) {
+            
+            writer.write(edgeAsString);
+            writer.newLine(); // Start a new line after each edge
+            
+        } catch (IOException e) {
+            System.err.println("Error writing edge to graph file: " + e.getMessage());
+        }
+
+
+
+
      }
  
      /**

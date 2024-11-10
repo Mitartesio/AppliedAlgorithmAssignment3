@@ -18,6 +18,8 @@ public class Main {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
             GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+
+            graphResultTest.getGraph().writeEdge("1016 TESTING 10");
             // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
             System.out.println("Start");
             ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
@@ -31,6 +33,7 @@ public class Main {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
             GraphBuilderResult graphResult = GraphBuilder.buildGraphFromInputStream(inputStream);
+            
             Scanner scanner = new Scanner(System.in);
             System.out.println("nu");
             int startNode = scanner.nextInt();

@@ -38,4 +38,26 @@ public class ContractionTest {
         LocalDijkstra ld = new LocalDijkstra(smallGraph.getGraph(), 16);
         assertEquals(-1,ld.getCounter());
     }
+
+
+@Test
+public void testPositive(){
+    LocalDijkstra ld = new LocalDijkstra(smallGraph.getGraph(), 1);
+    assertEquals(1, ld.getCounter());
+}
+
+@Test
+public void zeroMinusOne(){
+    LocalDijkstra ld = new LocalDijkstra(smallGraph.getGraph(), 4);
+    assertEquals(-1, ld.getCounter());
+}
+
+@Test
+public void testZeroTwo(){
+    LocalDijkstra ld = new LocalDijkstra(smallGraph.getGraph(), 13);
+    assertEquals(0, ld.getCounter());
+
+}
+
+
 }

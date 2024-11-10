@@ -7,23 +7,27 @@ import java.util.Scanner;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
+import Project.Dijkstra.LocalDijkstra;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
 
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph");
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph");
             if (inputStreamTest == null) {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
             GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+            
+            LocalDijkstra ld = new LocalDijkstra(graphResultTest.getGraph(), 16);
 
-            graphResultTest.getGraph().writeEdge("1016 TESTING 10");
+            // graphResultTest.getGraph().writeEdge("1016 TESTING 10");
             // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
             System.out.println("Start");
+            // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+            
             ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
-            // LocalDijkstra ld = new LocalDijkstra(graphResultTest.getGraph(), 123645);
 
             System.out.println("Done!!");
 

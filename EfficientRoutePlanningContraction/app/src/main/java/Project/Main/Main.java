@@ -7,7 +7,7 @@ import java.util.Scanner;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
-import Project.Dijkstra.LocalDijkstra;
+import Project.Dijkstra.LocalDijkstra2;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
 
@@ -20,7 +20,8 @@ public class Main {
             }
             GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
             
-            LocalDijkstra ld = new LocalDijkstra(graphResultTest.getGraph(), 16);
+            LocalDijkstra2 ld = new LocalDijkstra2(graphResultTest.getGraph());
+            ld.computeEdgeDifference(13);
 
             // graphResultTest.getGraph().writeEdge("1016 TESTING 10");
             // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());

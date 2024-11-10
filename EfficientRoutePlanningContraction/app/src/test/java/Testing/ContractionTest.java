@@ -56,7 +56,6 @@ public void zeroMinusOne(){
 public void testZeroTwo(){
     LocalDijkstra ld = new LocalDijkstra(smallGraph.getGraph(), 13);
     assertEquals(0, ld.getCounter());
-
 }
 
 

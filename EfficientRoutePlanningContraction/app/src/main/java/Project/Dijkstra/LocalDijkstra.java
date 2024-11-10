@@ -166,8 +166,6 @@ public class LocalDijkstra {
             //If node is contained in the set we remove it and increment counter if the route is equal to the one going through s
             if(endNodes.contains(leastNode)){
                 endNodes.remove(leastNode);
-                System.out.println(distTo.get(leastNode));
-                System.out.println(edge.weight() + findEdge(initialBag, leastNode).weight());
                 if(distTo.get(leastNode) > edge.weight() + findEdge(initialBag, leastNode).weight()){
                     //Slayyy
                     counter++;
@@ -190,7 +188,7 @@ public class LocalDijkstra {
             return set;
         }
 
-        //finds edge based on node s and n
+        //finds edge based on node n
         private Edge findEdge(Bag<Edge> bag , int n){
             for(Edge edge : bag){
                 if(edge.other(s) == n){

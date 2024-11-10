@@ -13,15 +13,17 @@ import Project.Graphs.GraphBuilderResult;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph");
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph");
             if (inputStreamTest == null) {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
             GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
             // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+            System.out.println("Start");
             ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+            // LocalDijkstra ld = new LocalDijkstra(graphResultTest.getGraph(), 123645);
 
-
+            System.out.println("Done!!");
 
         if(args[0].equals("Test")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");

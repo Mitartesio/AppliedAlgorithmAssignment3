@@ -7,14 +7,14 @@ import Project.Graphs.Bag;
 import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
-public class LocalDijkstra3 {
-    private HashMap<Integer, Double> distTo;          // distTo[v] = distance  of shortest s->v path
-    private IndexMinPQ<Double> pq;    // priority queue of vertices
+public class LocalDijkstra4 {
+    private HashMap<Integer, Integer> distTo;          // distTo[v] = distance  of shortest s->v path
+    private IndexMinPQ<Integer> pq;    // priority queue of vertices
     private final EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
 
-    public LocalDijkstra3(EdgeWeightedGraph G){
+    public LocalDijkstra4(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
@@ -32,7 +32,7 @@ public class LocalDijkstra3 {
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
-            distTo.put(startNode, 0.0);
+            distTo.put(startNode, 0);
             int nodeCounter = 0;
 
             //The end nodes that has been visited
@@ -107,7 +107,7 @@ public class LocalDijkstra3 {
      //This will reset all collections
      private void reset(){
         distTo.clear();
-        IndexMinPQ<Double> newPq = new IndexMinPQ<>(G.V());            
+        IndexMinPQ<Integer> newPq = new IndexMinPQ<>(G.V());            
         pq = newPq;   
         visitedNodes.clear();
         }

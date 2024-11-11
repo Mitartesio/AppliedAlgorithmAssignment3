@@ -85,65 +85,6 @@ package Project.Graphs;
          }
      }
  
-     /**
-      * Initializes a random edge-weighted graph with {@code V} vertices and <em>E</em> edges.
-      *
-      * @param  V the number of vertices
-      * @param  E the number of edges
-      * @throws IllegalArgumentException if {@code V < 0}
-      * @throws IllegalArgumentException if {@code E < 0}
-      */
-     public EdgeWeightedGraph(int V, int E) {
-         this(V);
-         if (E < 0) throw new IllegalArgumentException("Number of edges must be non-negative");
-         for (int i = 0; i < E; i++) {
-             int v = StdRandom.uniformInt(V);
-             int w = StdRandom.uniformInt(V);
-             double weight = 0.01 * StdRandom.uniformInt(0, 100);
-             Edge e = new Edge(v, w, weight);
-             addEdge(e);
-         }
-     }
- 
-     /**
-      * Initializes an edge-weighted graph from an input stream.
-      * The format is the number of vertices <em>V</em>,
-      * followed by the number of edges <em>E</em>,
-      * followed by <em>E</em> pairs of vertices and edge weights,
-      * with each entry separated by whitespace.
-      *
-      * @param  in the input stream
-      * @throws IllegalArgumentException if {@code in} is {@code null}
-      * @throws IllegalArgumentException if the endpoints of any edge are not in prescribed range
-      * @throws IllegalArgumentException if the number of vertices or edges is negative
-      */
-     public EdgeWeightedGraph(In in) {
-         if (in == null) throw new IllegalArgumentException("argument is null");
- 
-         try {
-             V = in.readInt();
-             adj = (Bag<Edge>[]) new Bag[V];
-             for (int v = 0; v < V; v++) {
-                 adj[v] = new Bag<Edge>();
-             }
- 
-             int E = in.readInt();
-             if (E < 0) throw new IllegalArgumentException("Number of edges must be non-negative");
-             for (int i = 0; i < E; i++) {
-                 int v = in.readInt();
-                 int w = in.readInt();
-                 validateVertex(v);
-                 validateVertex(w);
-                 double weight = in.readDouble();
-                 Edge e = new Edge(v, w, weight);
-                 addEdge(e);
-             }
-         }
-         catch (NoSuchElementException e) {
-             throw new IllegalArgumentException("invalid input format in EdgeWeightedGraph constructor", e);
-         }
- 
-     }
 
      public Bag<Edge> adjacentEdges(int s){
         return adj[s];

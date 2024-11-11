@@ -26,7 +26,7 @@ public class Edge implements Comparable<Edge> {
 
     private final int v;
     private final int w;
-    private final double weight;
+    private final int weight;
 
     /**
      * Initializes an edge between vertices {@code v} and {@code w} of
@@ -39,7 +39,7 @@ public class Edge implements Comparable<Edge> {
      *         is a negative integer
      * @throws IllegalArgumentException if {@code weight} is {@code NaN}
      */
-    public Edge(int v, int w, double weight) {
+    public Edge(int v, int w, int weight) {
         if (v < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
         if (w < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
         if (Double.isNaN(weight)) throw new IllegalArgumentException("Weight is NaN");
@@ -53,7 +53,7 @@ public class Edge implements Comparable<Edge> {
      *
      * @return the weight of this edge
      */
-    public double weight() {
+    public int weight() {
         return weight;
     }
 

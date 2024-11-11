@@ -43,7 +43,7 @@ public class LocalDijkstra4 {
             visitedNodes.add(startNode);
 
             //Find the highest value between s and node we are searching for
-            Double highestValue = getHighestValue(initialBag,edge);
+            int highestValue = getHighestValue(initialBag,edge);
 
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
@@ -92,8 +92,8 @@ public class LocalDijkstra4 {
         return null;
     }
 
-    private Double getHighestValue(Bag<Edge> bag, Edge edge){
-        Double value = 0.0;
+    private int getHighestValue(Bag<Edge> bag, Edge edge){
+        int value = 0;
         for(Edge edge2 : bag){
             if(!edge2.equals(edge)){
                 if(value < edge.weight() + edge2.weight()){

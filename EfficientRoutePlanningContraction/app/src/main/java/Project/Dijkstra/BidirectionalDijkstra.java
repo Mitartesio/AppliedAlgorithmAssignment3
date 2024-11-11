@@ -127,7 +127,6 @@ public class BidirectionalDijkstra {
     }
 
 
-
     private void validateVertex(int v) {
         int V = distToS.length;
         if (v < 0 || v >= V)

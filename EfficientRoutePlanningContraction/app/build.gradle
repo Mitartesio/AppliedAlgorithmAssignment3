@@ -45,3 +45,7 @@ tasks.withType(JavaExec) {
     jvmArgs = ["-Xms2G", "-Xmx4G"]
 }
 
+run {
+    args = ['Dijkstra', 'BiDijkstra', 'Test']  // Multiple arguments
+}
+

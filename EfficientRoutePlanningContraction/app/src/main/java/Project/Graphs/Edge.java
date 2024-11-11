@@ -57,6 +57,10 @@ public class Edge implements Comparable<Edge> {
         return weight;
     }
 
+    public int either2(){
+        return w;
+    }
+
     /**
      * Returns either endpoint of this edge.
      *

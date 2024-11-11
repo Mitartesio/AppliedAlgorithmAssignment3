@@ -4,21 +4,35 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import Project.Graphs.GraphBuilderResult;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
+import Project.Dijkstra.LocalDijkstra3;
 import Project.Graphs.GraphBuilder;
+import Project.Graphs.GraphBuilderResult;
 
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph");
+            if (inputStreamTest == null) {
+                throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
+            }
+            GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+            
+            long start = System.nanoTime();
+            LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
+            ld.computeEdgeDifference(13);
+            // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+            long end = System.nanoTime();
+            System.out.println((end - start) / 1_000_000_000.0);
+            
         if(args[0].equals("Test")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
             if (inputStream == null) {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
             GraphBuilderResult graphResult = GraphBuilder.buildGraphFromInputStream(inputStream);
+            
             Scanner scanner = new Scanner(System.in);
             System.out.println("nu");
             int startNode = scanner.nextInt();

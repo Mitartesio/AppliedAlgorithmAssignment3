@@ -100,30 +100,30 @@ public class BidirectionalDijkstra {
     }
 
 
-    private void relax(Edge e, int v,int i) {
-        if (i==0) {
-            distTo=distToS;
-            pq=pqs;
+    private void relax(Edge e, int v, int i) { //new version with stricter relaxation counter increments
+        if (i == 0) {
+            distTo = distToS;
+            pq = pqs;
         } else {
-            distTo=distToT;
-            pq=pqt;
+            distTo = distToT;
+            pq = pqt;
         }
 
         int w = e.other(v);
+        // If a shorter path to w is found, update the distance
         if (distTo[w] > distTo[v] + e.weight()) {
             distTo[w] = distTo[v] + e.weight();
             edgeTo[w] = e;
-            if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
-            else                pq.insert(w, distTo[w]);
-        }
+            // If w is already in the pq, then decrease the key, otherwise insert it
+            if (pq.contains(w)) {
+                pq.decreaseKey(w, distTo[w]);
+            } else {
+                pq.insert(w, distTo[w]);
+            }
 
-        if (i==0){
-            pqs=pq;
-        } else {
-            pqt=pq;
+            // Only count relaxation once for each direction
+            counterRelaxed++;
         }
-
-        counterRelaxed++;
     }
 
 

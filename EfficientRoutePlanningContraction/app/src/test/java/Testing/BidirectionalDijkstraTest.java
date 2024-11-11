@@ -58,7 +58,7 @@ public class BidirectionalDijkstraTest {
 
         // relaxes each time the method is called, meaning. ITR1 s: 0 - 1, 0 - 2. t: 5 - 4.
         // ITR2 s: 1 - 2, 1 - 3. t: 4 - 3. ITR3 s: 2 - 3, t: 3 - 1, 3 - 2.
-        int expectedRelaxCounter = 9;  
+        int expectedRelaxCounter = 7;
 
         assertEquals(expectedRelaxCounter, relaxations);
     }

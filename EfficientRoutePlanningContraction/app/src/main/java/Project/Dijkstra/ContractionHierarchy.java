@@ -6,13 +6,13 @@ public class ContractionHierarchy {
     private IndexMinPQ<Integer> PQ;
     private EdgeWeightedGraph graph;
     private int lazyCounter;
-    private LocalDijkstra3 ld;
+    private LocalDijkstra4 ld;
 
     public ContractionHierarchy(EdgeWeightedGraph graph){
         this.graph = graph;
         this.PQ = new IndexMinPQ<>(graph.V());
         this.lazyCounter = 0;
-        ld = new LocalDijkstra3(graph);
+        ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
         // while(!PQ.isEmpty()){
         //     PQ.delMin(); //Implement where it is actully removed

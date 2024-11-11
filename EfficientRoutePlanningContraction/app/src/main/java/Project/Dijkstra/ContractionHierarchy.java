@@ -14,19 +14,18 @@ public class ContractionHierarchy {
         this.lazyCounter = 0;
         ld = new LocalDijkstra2(graph);
         createContractionHierarchy();
-        while(!PQ.isEmpty()){
-            PQ.delMin(); //Implement where it is actully removed
-            lazyCounter++;
-            if(lazyCounter == 50){
-                createContractionHierarchy();
-            }
-        }
+        // while(!PQ.isEmpty()){
+        //     PQ.delMin(); //Implement where it is actully removed
+        //     lazyCounter++;
+        //     if(lazyCounter == 50){
+        //         createContractionHierarchy();
+        //     }
+        // }
     }
 
     private void createContractionHierarchy(){
         for(int i = 0; i<graph.V(); i++){
             PQ.insert(i, ld.computeEdgeDifference(i));
-            System.out.println(i);
         }
     }
 }

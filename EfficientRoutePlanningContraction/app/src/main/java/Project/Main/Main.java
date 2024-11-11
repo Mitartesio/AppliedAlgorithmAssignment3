@@ -19,8 +19,11 @@ public class Main {
             }
             GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
             
+            long start = System.nanoTime();
             ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
-
+            long end = System.nanoTime();
+            System.out.println((end - start) / 1_000_000_000.0);
+            
         if(args[0].equals("Test")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
             if (inputStream == null) {

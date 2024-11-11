@@ -31,14 +31,13 @@ public class LocalDijkstra2 {
     public int computeEdgeDifference(int n){
         int counter = 0;
         this.s = n;
-        int nodeCounter = 0;
 
         //Make bag over edges connected to the initial node n
         Bag<Edge> initialBag = G.adjacentEdges(n);
 
         for(Edge edge : initialBag){
             //Initialize the remaining nodes to find
-            nodeCounter = 0;
+            int nodeCounter = 0;
 
             //Find start node
             int startNode = edge.other(n);
@@ -56,6 +55,7 @@ public class LocalDijkstra2 {
                 continue;
             }
 
+
             //Find initial leastNode and check if it is an endnode
             int leastNode = relaxLocal();
 
@@ -69,6 +69,8 @@ public class LocalDijkstra2 {
                     counter++;
                 }
             }
+            int highestNode = 0;
+            //  here here here 
 
             while(nodeCounter <50 && !endNodes.isEmpty()){
 
@@ -146,7 +148,7 @@ public class LocalDijkstra2 {
         }
 
 
-
+    //Initializes set with all remaining edges not visited from the particular node
     private HashSet<Integer> initializeSet(Bag<Edge> bag, int node){
         HashSet<Integer> set = new HashSet<>();
         for(Edge edge : bag){
@@ -167,3 +169,9 @@ public class LocalDijkstra2 {
         return leastNode;
     }
 }
+
+//Hav en minPQ fyldt med start node og fyld den hver gang med nabo nodes
+//Bliv ved med at fyld og opdater det hvis nye nodes er fundet MÅSKE glem det her
+//EdgeTo tager har key node og hvilken node du skal bruge for at komme dertil som key
+//DistTo tager som key en node og som værdi en prisen på at komme dertil
+//Når vi rammer 50 eller kommer over max pris eller 

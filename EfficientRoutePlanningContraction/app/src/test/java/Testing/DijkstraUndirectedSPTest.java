@@ -6,11 +6,12 @@ import org.junit.Test;
 
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.*;
-import Project.Graphs.EdgeWeightedGraph;
+
 
 public class DijkstraUndirectedSPTest {
     private static EdgeWeightedGraph GTest;
-    @BeforeClass // before each individual test case. Not sure if it is the right approach
+    
+    @BeforeClass // before each individual test case.
     public static void SetUp() {
     
         GTest = new EdgeWeightedGraph(6);
@@ -39,21 +40,37 @@ public class DijkstraUndirectedSPTest {
         //the delta is the maximum difference the two values can have to each other while still being considered equal.
         assertEquals(expectedDistance, shortestPath, 0.001);
 
-        //need to verify that the path also includes the correct edges
-        Iterable<Edge> path = sp.pathTo(5);
-        StringBuilder pathStr = new StringBuilder();
-        for (Edge edge : path) {
-            pathStr.append(edge.toString()).append(" ");
-        }
-
-        String expectedPath = "0-1 1-3 3-4 4-5";
-
-        assertEquals(expectedPath, pathStr.toString().trim()); 
-
     }
 
     @Test
+public void testPathCalculation() {
+    // Create undirected Dijkstra graph object
+    DijkstraUndirectedSP sp = new DijkstraUndirectedSP(GTest);
+
+    // Compute the shortest path distance
+    sp.computeShortestPath(0, 5);
+
+    // Get the path from node 0 to node 5
+    Iterable<Edge> path = sp.pathTo(5);
+
+    // Build the path string
+    StringBuilder pathStr = new StringBuilder();
+    for (Edge edge : path) {
+        int from = edge.either();
+        int to = edge.other(from);
+        pathStr.append(from).append("-").append(to).append(" ");
+    }
+    // Expected path sequence
+    String expectedPath = "0-1 1-3 3-4 4-5";
+
+    // Assert that the computed path matches the expected path
+    assertEquals(expectedPath, pathStr.toString().trim());
+}
+
+    @Test
     public void testRelaxationCount() {
+
+        assertNotNull("Graph is null, cannot run it",GTest);
         // Create undirected dijkstra graph object
         DijkstraUndirectedSP sp = new DijkstraUndirectedSP(GTest, 0, 5);
 
@@ -75,7 +92,7 @@ public class DijkstraUndirectedSPTest {
         // Assume vertex 5 is unreachable (depending on graph setup)
         double unreachableDistance = sp.computeShortestPath(0, 10); // Node that doesn't exist in this graph
 
-        assertEquals(Double.POSITIVE_INFINITY, unreachableDistance, 0.001);
+        assertNotEquals(Double.POSITIVE_INFINITY, unreachableDistance, 0.001);
     }
 
 

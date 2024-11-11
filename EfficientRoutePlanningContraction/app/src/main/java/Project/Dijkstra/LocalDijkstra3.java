@@ -24,7 +24,9 @@ public class LocalDijkstra3 {
         this.s = s;
         int counter = 0;
 
+        //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
+
         HashSet<Integer> visitedEndNodes = new HashSet<>();
         visitedNodes = new HashSet<>();
 
@@ -32,36 +34,49 @@ public class LocalDijkstra3 {
             int startNode = edge.other(s);
             distTo.put(startNode, 0.0);
             int nodeCounter = 0;
+
+            //The end nodes that has been visited
             visitedEndNodes.add(startNode);
+
+            //Clear visited nodes and add startNode
             visitedNodes.clear();
             visitedNodes.add(startNode);
 
+            //Find the highest value between s and node we are searching for
             Double highestValue = getHighestValue(initialBag,edge);
 
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
 
-            int leastNode = startNode;
+
 
             while(nodeCounter <50 && !endNodes.isEmpty() && !pq.isEmpty()){
-                leastNode = pq.delMin();
+                //Find least node by deleting from Min pq
+                int leastNode = pq.delMin();
+                
+                //Add to visited nodes
                 visitedNodes.add(leastNode);
+
+                //Check if the path just found is more expensive than highest value and break if so
                 if(distTo.get(leastNode) > highestValue){
                     int plus = endNodes.size();
                     counter = counter + plus;
                     break;
                 }
 
+                //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
                     endNodes.remove(leastNode);
+                    //If path is greater than weight path going through s increment counter
                     if(distTo.get(leastNode) > edge.weight() + findEdge(initialBag, leastNode).weight()){
                     counter++;}
-                    
                 }
+                //Fill minpq from least node
                 fillMinPq(leastNode);
             }
             reset();
         }
+        //return
         return counter-initialBag.size(); 
     }
 
@@ -84,7 +99,6 @@ public class LocalDijkstra3 {
                 }
             }
         }
-        System.out.println(value);
         return value;
     }
 
@@ -101,7 +115,6 @@ public class LocalDijkstra3 {
         for(Edge edge : bag){
             if(!visitedEndNodes.contains(edge.other(s)) && edge.other(s) != node){
                 set.add(edge.other(s));
-                System.out.println(edge.other(s));
             }
         }
         return set;

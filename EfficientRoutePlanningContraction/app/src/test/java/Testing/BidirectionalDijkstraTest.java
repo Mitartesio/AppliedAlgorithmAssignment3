@@ -1,23 +1,18 @@
 package Testing;
 
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Graphs.*;
-
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-//perhaps needed
-import java.util.HashMap;
-import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class BidirectionalDijkstraTest {
 
     private EdgeWeightedGraph G;
 
-    @BeforeEach // before each individual test case. Not sure if it is the right approach
+    @Before // before each individual test case. Not sure if it is the right approach
     public void SetUp() { //taken from undriected dijkstra test tile.
 
         G = new EdgeWeightedGraph(6);

@@ -1,35 +1,33 @@
 package Testing;
 
+import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.*;
-
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import Project.Graphs.EdgeWeightedGraph;
 
 public class DijkstraUndirectedSPTest {
+    private static EdgeWeightedGraph GTest;
+    @BeforeClass // before each individual test case. Not sure if it is the right approach
+    public static void SetUp() {
     
-    private EdgeWeightedGraph G;
-
-    @BeforeEach // before each individual test case. Not sure if it is the right approach
-    public void SetUp() {
-    
-        G = new EdgeWeightedGraph(6);
+        GTest = new EdgeWeightedGraph(6);
     // Add edges to the graph with weights
-        G.addEdge(new Edge(0, 1, 0.5));
-        G.addEdge(new Edge(0, 2, 1.2));
-        G.addEdge(new Edge(1, 2, 0.8));
-        G.addEdge(new Edge(1, 3, 2.1));
-        G.addEdge(new Edge(2, 3, 1.5));
-        G.addEdge(new Edge(3, 4, 0.9));
-        G.addEdge(new Edge(4, 5, 1.4));
+        GTest.addEdge(new Edge(0, 1, 0.5));
+        GTest.addEdge(new Edge(0, 2, 1.2));
+        GTest.addEdge(new Edge(1, 2, 0.8));
+        GTest.addEdge(new Edge(1, 3, 2.1));
+        GTest.addEdge(new Edge(2, 3, 1.5));
+        GTest.addEdge(new Edge(3, 4, 0.9));
+        GTest.addEdge(new Edge(4, 5, 1.4));
     }
 
     @Test
     public void TestShortestPathCalc() {
         // Create undirected dijkstra graph object
-        DijkstraUndirectedSP sp = new DijkstraUndirectedSP(G); //wrong DijkstraSP that takes graph, s and t?
+        DijkstraUndirectedSP sp = new DijkstraUndirectedSP(GTest); //wrong DijkstraSP that takes graph, s and t?
         
         //
         double shortestPath = sp.computeShortestPath(0, 5);
@@ -50,14 +48,14 @@ public class DijkstraUndirectedSPTest {
 
         String expectedPath = "0-1 1-3 3-4 4-5";
 
-        assertEquals(expectedPath, pathStr); // not sure if we should do .trim() on the pathStr
+        assertEquals(expectedPath, pathStr.toString().trim()); 
 
     }
 
     @Test
     public void testRelaxationCount() {
         // Create undirected dijkstra graph object
-        DijkstraUndirectedSP sp = new DijkstraUndirectedSP(G, 0, 5);
+        DijkstraUndirectedSP sp = new DijkstraUndirectedSP(GTest, 0, 5);
 
         // Call the computeShortestPath method to update relax counter
         sp.computeShortestPath(0, 5);
@@ -72,7 +70,7 @@ public class DijkstraUndirectedSPTest {
     @Test
     public void testUnreachableNode() {
         // Create DijkstraUndirectedSP instance with a separate target
-        DijkstraUndirectedSP sp = new DijkstraUndirectedSP(G, 0, 5);
+        DijkstraUndirectedSP sp = new DijkstraUndirectedSP(GTest, 0, 5);
 
         // Assume vertex 5 is unreachable (depending on graph setup)
         double unreachableDistance = sp.computeShortestPath(0, 10); // Node that doesn't exist in this graph

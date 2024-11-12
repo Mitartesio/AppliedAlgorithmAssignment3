@@ -16,13 +16,13 @@ public class ContractionHierarchy {
         this.lazyCounter = 0;
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
-        lazyUpdate();
+        // lazyUpdate();
     }
 
     private void createContractionHierarchy(){
         for(int i = 0; i<graph.V(); i++){
             PQ.insert(i, ld.computeEdgeDifference(i));
-            System.out.println(i);
+            // System.out.println(i);
         }
     }
 

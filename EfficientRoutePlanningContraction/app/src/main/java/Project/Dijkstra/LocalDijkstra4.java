@@ -107,9 +107,11 @@ public class LocalDijkstra4 {
 
      //This will reset all collections
      private void reset(){
-        distTo.clear();
-        IndexMinPQ<Integer> newPq = new IndexMinPQ<>(G.V());            
-        pq = newPq;   
+        distTo.clear();  
+        while(!pq.isEmpty()){
+            pq.delMin();
+        } 
+        //Maybe change to java util pq
         visitedNodes.clear();
         }
 

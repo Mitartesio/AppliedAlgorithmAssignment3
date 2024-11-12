@@ -16,32 +16,43 @@ public class ContractionHierarchy {
         this.lazyCounter = 0;
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
-
-        while(!PQ.isEmpty()){
-            int v = PQ.delMin(); //Implement where it is actully removed
-
-            LocalDijkstra4 localdijkstra = new LocalDijkstra4(graph);
-            localdijkstra.
-
-
-
-
-
-            lazyCounter++;
-            if(lazyCounter == 50){
-                createContractionHierarchy();
-            }
-        }
-
-
-
-
+        lazyUpdate();
     }
 
     private void createContractionHierarchy(){
         for(int i = 0; i<graph.V(); i++){
             PQ.insert(i, ld.computeEdgeDifference(i));
+            System.out.println(i);
         }
+    }
+
+    private void lazyUpdate(){
+        int counter = 0;
+        int testCounter = 0;
+        while(!PQ.isEmpty()){
+            if(counter == 50){
+                //reset PQ
+                IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
+                this.PQ = newPq;
+                createContractionHierarchy();
+            }
+            int leastNode = PQ.delMin();
+            int nodeDifference = ld.computeEdgeDifference(leastNode);
+            if(PQ.size() == 0){
+                testCounter++;
+                //write method
+            }
+            else if(nodeDifference <= PQ.minKey()){
+                //Write method with with leastNode and nodeDifference
+                testCounter++;
+                System.out.println(testCounter);
+            
+            }else{
+                PQ.insert(leastNode, nodeDifference);
+                counter++;
+            }
+        }
+        System.out.println("This is the testCounter my homies: " + testCounter);
     }
 }
 

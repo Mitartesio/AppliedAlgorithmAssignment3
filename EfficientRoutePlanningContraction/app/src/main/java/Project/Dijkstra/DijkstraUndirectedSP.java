@@ -80,7 +80,7 @@ public class DijkstraUndirectedSP {
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
     private int counterRelaxed = 0;
-    private HashMap<Integer,Boolean> settled;
+    //private HashMap<Integer,Boolean> settled;
 
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every
@@ -100,7 +100,7 @@ public class DijkstraUndirectedSP {
 
         distTo = new double[G.V()];
         edgeTo = new Edge[G.V()];
-        settled = new HashMap<>();
+        //settled = new HashMap<>();
 
         validateVertex(s);
 
@@ -114,7 +114,7 @@ public class DijkstraUndirectedSP {
         while (!pq.isEmpty()) {
 
             int v = pq.delMin();
-            settled.put(v, true);
+            //settled.put(v, true);
 
             // Check if the vertex just removed is the target
             if (v == t) {
@@ -182,13 +182,13 @@ public class DijkstraUndirectedSP {
             distTo[w] = distTo[v] + e.weight();
             edgeTo[w] = e;
             
-            if(!settled.containsKey(w)) {
-                if ((pq.contains(w))) {
-                    pq.decreaseKey(w, distTo[w]);
-                }else {
-                    pq.insert(w, distTo[w]);
-                }
-            }              
+            //if(!settled.containsKey(w)) {
+            if ((pq.contains(w))) {
+                pq.decreaseKey(w, distTo[w]);
+            }else {
+                pq.insert(w, distTo[w]);
+            }
+            //}              
             counterRelaxed++;
         }
     }

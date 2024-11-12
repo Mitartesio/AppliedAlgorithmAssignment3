@@ -75,7 +75,7 @@ DijkstraUndirectedSP sp = new DijkstraUndirectedSP(GTest, 0, 5);
 sp.computeShortestPath(0, 5);
 
 // Set the expected number of relaxations done
-int expectedRelaxations = 7;
+int expectedRelaxations = 10;
 
 assertEquals(expectedRelaxations, sp.getCounterRelaxed());
 

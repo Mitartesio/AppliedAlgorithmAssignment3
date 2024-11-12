@@ -69,7 +69,8 @@ public class Main {
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    // System.out.println(duration);
+                    
+                    //System.out.println(duration);
                     // see if can read the node pairs
                     // System.out.println("Dijkstra finished for nodes " + startNode + " and " + endNode);
                 }
@@ -124,7 +125,6 @@ public class Main {
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    System.out.println(duration);
                 }
 
                 scanner.close();

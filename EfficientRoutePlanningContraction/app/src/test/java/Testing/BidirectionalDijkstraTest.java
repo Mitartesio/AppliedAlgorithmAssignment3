@@ -17,13 +17,13 @@
 
 //         G = new EdgeWeightedGraph(6);
 //         // Add edges to the graph with weights
-//         G.addEdge(new Edge(0, 1, 0.5));
-//         G.addEdge(new Edge(0, 2, 1.2));
-//         G.addEdge(new Edge(1, 2, 0.8));
-//         G.addEdge(new Edge(1, 3, 2.1));
-//         G.addEdge(new Edge(2, 3, 1.5));
-//         G.addEdge(new Edge(3, 4, 0.9));
-//         G.addEdge(new Edge(4, 5, 1.4));
+//         G.addEdge(new Edge(0, 1, 3)); //1
+//         G.addEdge(new Edge(0, 2, 7)); // 2
+//         G.addEdge(new Edge(1, 2, 2)); // 1
+//         G.addEdge(new Edge(1, 3, 5)); // 3
+//         G.addEdge(new Edge(2, 3, 4)); // 2
+//         G.addEdge(new Edge(3, 4, 6)); // 1
+//         G.addEdge(new Edge(4, 5, 1)); // 1
 //     }
 
 //     @Test
@@ -32,7 +32,8 @@
 //         double shortestPath = bidirectionalDijkstra.computeShortestPath(0, 5);
         
 //         // Expected shortest path from vertex 0 to 5.
-//         double expectedShortestPath = 4.9; // 5.0?
+//         //0-1 1-3 3-4 4-5
+//         double expectedShortestPath = 15; // 
 
 //         assertEquals(expectedShortestPath, shortestPath, 0.001);
 //     }
@@ -58,7 +59,7 @@
 
 //         // relaxes each time the method is called, meaning. ITR1 s: 0 - 1, 0 - 2. t: 5 - 4.
 //         // ITR2 s: 1 - 2, 1 - 3. t: 4 - 3. ITR3 s: 2 - 3, t: 3 - 1, 3 - 2.
-//         int expectedRelaxCounter = 7;
+//         int expectedRelaxCounter = 6; //7
 
 //         assertEquals(expectedRelaxCounter, relaxations);
 //     }
@@ -67,8 +68,8 @@
 //     public void testUnreachableNode() {
 //         //create graph object with unreachable nodes
 //         EdgeWeightedGraph disconnectedGraph = new EdgeWeightedGraph(6);
-//         disconnectedGraph.addEdge(new Edge(0, 1, 0.5));
-//         disconnectedGraph.addEdge(new Edge(2, 3, 1.0)); // Disconnected from nodes 0, 1, and 4, 5
+//         disconnectedGraph.addEdge(new Edge(0, 1, 3));
+//         disconnectedGraph.addEdge(new Edge(2, 3, 7)); // Disconnected from nodes 0, 1, and 4, 5
 
 //         BidirectionalDijkstra bidirectionalDijkstra = new BidirectionalDijkstra(disconnectedGraph);
 

@@ -1,6 +1,7 @@
 package Project.Dijkstra;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
@@ -26,6 +27,7 @@ public class BidirectionalDijkstra {
     private double distanceTotal;
 
     private HashMap<Integer,Boolean> settled;
+    private HashSet<Edge> relaxedEdges;
 
      public BidirectionalDijkstra(EdgeWeightedGraph G) {
         this.G = G;
@@ -36,6 +38,8 @@ public class BidirectionalDijkstra {
 
         edgeTo = new Edge[G.V()]; // lets see if we will use it
         distanceTotal = Long.MAX_VALUE;
+
+        relaxedEdges = new HashSet<>();
 
 
         settled = new HashMap<>();
@@ -110,6 +114,10 @@ public class BidirectionalDijkstra {
         }
 
         int w = e.other(v);
+
+        if (relaxedEdges.contains(e)) {
+            return;
+        }
         // If a shorter path to w is found, update the distance
         if (distTo[w] > distTo[v] + e.weight()) {
             distTo[w] = distTo[v] + e.weight();
@@ -121,6 +129,7 @@ public class BidirectionalDijkstra {
                 pq.insert(w, distTo[w]);
             }
 
+            relaxedEdges.add(e);
             // Only count relaxation once for each direction
             counterRelaxed++;
         }

@@ -49,7 +49,7 @@ public class Main {
                 }
                 InputStream txtNode = Main.class.getResourceAsStream("/node_pairs.txt");
                 if (txtNode == null) {
-                    throw new FileNotFoundException("Resource 'node_pairs.txt' not found in classpath");//saving main just in case
+                    throw new FileNotFoundException("Resource 'node_pairs.txt' not found in classpath");//saving
                 }
                 GraphBuilderResult graphResultDijkstra = GraphBuilder.buildGraphFromInputStream(inputStreamDijkstra);
 
@@ -64,9 +64,14 @@ public class Main {
                     int startNode = scanner.nextInt();
                     int endNode = scanner.nextInt();
                     
+                    long startTime = System.nanoTime();
                     spGraph.computeShortestPath(startNode, endNode);
+                    long endTime = System.nanoTime();
+
+                    double duration = (endTime - startTime) / 1_000_000_000.0;
+                    // System.out.println(duration);
                     // see if can read the node pairs
-                    System.out.println("Dijkstra finished for nodes " + startNode + " and " + endNode);
+                    // System.out.println("Dijkstra finished for nodes " + startNode + " and " + endNode);
                 }
                 
                 scanner. close();
@@ -93,27 +98,35 @@ public class Main {
             } else if (args[i].equals("BiDijkstra")) {
                 System.out.println("Running BiDijkstra...");
                 // Logic for 'BiDijkstra'
-                InputStream inputStreamBiDijkstra = Main.class.getResourceAsStream("/denmark.graph");
+                InputStream inputStreamBiDijkstra = Main.class.getResourceAsStream("/denmark.graph"); //
                 if (inputStreamBiDijkstra == null) {
                     throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
                 }
-                GraphBuilderResult graphResultBiDijkstra = GraphBuilder
-                        .buildGraphFromInputStream(inputStreamBiDijkstra);
+                InputStream txtNode = Main.class.getResourceAsStream("/node_pairs.txt");
+                if (txtNode == null) {
+                    throw new FileNotFoundException("Resource 'node_pairs.txt' not found in classpath");
+                }
+                GraphBuilderResult graphResultBiDijkstra = GraphBuilder.buildGraphFromInputStream(inputStreamBiDijkstra);
 
-                Scanner scanner = new Scanner(System.in);
-                for (int j = 0; j < 1000; j++) {
-                    BidirectionalDijkstra biDijkstra = new BidirectionalDijkstra(graphResultBiDijkstra.getGraph());
+                EdgeWeightedGraph graph = graphResultBiDijkstra.getGraph();
 
+                BidirectionalDijkstra biGraph = new BidirectionalDijkstra(graph);
+
+                //loading node pairs from txt file
+                //File nodePairFile = new File("EfficientRoutePlanningContraction/app/src/main/resources/node_pairs.txt\"");
+                Scanner scanner = new Scanner(txtNode);
+                while (scanner.hasNextInt()) {
                     int startNode = scanner.nextInt();
                     int endNode = scanner.nextInt();
-
+                    
                     long startTime = System.nanoTime();
-                    biDijkstra.computeShortestPath(startNode, endNode);
+                    biGraph.computeShortestPath(startNode, endNode);
                     long endTime = System.nanoTime();
 
-                    float totalTime = (endTime - startTime) / 1_000_000_000.0f;
-                    System.out.println("BiDijkstra " + biDijkstra.getCounterRelaxed() + " " + totalTime);
+                    double duration = (endTime - startTime) / 1_000_000_000.0;
+                    System.out.println(duration);
                 }
+
                 scanner.close();
                 break; // If this argument was found, stop further checks
             } else {

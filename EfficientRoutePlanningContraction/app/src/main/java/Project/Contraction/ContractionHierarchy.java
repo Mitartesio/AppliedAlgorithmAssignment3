@@ -1,7 +1,10 @@
 package Project.Contraction;
 
+import java.util.Arrays;
+
 import Project.Dijkstra.IndexMinPQ;
 import Project.Dijkstra.LocalDijkstra4;
+import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class ContractionHierarchy {
@@ -10,8 +13,17 @@ public class ContractionHierarchy {
     private int lazyCounter;
     private LocalDijkstra4 ld;
 
+    private int[] rank;
+
+    private int rankCounter;
+
+
     public ContractionHierarchy(EdgeWeightedGraph graph){
         this.graph = graph;
+        this.rank = new int[graph.V()];
+        Arrays.fill(rank, -1);
+
+        rankCounter = 0;
         this.PQ = new IndexMinPQ<>(graph.V());
         this.lazyCounter = 0;
         ld = new LocalDijkstra4(graph);
@@ -27,29 +39,75 @@ public class ContractionHierarchy {
 
     private void lazyUpdate(){
         int counter = 0;
-        int testCounter = 0;
+        // int testCounter = 0;
+
+        
+
         while(!PQ.isEmpty()){
             if(counter == 50){
                 //reset PQ
                 IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
                 this.PQ = newPq;
                 createContractionHierarchy();
+                counter=0;
             }
-            int leastNode = PQ.delMin();
-            int nodeDifference = ld.computeEdgeDifference(leastNode,true);
+
+            
+            int leastNode = PQ.minIndex();
+            int currentPriority = PQ.minKey();
+
+
+            int updatedPriority = ld.computeEdgeDifference(leastNode,false);
+
             if(PQ.size() == 0){
-                testCounter++;
+                // testCounter++;
                 //write method
             }
-            else if(nodeDifference <= PQ.minKey()){
-                //Write method with with leastNode and nodeDifference
-                testCounter++;
-            }else{
-                PQ.insert(leastNode, nodeDifference);
+            
+            else if(updatedPriority > currentPriority){
+                PQ.changeKey(leastNode,updatedPriority);
                 counter++;
+                continue;
+            }else{
+                PQ.delMin();
+                contractNode(leastNode);
+
+                for(Edge e : graph.adjacentEdges(leastNode)){
+                    int neighbor = e.other(leastNode);
+                    if (!graph.isContracted(neighbor)) {
+                        int newPriority = ld.computeEdgeDifference(neighbor, false);
+                        if (PQ.contains(neighbor)) {
+                            PQ.changeKey(neighbor, newPriority);
+                        } else {
+                            PQ.insert(neighbor, newPriority);
+                        }
+                    }
+                }
+
+                
             }
         }
-        System.out.println("Hej med dig");
+        
     }
+
+
+    public void contractNode(int node){
+
+        assignRank(node);
+
+        graph.contractVertex(node);
+
+        ld.computeEdgeDifference(node, true);
+    }
+
+    public void assignRank(int node) {
+        rank[node] = rankCounter;
+        rankCounter++;
+    }
+
+    public int[] getRankArray() {
+        return rank;
+    }
+    
 }
 

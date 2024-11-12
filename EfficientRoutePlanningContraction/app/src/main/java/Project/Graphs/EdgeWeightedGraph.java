@@ -176,8 +176,6 @@ import java.util.NoSuchElementException;
       */
 
      public void writeEdge(String edgeAsString){
-        System.out.println(edgeAsString);
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/Andre/OneDrive/Dokumenter/AppliedAssignment3Second/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ContractedGraphTesting1.graph", true))) {
             
             writer.write(edgeAsString);

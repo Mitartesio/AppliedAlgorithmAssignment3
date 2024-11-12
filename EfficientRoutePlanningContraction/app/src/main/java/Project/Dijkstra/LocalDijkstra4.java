@@ -36,6 +36,9 @@ public class LocalDijkstra4 {
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
+            if(G.isContracted(startNode)){
+                continue;
+            }
             distTo.put(startNode, 0.0);
             int nodeCounter = 0;
 
@@ -91,7 +94,6 @@ public class LocalDijkstra4 {
                 }
                     nodeCounter++;
                     if(nodeCounter == 50){
-                        if(nodeCounter == 50){
                                 int plus = endNodes.size();
             
                                 if(insertEdges){
@@ -103,7 +105,6 @@ public class LocalDijkstra4 {
                                 }
             
                                 counter = counter + plus;
-                        }
                     }
                         
                 }
@@ -124,7 +125,7 @@ public class LocalDijkstra4 {
         for(Edge edge : shortCuts){
             G.addEdge(edge);
             String contractString = edge.either() + " " + edge.other(edge.either()) + " " + edge.weight();
-            G.writeEdge(contractString);
+            // G.writeEdge(contractString);
         }
         shortCuts.clear();
     }
@@ -156,7 +157,7 @@ public class LocalDijkstra4 {
         double highestValue = currentEdge.weight(); // Start with the weight of the current edge
 
         for (Edge edge : bag) {
-            if (!edge.equals(currentEdge)) { // Avoid comparing the same edge
+            if (!edge.equals(currentEdge) && !G.isContracted(edge.either()) && !G.isContracted(edge.other(edge.either()))) { // Avoid comparing the same edge
                 double potentialHighestValue = edge.weight();
                 if (highestValue < potentialHighestValue) {
                     highestValue = potentialHighestValue;
@@ -180,7 +181,7 @@ public class LocalDijkstra4 {
         HashSet<Integer> set = new HashSet<>();
         for(Edge edge : bag){
             int otherNode = edge.other(s);
-            if(!visitedEndNodes.contains(otherNode) && otherNode != node){
+            if(!visitedEndNodes.contains(otherNode) && otherNode != node && !G.isContracted(otherNode)){
                 set.add(otherNode);
             }
         }
@@ -190,7 +191,7 @@ public class LocalDijkstra4 {
     private void fillMinPq(int node){
         Bag<Edge> bag = G.adjacentEdges(node);
             for(Edge edge2 : bag){
-                if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s){
+                if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s && !G.isContracted(node)){
                 //If value is contained in the distTo we only decrease it if a new shorter path is found
                 if(pq.contains(edge2.other(node))){
                     double weight = distTo.get(node) + edge2.weight();

@@ -91,6 +91,7 @@ public class DijkstraUndirectedSP {
                 throw new IllegalArgumentException("edge " + e + " has negative weight");
         }
 
+        // save main to the rescue
         distTo = new double[G.V()];
         edgeTo = new Edge[G.V()];
 

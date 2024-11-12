@@ -20,6 +20,7 @@ public class BidirectionalDijkstra {
     private IndexMinPQ<Double> pqt;    // priority queue of vertices
     private IndexMinPQ<Double> pq;
 
+    //save main to the rescue
 
     private EdgeWeightedGraph G;
 

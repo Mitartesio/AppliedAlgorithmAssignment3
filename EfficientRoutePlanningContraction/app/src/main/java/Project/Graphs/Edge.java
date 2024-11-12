@@ -27,6 +27,7 @@ public class Edge implements Comparable<Edge> {
     private final int v;
     private final int w;
     private final double weight;
+    // save main to the rescue
 
     /**
      * Initializes an edge between vertices {@code v} and {@code w} of

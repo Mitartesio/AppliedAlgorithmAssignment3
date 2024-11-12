@@ -155,6 +155,7 @@ package Project.Dijkstra;
          public LinkedIterator(Node<Item> first) {
              current = first;
          }
+         // save main to the rescue
  
          // is there a next item?
          public boolean hasNext() {

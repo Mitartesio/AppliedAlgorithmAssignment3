@@ -20,6 +20,7 @@ public class QueryBidirectionalDijkstra {
     private HashMap<Integer,Boolean> settled;
 
     private int[] rank;
+    // save main to the rescue
 
      public QueryBidirectionalDijkstra(EdgeWeightedGraph G,int[] rank) {
         this.G = G;

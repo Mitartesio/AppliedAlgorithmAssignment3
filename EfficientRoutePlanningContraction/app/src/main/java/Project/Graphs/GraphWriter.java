@@ -46,6 +46,7 @@ public class GraphWriter {
             // Write edges
             // Use a Set to avoid writing duplicate edges (should work)
             Set<String> writtenEdges = new HashSet<>();
+            // save main to the rescue
 
             for (int v = 0; v < graph.V(); v++) {
                 for (Edge edge : graph.adj(v)) {

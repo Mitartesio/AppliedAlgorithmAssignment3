@@ -96,8 +96,9 @@ public class LocalDijkstra4 {
         int value = 0;
         for(Edge edge2 : bag){
             if(!edge2.equals(edge)){
-                if(value < edge.weight() + edge2.weight()){
-                    value = edge.weight() + edge2.weight();
+                int potentialHighestValue = edge.weight() + edge2.weight();
+                if(value < potentialHighestValue){
+                    value = potentialHighestValue;
                 }
             }
         }
@@ -115,8 +116,9 @@ public class LocalDijkstra4 {
     private HashSet<Integer> initializeSet(Bag<Edge> bag, int node, HashSet<Integer> visitedEndNodes){
         HashSet<Integer> set = new HashSet<>();
         for(Edge edge : bag){
-            if(!visitedEndNodes.contains(edge.other(s)) && edge.other(s) != node){
-                set.add(edge.other(s));
+            int otherNode = edge.other(s);
+            if(!visitedEndNodes.contains(otherNode) && otherNode != node){
+                set.add(otherNode);
             }
         }
         return set;
@@ -128,14 +130,16 @@ public class LocalDijkstra4 {
                 if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s){
                 //If value is contained in the distTo we only decrease it if a new shorter path is found
                 if(pq.contains(edge2.other(node))){
-                    if(distTo.get(node) + edge2.weight() < distTo.get(edge2.other(node))){
-                        distTo.put(edge2.other(node), distTo.get(node) + edge2.weight());
-                        pq.decreaseKey(edge2.other(node), distTo.get(node) + edge2.weight());
+                    int weight = distTo.get(node) + edge2.weight();
+                    if(weight < distTo.get(edge2.other(node))){
+                        distTo.put(edge2.other(node), weight);
+                        pq.decreaseKey(edge2.other(node), weight);
                     }
                 }
                     else{
-                        distTo.put(edge2.other(node), distTo.get(node) + edge2.weight());
-                        pq.insert(edge2.other(node), distTo.get(node) + edge2.weight());
+                        int weight = distTo.get(node) + edge2.weight();
+                        distTo.put(edge2.other(node), weight);
+                        pq.insert(edge2.other(node), weight);
                     }
                 }
                 

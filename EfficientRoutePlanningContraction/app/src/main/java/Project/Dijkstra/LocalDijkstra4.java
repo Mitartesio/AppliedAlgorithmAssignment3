@@ -8,8 +8,8 @@ import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class LocalDijkstra4 {
-    private HashMap<Integer, Integer> distTo;          // distTo[v] = distance  of shortest s->v path
-    private IndexMinPQ<Integer> pq;    // priority queue of vertices
+    private HashMap<Integer, Double> distTo;          // distTo[v] = distance  of shortest s->v path
+    private IndexMinPQ<Double> pq;    // priority queue of vertices
     private final EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
@@ -22,7 +22,7 @@ public class LocalDijkstra4 {
 
     public int computeEdgeDifference(int s){
         this.s = s;
-        int counter = 0;
+        int counter = 0;    
 
         //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
@@ -32,7 +32,7 @@ public class LocalDijkstra4 {
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
-            distTo.put(startNode, 0);
+            distTo.put(startNode, 0.0);
             int nodeCounter = 0;
 
             //The end nodes that has been visited
@@ -43,7 +43,7 @@ public class LocalDijkstra4 {
             visitedNodes.add(startNode);
 
             //Find the highest value between s and node we are searching for
-            int highestValue = getHighestValue(initialBag,edge);
+            double highestValue = getHighestValue(initialBag,edge);
 
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
@@ -92,17 +92,31 @@ public class LocalDijkstra4 {
         return null;
     }
 
-    private int getHighestValue(Bag<Edge> bag, Edge edge){
-        int value = 0;
-        for(Edge edge2 : bag){
-            if(!edge2.equals(edge)){
-                int potentialHighestValue = edge.weight() + edge2.weight();
-                if(value < potentialHighestValue){
-                    value = potentialHighestValue;
+    // private int getHighestValue(Bag<Edge> bag, Edge edge){
+    //     int value = 0;
+    //     for(Edge edge2 : bag){
+    //         if(!edge2.equals(edge)){
+    //             int potentialHighestValue = edge.weight() + edge2.weight();
+    //             if(value < potentialHighestValue){
+    //                 value = potentialHighestValue;
+    //             }
+    //         }
+    //     }
+    //     return value;
+    // }
+
+    private double getHighestValue(Bag<Edge> bag, Edge currentEdge) {
+        double highestValue = currentEdge.weight(); // Start with the weight of the current edge
+
+        for (Edge edge : bag) {
+            if (!edge.equals(currentEdge)) { // Avoid comparing the same edge
+                double potentialHighestValue = edge.weight();
+                if (highestValue < potentialHighestValue) {
+                    highestValue = potentialHighestValue;
                 }
             }
         }
-        return value;
+        return highestValue;
     }
 
      //This will reset all collections
@@ -132,14 +146,14 @@ public class LocalDijkstra4 {
                 if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s){
                 //If value is contained in the distTo we only decrease it if a new shorter path is found
                 if(pq.contains(edge2.other(node))){
-                    int weight = distTo.get(node) + edge2.weight();
+                    double weight = distTo.get(node) + edge2.weight();
                     if(weight < distTo.get(edge2.other(node))){
                         distTo.put(edge2.other(node), weight);
                         pq.decreaseKey(edge2.other(node), weight);
                     }
                 }
                     else{
-                        int weight = distTo.get(node) + edge2.weight();
+                        double weight = distTo.get(node) + edge2.weight();
                         distTo.put(edge2.other(node), weight);
                         pq.insert(edge2.other(node), weight);
                     }

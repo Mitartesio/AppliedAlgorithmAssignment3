@@ -135,9 +135,8 @@ public class SmallGraphTesting {
     public void testEarlyStoppingCriteria(){
         EdgeWeightedGraph graph = smallGraph.getGraph();
         DijkstraUndirectedSP dijkstrastoppingPoint = new DijkstraUndirectedSP(graph);
-        int distance = dijkstrastoppingPoint.computeShortestPath(0, 10);
+        double distance = dijkstrastoppingPoint.computeShortestPath(0, 10);
         // assertEquals(9.0, distance,0.0001);
-
     }
 
     // Test for random vertexes that our bidirectional dijkstra works as intended.

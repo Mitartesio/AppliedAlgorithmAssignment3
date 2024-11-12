@@ -59,7 +59,7 @@ public class GraphWriter {
                     }
                     writtenEdges.add(edgeKey);
 
-                    int weight = edge.weight();
+                    double weight = edge.weight();
 
                     // Get original node IDs
                     Long nodeId1 = indexToNodeId.get(v1);

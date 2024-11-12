@@ -8,66 +8,66 @@ import Project.Graphs.EdgeWeightedGraph;
 
 public class BidirectionalDijkstra {
 
-    private int[] distToS;          // distTo[v] = distance  of shortest s->v path
-    private int[] distToT;
-    private int[] distTo;
+    private double[] distToS;          // distTo[v] = distance  of shortest s->v path
+    private double[] distToT;
+    private double[] distTo;
     private int counterRelaxed;
 
 
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
 
 
-    private IndexMinPQ<Integer> pqs;    // priority queue of vertices
-    private IndexMinPQ<Integer> pqt;    // priority queue of vertices
-    private IndexMinPQ<Integer> pq;
+    private IndexMinPQ<Double> pqs;    // priority queue of vertices
+    private IndexMinPQ<Double> pqt;    // priority queue of vertices
+    private IndexMinPQ<Double> pq;
 
 
     private EdgeWeightedGraph G;
 
-    private int distanceTotal;
+    private double distanceTotal;
 
     private HashMap<Integer,Boolean> settled;
     private HashSet<Edge> relaxedEdges;
 
      public BidirectionalDijkstra(EdgeWeightedGraph G) {
         this.G = G;
-        distToS = new int[G.V()];
-        distToT = new int[G.V()];
-        distTo = new int[G.V()];
+        distToS = new double[G.V()];
+        distToT = new double[G.V()];
+        distTo = new double[G.V()];
         counterRelaxed = 0;
 
         edgeTo = new Edge[G.V()]; // lets see if we will use it
-        distanceTotal = Integer.MAX_VALUE;
+        distanceTotal = Double.POSITIVE_INFINITY;
 
         relaxedEdges = new HashSet<>();
 
 
         settled = new HashMap<>();
-            for (int i = 0; i <= G.V(); i++) {
+            for (int i = 0; i < G.V(); i++) {
                 settled.put(i, false); // 0 for false, 1 for true
             }
 
         }
         
 
-    public int computeShortestPath(int s, int t) {
+    public double computeShortestPath(int s, int t) {
         validateVertex(s);
         validateVertex(t);
 
         for (int v = 0; v < G.V(); v++){
-            distToS[v] = Integer.MAX_VALUE; //int.POSITIVE_INFINITY;
-            distToT[v] = Integer.MAX_VALUE; //int.POSITIVE_INFINITY;
+            distToS[v] = Double.POSITIVE_INFINITY; 
+            distToT[v] = Double.POSITIVE_INFINITY; 
         }
 
-        distToS[s] = 0;
-        distToT[t] = 0;
+        distToS[s] = 0.0;
+        distToT[t] = 0.0;
 
         pqs = new IndexMinPQ<>(G.V());
         pqt = new IndexMinPQ<>(G.V());
         pq = new IndexMinPQ<>(G.V());
 
-        pqs.insert(s,0);
-        pqt.insert(t, 0);
+        pqs.insert(s,0.0);
+        pqt.insert(t, 0.0);
 
 
         while(!(pqs.isEmpty()) || !(pqt.isEmpty())){
@@ -97,8 +97,8 @@ public class BidirectionalDijkstra {
 
             for (Edge e : G.adj(u)) {
                 relax(e, u, i);
-                distanceTotal = Math.min(distanceTotal, (distToS[u] + distToT[u]));   
             }
+            distanceTotal = Math.min(distanceTotal, (distToS[u] + distToT[u]));   
         }
         return distanceTotal;
     }

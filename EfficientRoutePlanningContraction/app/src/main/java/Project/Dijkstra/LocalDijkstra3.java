@@ -8,8 +8,8 @@ import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class LocalDijkstra3 {
-    private HashMap<Integer, Integer> distTo;          // distTo[v] = distance  of shortest s->v path
-    private IndexMinPQ<Integer> pq;    // priority queue of vertices
+    private HashMap<Integer, Double> distTo;          // distTo[v] = distance  of shortest s->v path
+    private IndexMinPQ<Double> pq;    // priority queue of vertices
     private final EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
@@ -32,7 +32,7 @@ public class LocalDijkstra3 {
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
-            distTo.put(startNode, 0);
+            distTo.put(startNode, 0.0);
             int nodeCounter = 0;
 
             //The end nodes that has been visited
@@ -43,7 +43,7 @@ public class LocalDijkstra3 {
             visitedNodes.add(startNode);
 
             //Find the highest value between s and node we are searching for
-            int highestValue = getHighestValue(initialBag,edge);
+            double highestValue = getHighestValue(initialBag,edge);
 
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
@@ -92,22 +92,36 @@ public class LocalDijkstra3 {
         return null;
     }
 
-    private int getHighestValue(Bag<Edge> bag, Edge edge){
-        int value = 0;
-        for(Edge edge2 : bag){
-            if(!edge2.equals(edge)){
-                if(value < edge.weight() + edge2.weight()){
-                    value = edge.weight() + edge2.weight();
+    // private int getHighestValue(Bag<Edge> bag, Edge edge){
+    //     int value = 0;
+    //     for(Edge edge2 : bag){
+    //         if(!edge2.equals(edge)){
+    //             if(value < edge.weight() + edge2.weight()){
+    //                 value = edge.weight() + edge2.weight();
+    //             }
+    //         }
+    //     }
+    //     return value;
+    // }
+
+    private double getHighestValue(Bag<Edge> bag, Edge currentEdge) {
+        double highestValue = currentEdge.weight(); // Start with the weight of the current edge
+
+        for (Edge edge : bag) {
+            if (!edge.equals(currentEdge)) { // Avoid comparing the same edge
+                double potentialHighestValue = edge.weight();
+                if (highestValue < potentialHighestValue) {
+                    highestValue = potentialHighestValue;
                 }
             }
         }
-        return value;
+        return highestValue;
     }
 
      //This will reset all collections
      private void reset(){
         distTo.clear();
-        IndexMinPQ<Integer> newPq = new IndexMinPQ<>(G.V());            
+        IndexMinPQ<Double> newPq = new IndexMinPQ<>(G.V());            
         pq = newPq;   
         visitedNodes.clear();
         }

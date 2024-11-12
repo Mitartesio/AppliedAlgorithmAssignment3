@@ -28,41 +28,41 @@ public class ContractionTest4{
     @Test
     public void testZero(){
         LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
-        assertEquals(-2,ld.computeEdgeDifference(14));
+        assertEquals(-2,ld.computeEdgeDifference(14,false));
     }
 
     @Test
     public void test(){
         LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
-        assertEquals(-1,ld.computeEdgeDifference(16));
+        assertEquals(-1,ld.computeEdgeDifference(16,false));
     }
 
 
 @Test
 public void testPositive(){
         LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
-        assertEquals(1,ld.computeEdgeDifference(1));
+        assertEquals(1,ld.computeEdgeDifference(1,false));
 }
 
 @Test
 public void zeroMinusOne(){
     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
-        assertEquals(-1,ld.computeEdgeDifference(4));
+        assertEquals(-1,ld.computeEdgeDifference(4,false));
 }
 
 @Test
 public void testZeroTwo(){
     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
-        assertEquals(0,ld.computeEdgeDifference(13));
+        assertEquals(0,ld.computeEdgeDifference(13,false));
 }
 
 @Test
 public void testMultipleCalls(){
     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
-        assertEquals(-2,ld.computeEdgeDifference(14));
-        assertEquals(-1,ld.computeEdgeDifference(16));
-        assertEquals(1,ld.computeEdgeDifference(1));
-        assertEquals(-1,ld.computeEdgeDifference(4));
-        assertEquals(0,ld.computeEdgeDifference(13));
+        assertEquals(-2,ld.computeEdgeDifference(14,false));
+        assertEquals(-1,ld.computeEdgeDifference(16,false));
+        assertEquals(1,ld.computeEdgeDifference(1,false));
+        assertEquals(-1,ld.computeEdgeDifference(4,false));
+        assertEquals(0,ld.computeEdgeDifference(13,false));
 }
 }

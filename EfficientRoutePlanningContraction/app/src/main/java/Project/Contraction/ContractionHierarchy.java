@@ -21,7 +21,7 @@ public class ContractionHierarchy {
 
     private void createContractionHierarchy(){
         for(int i = 0; i<graph.V(); i++){
-            PQ.insert(i, ld.computeEdgeDifference(i));
+            PQ.insert(i, ld.computeEdgeDifference(i,false));
         }
     }
 
@@ -36,7 +36,7 @@ public class ContractionHierarchy {
                 createContractionHierarchy();
             }
             int leastNode = PQ.delMin();
-            int nodeDifference = ld.computeEdgeDifference(leastNode);
+            int nodeDifference = ld.computeEdgeDifference(leastNode,true);
             if(PQ.size() == 0){
                 testCounter++;
                 //write method

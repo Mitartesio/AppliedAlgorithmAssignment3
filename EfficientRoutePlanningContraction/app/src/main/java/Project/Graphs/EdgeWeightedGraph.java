@@ -26,7 +26,8 @@ package Project.Graphs;
  import java.io.BufferedWriter;
  import java.io.FileWriter;
  import java.io.IOException;
- import java.util.NoSuchElementException;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
  import Project.backing_Classes.*;
  import Project.Dijkstra.*;
 
@@ -68,6 +69,7 @@ package Project.Graphs;
      private final int V;
      private int E;
      private Bag<Edge>[] adj;
+     private HashMap<Integer,Boolean> contractedStatus;
  
      /**
       * Initializes an empty edge-weighted graph with {@code V} vertices and 0 edges.
@@ -79,11 +81,25 @@ package Project.Graphs;
          if (V < 0) throw new IllegalArgumentException("Number of vertices must be non-negative");
          this.V = V;
          this.E = 0;
+
+        contractedStatus = new HashMap<>();
+
+
          adj = (Bag<Edge>[]) new Bag[V];
          for (int v = 0; v < V; v++) {
              adj[v] = new Bag<Edge>();
+             contractedStatus.put(v, false);
          }
      }
+
+     public void contractVertex(int vertex) {
+        contractedStatus.put(vertex, true);
+    }
+
+    
+    public boolean isContracted(int vertex) {
+        return contractedStatus.getOrDefault(vertex, false);
+    }
  
 
      public Bag<Edge> adjacentEdges(int s){
@@ -160,8 +176,9 @@ package Project.Graphs;
       */
 
      public void writeEdge(String edgeAsString){
+        System.out.println(edgeAsString);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("EfficientRoutePlanningContraction/app/src/main/resources/ContractedGraphTesting1.graph", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/Andre/OneDrive/Dokumenter/AppliedAssignment3Second/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ContractedGraphTesting1.graph", true))) {
             
             writer.write(edgeAsString);
             writer.newLine(); // Start a new line after each edge

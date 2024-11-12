@@ -13,6 +13,7 @@ public class LocalDijkstra4 {
     private final EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
+    private HashSet<Edge> shortCuts;
 
     public LocalDijkstra4(EdgeWeightedGraph G){
         this.G = G;
@@ -20,7 +21,7 @@ public class LocalDijkstra4 {
         pq = new IndexMinPQ<>(G.V());
     }
 
-    public int computeEdgeDifference(int s){
+    public int computeEdgeDifference(int s, boolean insertEdges){
         this.s = s;
         int counter = 0;    
 
@@ -29,6 +30,9 @@ public class LocalDijkstra4 {
 
         HashSet<Integer> visitedEndNodes = new HashSet<>();
         visitedNodes = new HashSet<>();
+        if(insertEdges){
+        shortCuts = new HashSet<>();
+        }
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
@@ -48,8 +52,6 @@ public class LocalDijkstra4 {
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
 
-
-
             while(nodeCounter <50 && !endNodes.isEmpty() && !pq.isEmpty()){
                 //Find least node by deleting from Min pq
                 int leastNode = pq.delMin();
@@ -60,6 +62,15 @@ public class LocalDijkstra4 {
                 //Check if the path just found is more expensive than highest value and break if so
                 if(distTo.get(leastNode) > highestValue){
                     int plus = endNodes.size();
+
+                    if(insertEdges){
+                        for(Integer integer : endNodes){
+                            double weight = edge.weight() + findEdge(initialBag, integer).weight();
+                            Edge shortCutEdge = new Edge(startNode, integer, weight);
+                            shortCuts.add(shortCutEdge);
+                        }
+                    }
+
                     counter = counter + plus;
                     break;
                 }
@@ -69,9 +80,32 @@ public class LocalDijkstra4 {
                     endNodes.remove(leastNode);
                     //If path is greater than weight path going through s increment counter
                     if(distTo.get(leastNode) > edge.weight() + findEdge(initialBag, leastNode).weight()){
+                    
+                    //Add to shortcuts if insertEdges is true
+                    if(insertEdges){
+                        double weight = edge.weight() + findEdge(initialBag, leastNode).weight();
+                        Edge shortCutEdge = new Edge(startNode, leastNode, weight);
+                        shortCuts.add(shortCutEdge);
+                    }
                     counter++;
                 }
                     nodeCounter++;
+                    if(nodeCounter == 50){
+                        if(nodeCounter == 50){
+                                int plus = endNodes.size();
+            
+                                if(insertEdges){
+                                    for(Integer integer : endNodes){
+                                        double weight = edge.weight() + findEdge(initialBag, integer).weight();
+                                        Edge shortCutEdge = new Edge(startNode, integer, weight);
+                                        shortCuts.add(shortCutEdge);
+                                    }
+                                }
+            
+                                counter = counter + plus;
+                        }
+                    }
+                        
                 }
                 //Fill minpq from least node
                 fillMinPq(leastNode);
@@ -79,7 +113,20 @@ public class LocalDijkstra4 {
             reset();
         }
         //return
+        if(insertEdges){
+        contract();
+        G.contractVertex(s);}
         return counter-initialBag.size(); 
+    }
+
+    //Method for adding all the shortCuts
+    private void contract(){
+        for(Edge edge : shortCuts){
+            G.addEdge(edge);
+            String contractString = edge.either() + " " + edge.other(edge.either()) + " " + edge.weight();
+            G.writeEdge(contractString);
+        }
+        shortCuts.clear();
     }
 
     //finds edge based on node n

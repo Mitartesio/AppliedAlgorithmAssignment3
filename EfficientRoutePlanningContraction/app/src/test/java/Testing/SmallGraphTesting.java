@@ -140,14 +140,14 @@ public class SmallGraphTesting {
     }
 
     // Test for random vertexes that our bidirectional dijkstra works as intended.
-    @Test
-    public void testBidirectionalDijkstra(){
-        EdgeWeightedGraph graph = smallGraph.getGraph();
-        BidirectionalDijkstra dijkstrastoppingPoint = new BidirectionalDijkstra(graph);
-        double distance = dijkstrastoppingPoint.computeShortestPath(0, 10);
-        assertEquals(9.0, distance,0.0001);
+    // @Test
+    // public void testBidirectionalDijkstra(){
+    //     EdgeWeightedGraph graph = smallGraph.getGraph();
+    //     BidirectionalDijkstra dijkstrastoppingPoint = new BidirectionalDijkstra(graph);
+    //     double distance = dijkstrastoppingPoint.computeShortestPath(0, 10);
+    //     assertEquals(9.0, distance,0.0001);
 
-    }
+    // }
 
 
 

@@ -70,9 +70,9 @@ import Project.Graphs.*;
  *  @author Nate Liu
  */
 public class DijkstraUndirectedSP {
-    private double[] distTo;          // distTo[v] = distance  of shortest s->v path
+    private int[] distTo;          // distTo[v] = distance  of shortest s->v path
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
-    private IndexMinPQ<Double> pq;    // priority queue of vertices
+    private IndexMinPQ<Integer> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
     private int counterRelaxed = 0;
 
@@ -91,17 +91,17 @@ public class DijkstraUndirectedSP {
                 throw new IllegalArgumentException("edge " + e + " has negative weight");
         }
 
-        distTo = new double[G.V()];
+        distTo = new int[G.V()];
         edgeTo = new Edge[G.V()];
 
         validateVertex(s);
 
         for (int v = 0; v < G.V(); v++)
-            distTo[v] = Double.POSITIVE_INFINITY;
-        distTo[s] = 0.0;
+            distTo[v] = Integer.MAX_VALUE;
+        distTo[s] = 0;
 
         // relax vertices in order of distance from s
-        pq = new IndexMinPQ<Double>(G.V());
+        pq = new IndexMinPQ<Integer>(G.V());
         pq.insert(s, distTo[s]);
         while (!pq.isEmpty()) {
 
@@ -128,7 +128,7 @@ public class DijkstraUndirectedSP {
      */
     public DijkstraUndirectedSP(EdgeWeightedGraph G) {
         this.G = G;
-        distTo = new double[G.V()];
+        distTo = new int[G.V()];
         edgeTo = new Edge[G.V()];
     }
 
@@ -136,12 +136,12 @@ public class DijkstraUndirectedSP {
      * New method to compute the shortest path from start to end vertex
      */
 
-    public double computeShortestPath(int s, int t) {
+    public int computeShortestPath(int s, int t) {
         validateVertex(s);
 
         for (int v = 0; v < G.V(); v++)
-        distTo[v] = Double.POSITIVE_INFINITY;
-        distTo[s] = 0.0;
+        distTo[v] = Integer.MAX_VALUE;
+        distTo[s] = 0;
 
         pq = new IndexMinPQ<>(G.V());
         pq.insert(s, distTo[s]);
@@ -159,7 +159,7 @@ public class DijkstraUndirectedSP {
         }
 
         // the target vertex t is not reachable, maybe throw exception instead
-        return Double.POSITIVE_INFINITY;
+        return Integer.MAX_VALUE;
     }
 
     public int getCounterRelaxed(){

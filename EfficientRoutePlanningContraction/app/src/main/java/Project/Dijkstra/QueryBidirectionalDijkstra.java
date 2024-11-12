@@ -8,33 +8,33 @@ import Project.Graphs.EdgeWeightedGraph;
 public class QueryBidirectionalDijkstra {
 
 
-    private double[] distToS;          // distTo[v] = distance  of shortest s->v path
-    private double[] distToT;
+    private int[] distToS;          // distTo[v] = distance  of shortest s->v path
+    private int[] distToT;
     private int counterRelaxed;
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
-    private IndexMinPQ<Double> pqs;    // priority queue of vertices
-    private IndexMinPQ<Double> pqt;    // priority queue of vertices
+    private IndexMinPQ<Integer> pqs;    // priority queue of vertices
+    private IndexMinPQ<Integer> pqt;    // priority queue of vertices
 
     private EdgeWeightedGraph G;
-    private double distanceTotal;
+    private int distanceTotal;
     private HashMap<Integer,Boolean> settled;
 
     private int[] rank;
 
      public QueryBidirectionalDijkstra(EdgeWeightedGraph G,int[] rank) {
         this.G = G;
-        distToS = new double[G.V()];
-        distToT = new double[G.V()];
+        distToS = new int[G.V()];
+        distToT = new int[G.V()];
 
         edgeTo = new Edge[G.V()]; // lets see if we will use it
-        distanceTotal = Double.POSITIVE_INFINITY;
+        distanceTotal = Integer.MAX_VALUE; // .POSITIVE_INFINITY;
         settled = new HashMap<>();
         this.rank = rank;
 
         }
         
 
-    public double computeShortestPath(int s, int t) {
+    public int computeShortestPath(int s, int t) {
         validateVertex(s); validateVertex(t);
         initialize(s, t);
         boolean r = true;
@@ -76,25 +76,25 @@ public class QueryBidirectionalDijkstra {
 
     private void initialize(int s, int t) {
         for (int v = 0; v < G.V(); v++) {
-            distToS[v] = Double.POSITIVE_INFINITY;
-            distToT[v] = Double.POSITIVE_INFINITY;
+            distToS[v] = Integer.MAX_VALUE; // int.POSITIVE_INFINITY;
+            distToT[v] = Integer.MAX_VALUE; //int.POSITIVE_INFINITY;
             settled.put(v, false);
         }
-        distToS[s] = 0.0;
-        distToT[t] = 0.0;
+        distToS[s] = 0;
+        distToT[t] = 0;
         pqs = new IndexMinPQ<>(G.V());
         pqt = new IndexMinPQ<>(G.V());
 
 
-        pqs.insert(s, 0.0);
-        pqt.insert(t, 0.0);
+        pqs.insert(s, 0);
+        pqt.insert(t, 0);
         counterRelaxed = 0;
     }
 
 
     private void relax(Edge e, int v, boolean r) {
-        double[] distTo = r ? distToS : distToT;
-        IndexMinPQ<Double> pq = r ? pqs : pqt;
+        int[] distTo = r ? distToS : distToT;
+        IndexMinPQ<Integer> pq = r ? pqs : pqt;
 
         int w = e.other(v);
 

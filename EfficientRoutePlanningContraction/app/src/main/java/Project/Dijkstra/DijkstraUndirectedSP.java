@@ -1,5 +1,10 @@
 package Project.Dijkstra;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
+import javax.swing.plaf.TreeUI;
+
 import Project.Graphs.*;
 
 /******************************************************************************
@@ -75,6 +80,7 @@ public class DijkstraUndirectedSP {
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
     private int counterRelaxed = 0;
+    private HashMap<Integer,Boolean> settled;
 
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every
@@ -86,6 +92,7 @@ public class DijkstraUndirectedSP {
      * @throws IllegalArgumentException unless {@code 0 <= s < V}
      */
     public DijkstraUndirectedSP(EdgeWeightedGraph G, int s,int t) {
+        this.G = G;
         for (Edge e : G.edges()) {
             if (e.weight() < 0)
                 throw new IllegalArgumentException("edge " + e + " has negative weight");
@@ -93,6 +100,7 @@ public class DijkstraUndirectedSP {
 
         distTo = new double[G.V()];
         edgeTo = new Edge[G.V()];
+        settled = new HashMap<>();
 
         validateVertex(s);
 
@@ -106,6 +114,7 @@ public class DijkstraUndirectedSP {
         while (!pq.isEmpty()) {
 
             int v = pq.delMin();
+            settled.put(v, true);
 
             // Check if the vertex just removed is the target
             if (v == t) {
@@ -172,10 +181,16 @@ public class DijkstraUndirectedSP {
         if (distTo[w] > distTo[v] + e.weight()) {
             distTo[w] = distTo[v] + e.weight();
             edgeTo[w] = e;
-            if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
-            else                pq.insert(w, distTo[w]);
+            
+            if(!settled.containsKey(w)) {
+                if ((pq.contains(w))) {
+                    pq.decreaseKey(w, distTo[w]);
+                }else {
+                    pq.insert(w, distTo[w]);
+                } 
+            }              
+            counterRelaxed++;
         }
-        counterRelaxed++;
     }
 
     /**

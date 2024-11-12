@@ -187,7 +187,7 @@ public class DijkstraUndirectedSP {
                     pq.decreaseKey(w, distTo[w]);
                 }else {
                     pq.insert(w, distTo[w]);
-                } 
+                }
             }              
             counterRelaxed++;
         }

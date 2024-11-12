@@ -1,5 +1,7 @@
-package Project.Dijkstra;
+package Project.Contraction;
 
+import Project.Dijkstra.IndexMinPQ;
+import Project.Dijkstra.LocalDijkstra4;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class ContractionHierarchy {
@@ -14,13 +16,26 @@ public class ContractionHierarchy {
         this.lazyCounter = 0;
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
-        // while(!PQ.isEmpty()){
-        //     PQ.delMin(); //Implement where it is actully removed
-        //     lazyCounter++;
-        //     if(lazyCounter == 50){
-        //         createContractionHierarchy();
-        //     }
-        // }
+
+        while(!PQ.isEmpty()){
+            int v = PQ.delMin(); //Implement where it is actully removed
+
+            LocalDijkstra4 localdijkstra = new LocalDijkstra4(graph);
+            localdijkstra.
+
+
+
+
+
+            lazyCounter++;
+            if(lazyCounter == 50){
+                createContractionHierarchy();
+            }
+        }
+
+
+
+
     }
 
     private void createContractionHierarchy(){

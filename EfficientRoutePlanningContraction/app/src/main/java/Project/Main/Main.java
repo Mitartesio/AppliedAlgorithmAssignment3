@@ -9,6 +9,7 @@ import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Dijkstra.LocalDijkstra5;
+import Project.Dijkstra.QueryBidirectionalDijkstra;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
@@ -36,7 +37,7 @@ public class Main {
             if (args[i].equals("Test")) {
                 System.out.println("Running Test...");
                 // Load the graph from the resource
-                
+              
 
                 // Test the graph using the existing logic
                 long start = System.nanoTime();
@@ -59,6 +60,20 @@ public class Main {
 
 
             }
+            else
+                if (args[i].equals("Query")) {
+                    InputStream inputStreamwithShortcuts = Main.class.getResourceAsStream("/denmarkWithContractions.graph"); ///Small_graph_for_test.graph
+                    if (inputStreamTest == null) {
+                        throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
+                    }
+                    GraphBuilderResult graphResultforQuery = GraphBuilder.buildGraphFromInputStream(inputStreamwithShortcuts);
+
+                    // need to get Rank(), which happens durinf contraction
+                    // QueryBidirectionalDijkstra query = new QueryBidirectionalDijkstra(graphResultforQuery.getGraph(),rank);
+                    // System.out.println(query.computeShortestPath(1, 50000));
+
+                }
+            
             else if (args[i].equals("Dijkstra")) {
                 System.out.println("Running Dijkstra...");
                 // Logic for 'Dijkstra'

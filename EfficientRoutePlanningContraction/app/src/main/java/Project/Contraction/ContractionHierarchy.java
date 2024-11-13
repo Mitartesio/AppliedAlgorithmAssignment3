@@ -78,7 +78,7 @@ public class ContractionHierarchy {
 
                 for(Edge e : graph.adjacentEdges(leastNode)){
                     int neighbor = e.other(leastNode);
-                    if (!graph.isContracted(neighbor)) {
+                    if (!ld.isNodeContracted(neighbor)) {
                         int newPriority = ld.computeEdgeDifference(neighbor, false);
                         if (PQ.contains(neighbor)) {
                             PQ.changeKey(neighbor, newPriority);

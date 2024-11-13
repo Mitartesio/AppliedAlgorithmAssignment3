@@ -29,4 +29,7 @@ public class GraphBuilderResult {
         return longIntegerMap.get(n);
     }
     
+    public HashMap<Long, Integer> getActualIDtoIndexMap() {
+        return longIntegerMap;
+    }
 }

@@ -32,8 +32,12 @@ public class ContractionHierarchy {
     }
 
     private void createContractionHierarchy(){
+            while(!PQ.isEmpty()){
+                PQ.delMin();
+        }
         for(int i = 0; i<graph.V(); i++){
-            PQ.insert(i, ld.computeEdgeDifference(i,false));
+            if(!ld.isNodeContracted(i)){
+            PQ.insert(i, ld.computeEdgeDifference(i,false));}
         }
     }
 

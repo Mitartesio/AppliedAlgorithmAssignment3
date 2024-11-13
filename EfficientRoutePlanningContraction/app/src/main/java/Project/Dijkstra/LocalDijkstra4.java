@@ -14,12 +14,14 @@ public class LocalDijkstra4 {
     private HashSet<Integer> visitedNodes;
     private int s;
     private HashSet<Edge> shortCuts;
+    private HashMap<Integer, HashSet<Integer>> addedShortCuts;
 
     public LocalDijkstra4(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
         shortCuts = new HashSet<>();
+        addedShortCuts = new HashMap<>();
     }
 
     public int computeEdgeDifference(int s,boolean insertEdges){
@@ -71,7 +73,6 @@ public class LocalDijkstra4 {
                                 shortCuts.add(shortCutEdge);
                             }
                         }
-    
                         counter = counter + plus;
                         break;
                     }
@@ -102,9 +103,7 @@ public class LocalDijkstra4 {
                     for(int vertex2 : endNodes){
                         double weight = findEdge(initialBag, vertex2).weight() + edge.weight();
                         Edge shortCutedge = new Edge(startNode, vertex2, weight);
-                        G.addEdge(shortCutedge);
-                        String edgeString = startNode + " " + vertex2 + " " + weight;
-                        G.writeEdge(edgeString);
+                        shortCuts.add(shortCutedge);
                     }
                 }
                 //Fill minpq from least node
@@ -114,17 +113,32 @@ public class LocalDijkstra4 {
         }
         if(insertEdges){
             contract();
-        G.contractVertex(s);}
+        G.contractVertex(s);
+    }
         //return
         return counter-initialBag.size(); 
     }
 
     //Method for adding all the shortCuts
-    private void contract(){
-        for(Edge edge : shortCuts){
-            G.addEdge(edge);
-            String contractString = edge.either() + " " + edge.other(edge.either()) + " " + edge.weight();
-            G.writeEdge(contractString);
+    private void contract() {
+        for (Edge edge : shortCuts) {
+            int nodeA = edge.either();
+            int nodeB = edge.other(nodeA);
+    
+            // Ensure that nodeA and nodeB each have a HashSet in addedShortCuts
+            addedShortCuts.putIfAbsent(nodeA, new HashSet<>());
+            addedShortCuts.putIfAbsent(nodeB, new HashSet<>());
+    
+            // Add edge if it's not already present
+            if (!addedShortCuts.get(nodeA).contains(nodeB) && !addedShortCuts.get(nodeB).contains(nodeA)) {
+                G.addEdge(edge);
+                String contractString = nodeA + " " + nodeB + " " + edge.weight();
+                G.writeEdge(contractString);
+    
+                // Add short cuts in both directions
+                addedShortCuts.get(nodeA).add(nodeB);
+                addedShortCuts.get(nodeB).add(nodeA);
+            }
         }
         shortCuts.clear();
     }
@@ -132,7 +146,7 @@ public class LocalDijkstra4 {
     //finds edge based on node n
     private Edge findEdge(Bag<Edge> bag , int n){
         for(Edge edge : bag){
-            if(edge.other(s) == n){
+            if(edge.other(s) == n && !G.isContracted(edge.other(s))){
                 return edge;
             }
         }
@@ -142,7 +156,7 @@ public class LocalDijkstra4 {
     private double getHighestValue(Bag<Edge> bag, Edge edge){
         double value = 0.0;
         for(Edge edge2 : bag){
-            if(!edge2.equals(edge)){
+            if(!edge2.equals(edge) && !G.isContracted(edge.either()) && !G.isContracted(edge.other(edge.either()))){
                 double potentialHighestValue = edge.weight() + edge2.weight();
                 if(value < potentialHighestValue){
                     value = potentialHighestValue;
@@ -151,7 +165,6 @@ public class LocalDijkstra4 {
         }
         return value;
     }
-
      //This will reset all collections
      private void reset(){
         distTo.clear();  
@@ -166,9 +179,10 @@ public class LocalDijkstra4 {
         HashSet<Integer> set = new HashSet<>();
         for(Edge edge : bag){
             int otherNode = edge.other(s);
-            if(!visitedEndNodes.contains(otherNode) && otherNode != node && !G.isContracted(otherNode)){
+            if(!G.isContracted(otherNode)){
+            if(!visitedEndNodes.contains(otherNode) && otherNode != node){
                 set.add(otherNode);
-            }
+            }}
         }
         return set;
     }
@@ -193,5 +207,9 @@ public class LocalDijkstra4 {
                 }
                 
             }
+    }
+
+    public boolean isNodeContracted(int n){
+        return G.isContracted(n);
     }
 }

@@ -30,6 +30,7 @@ public class LocalDijkstra5 {
         //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
         ArrayList<Integer> listOfEndNodes = new ArrayList<>();
+        visitedNodes = new HashSet<>();
 
         for(Edge edge : initialBag){
             listOfEndNodes.add(edge.other(s));
@@ -40,6 +41,7 @@ public class LocalDijkstra5 {
                 continue;
             }
             int startNode = listOfEndNodes.get(i);
+            visitedNodes.add(startNode);
             fillMinPq(startNode);
             for(int j = i+1; j<listOfEndNodes.size(); j++){
                 if(G.isContracted(listOfEndNodes.get(i))){

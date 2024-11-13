@@ -40,6 +40,7 @@ public class LocalDijkstra5 {
                 continue;
             }
             int startNode = listOfEndNodes.get(i);
+            fillMinPq(startNode);
             for(int j = i+1; j<listOfEndNodes.size(); j++){
                 if(G.isContracted(listOfEndNodes.get(i))){
                     continue;
@@ -56,8 +57,6 @@ public class LocalDijkstra5 {
                     //Add to visited nodes
                     visitedNodes.add(leastNode);
 
-                    fillMinPq(leastNode);
-
                     //Check if node found is an endnode
                 if(leastNode == endNode){
                     
@@ -70,12 +69,9 @@ public class LocalDijkstra5 {
                             Edge shortCut = new Edge(leastNode, startNode, weight);
                             shortCuts.add(shortCut);
                         }
-
-                        // i edit between these two 2)//
-
-                    counter++;
+                        counter++;
                 }
-                break;
+                continue;
             }
             nodeCounter++;
             if(nodeCounter == 50){
@@ -85,6 +81,7 @@ public class LocalDijkstra5 {
                     shortCuts.add(shortCut);
                 }
             }
+            fillMinPq(leastNode);
         }
 
     }

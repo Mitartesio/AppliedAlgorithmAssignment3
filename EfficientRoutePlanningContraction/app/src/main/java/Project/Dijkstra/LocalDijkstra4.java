@@ -63,19 +63,19 @@ public class LocalDijkstra4 {
                 visitedNodes.add(leastNode);
 
                 //Check if the path just found is more expensive than highest value and break if so
-                    if(distTo.get(leastNode) > highestValue){
-                        int plus = endNodes.size();
+                    // if(distTo.get(leastNode) > highestValue){
+                    //     int plus = endNodes.size();
     
-                        if(insertEdges){
-                            for(Integer integer : endNodes){
-                                double weight = edge.weight() + findEdge(initialBag, integer).weight();
-                                Edge shortCutEdge = new Edge(startNode, integer, weight);
-                                shortCuts.add(shortCutEdge);
-                            }
-                        }
-                        counter = counter + plus;
-                        break;
-                    }
+                    //     if(insertEdges){
+                    //         for(Integer integer : endNodes){
+                    //             double weight = edge.weight() + findEdge(initialBag, integer).weight();
+                    //             Edge shortCutEdge = new Edge(startNode, integer, weight);
+                    //             shortCuts.add(shortCutEdge);
+                    //         }
+                    //     }
+                    //     counter = counter + plus;
+                    //     break;
+                    // }
                 
                 //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
@@ -121,26 +121,33 @@ public class LocalDijkstra4 {
 
     //Method for adding all the shortCuts
     private void contract() {
-        for (Edge edge : shortCuts) {
+        for(Edge edge : shortCuts){
             int nodeA = edge.either();
-            int nodeB = edge.other(nodeA);
-    
-            // Ensure that nodeA and nodeB each have a HashSet in addedShortCuts
-            addedShortCuts.putIfAbsent(nodeA, new HashSet<>());
-            addedShortCuts.putIfAbsent(nodeB, new HashSet<>());
-    
-            // Add edge if it's not already present
-            if (!addedShortCuts.get(nodeA).contains(nodeB) && !addedShortCuts.get(nodeB).contains(nodeA)) {
-                G.addEdge(edge);
+            int nodeB = edge.other(edge.either());
+            G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
                 G.writeEdge(contractString);
-    
-                // Add short cuts in both directions
-                addedShortCuts.get(nodeA).add(nodeB);
-                addedShortCuts.get(nodeB).add(nodeA);
-            }
         }
-        shortCuts.clear();
+        // for (Edge edge : shortCuts) {
+        //     int nodeA = edge.either();
+        //     int nodeB = edge.other(nodeA);
+    
+        //     // Ensure that nodeA and nodeB each have a HashSet in addedShortCuts
+        //     addedShortCuts.putIfAbsent(nodeA, new HashSet<>());
+        //     addedShortCuts.putIfAbsent(nodeB, new HashSet<>());
+    
+        //     // Add edge if it's not already present
+        //     if (!addedShortCuts.get(nodeA).contains(nodeB) && !addedShortCuts.get(nodeB).contains(nodeA)) {
+        //         G.addEdge(edge);
+        //         String contractString = nodeA + " " + nodeB + " " + edge.weight();
+        //         G.writeEdge(contractString);
+    
+        //         // Add short cuts in both directions
+        //         addedShortCuts.get(nodeA).add(nodeB);
+        //         addedShortCuts.get(nodeB).add(nodeA);
+        //     }
+        // }
+        // shortCuts.clear();
     }
 
     //finds edge based on node n

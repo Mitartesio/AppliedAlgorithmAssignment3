@@ -3,7 +3,7 @@ package Project.Contraction;
 import java.util.Arrays;
 
 import Project.Dijkstra.IndexMinPQ;
-import Project.Dijkstra.LocalDijkstra4;
+import Project.Dijkstra.LocalDijkstra5;
 import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
@@ -11,7 +11,7 @@ public class ContractionHierarchy {
     private IndexMinPQ<Integer> PQ;
     private EdgeWeightedGraph graph;
     private int lazyCounter;
-    private LocalDijkstra4 ld;
+    private LocalDijkstra5 ld;
 
     private int[] rank;
 
@@ -26,7 +26,7 @@ public class ContractionHierarchy {
         rankCounter = 0;
         this.PQ = new IndexMinPQ<>(graph.V());
         this.lazyCounter = 0;
-        ld = new LocalDijkstra4(graph);
+        ld = new LocalDijkstra5(graph);
         createContractionHierarchy();
         lazyUpdate();
     }

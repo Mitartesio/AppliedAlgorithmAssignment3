@@ -41,16 +41,18 @@ public class LocalDijkstra5 {
                 continue;
             }
             int startNode = listOfEndNodes.get(i);
-            visitedNodes.add(startNode);
-            distTo.put(startNode, 0.0);
-            fillMinPq(startNode);
+            
             for(int j = i+1; j<listOfEndNodes.size(); j++){
                 if(G.isContracted(listOfEndNodes.get(i))){
                     continue;
                 }
                 int endNode = listOfEndNodes.get(j);
                 int nodeCounter = 0;
+                visitedNodes.add(startNode);
+                distTo.put(startNode, 0.0);
+                fillMinPq(startNode);
 
+                
                 double weight = findEdge(initialBag, startNode).weight() + findEdge(initialBag, endNode).weight();
 
                 while(nodeCounter <50 && !pq.isEmpty()){
@@ -74,7 +76,7 @@ public class LocalDijkstra5 {
                         }
                         counter++;
                 }
-                continue;
+                break;
             }
             nodeCounter++;
             if(nodeCounter == 50){
@@ -86,6 +88,7 @@ public class LocalDijkstra5 {
             }
             fillMinPq(leastNode);
         }
+        reset();
 
     }
 }

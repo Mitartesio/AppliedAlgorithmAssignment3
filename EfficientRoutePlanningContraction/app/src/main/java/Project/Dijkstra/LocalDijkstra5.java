@@ -135,7 +135,7 @@ public class LocalDijkstra5 {
     //finds edge based on node n
     private Edge findEdge(Bag<Edge> bag , int n){
         for(Edge edge : bag){
-            if(edge.other(s) == n && !G.isContracted(edge.other(s))){
+            if(edge.other(s) == n){
                 return edge;
             }
         }

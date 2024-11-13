@@ -42,6 +42,7 @@ public class LocalDijkstra5 {
             }
             int startNode = listOfEndNodes.get(i);
             visitedNodes.add(startNode);
+            distTo.put(startNode, 0.0);
             fillMinPq(startNode);
             for(int j = i+1; j<listOfEndNodes.size(); j++){
                 if(G.isContracted(listOfEndNodes.get(i))){

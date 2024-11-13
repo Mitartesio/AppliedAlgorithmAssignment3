@@ -19,6 +19,8 @@ public class LocalDijkstra4 {
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
+        visitedNodes = new HashSet<>();
+        shortCuts = new HashSet<>();
     }
 
     public int computeEdgeDifference(int s, boolean insertEdges){
@@ -29,10 +31,6 @@ public class LocalDijkstra4 {
         Bag<Edge> initialBag = G.adjacentEdges(s);
 
         HashSet<Integer> visitedEndNodes = new HashSet<>();
-        visitedNodes = new HashSet<>();
-        if(insertEdges){
-        shortCuts = new HashSet<>();
-        }
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
@@ -116,7 +114,8 @@ public class LocalDijkstra4 {
         //return
         if(insertEdges){
         contract();
-        G.contractVertex(s);}
+        G.contractVertex(s);
+    }
         return counter-initialBag.size(); 
     }
 

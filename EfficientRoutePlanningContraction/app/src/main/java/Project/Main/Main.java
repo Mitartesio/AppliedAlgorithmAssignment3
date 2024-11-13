@@ -2,6 +2,7 @@ package Project.Main;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import Project.Contraction.ContractionHierarchy;
@@ -11,6 +12,8 @@ import Project.Dijkstra.LocalDijkstra5;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
+import Project.Graphs.MappingInverter;
+import Project.Graphs.ShortcutAppender;
 
 public class Main {
 
@@ -44,7 +47,19 @@ public class Main {
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks
 
-            } else if (args[i].equals("Dijkstra")) {
+            } else if (args[i].equals("Write")) {
+                HashMap<Long, Integer> actualIDtoIndexMap = graphResultTest.getActualIDtoIndexMap();
+                HashMap<Integer, Long> indexToActualIDMap = MappingInverter.invertMap(actualIDtoIndexMap);
+
+                // Append shortcuts to the contracted graph file
+                ShortcutAppender shortcutAppender = new ShortcutAppender();
+                String shortcutsFilePath = "/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/shortcuts.graph"; // Path to your shortcuts file
+                String contractedGraphFilePath = "/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/denmarkWithContractions.graph"; // Path to your contracted graph file
+                shortcutAppender.appendShortcuts(shortcutsFilePath, contractedGraphFilePath, indexToActualIDMap);
+
+
+            }
+            else if (args[i].equals("Dijkstra")) {
                 System.out.println("Running Dijkstra...");
                 // Logic for 'Dijkstra'
                 InputStream inputStreamDijkstra = Main.class.getResourceAsStream("/denmark.graph"); //

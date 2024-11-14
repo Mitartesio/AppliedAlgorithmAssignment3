@@ -26,6 +26,7 @@ public class LocalDijkstra5 {
     public int computeEdgeDifference(int s,boolean insertEdges){
         this.s = s;
         int counter = 0;
+        int contractedCounter = 0;
 
         //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
@@ -35,15 +36,19 @@ public class LocalDijkstra5 {
         for(Edge edge : initialBag){
             listOfEndNodes.add(edge.other(s));
         }
+        for(Integer integer : listOfEndNodes){
+            System.out.println(integer);
+        }
 
         for(int i = 0; i<listOfEndNodes.size(); i++){
             if(G.isContracted(listOfEndNodes.get(i))){
+                contractedCounter++;
                 continue;
             }
             int startNode = listOfEndNodes.get(i);
             
             for(int j = i+1; j<listOfEndNodes.size(); j++){
-                if(G.isContracted(listOfEndNodes.get(i))){
+                if(G.isContracted(listOfEndNodes.get(j))){
                     continue;
                 }
                 int endNode = listOfEndNodes.get(j);
@@ -108,7 +113,7 @@ public class LocalDijkstra5 {
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                G.writeEdge(contractString);
+                // G.writeEdge(contractString);
         }
         // for (Edge edge : shortCuts) {
         //     int nodeA = edge.either();
@@ -162,6 +167,7 @@ public class LocalDijkstra5 {
         } 
         //Maybe change to java util pq
         visitedNodes.clear();
+        shortCuts.clear();
         }
 
     private HashSet<Integer> initializeSet(Bag<Edge> bag, int node, HashSet<Integer> visitedEndNodes){

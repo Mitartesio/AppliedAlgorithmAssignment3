@@ -111,6 +111,48 @@ package Project.Graphs;
      public Iterator<Item> iterator()  {
          return new LinkedIterator(first);
      }
+
+     public void removes(Item item){
+        Node<Item> currentItem = first;
+        Node<Item> previousItem = null;
+
+        if(currentItem.item.equals(item) && currentItem != null){
+            first = currentItem.next;
+            return;
+        }
+        while(currentItem != null){
+            previousItem = currentItem;
+            currentItem = currentItem.next;
+            if(item.equals(currentItem)){
+                previousItem.next = currentItem.next;
+                currentItem.next = null;
+                n--;
+                break;
+            }
+        }
+     }
+
+     public void remove(Item item){
+        Node<Item> currentItem = first;
+        Node<Item> previousItem = null;
+
+        if(currentItem.item.equals(item) && currentItem.item != null){
+            first = currentItem.next;
+            return;
+        }
+
+        while(currentItem != null){
+            previousItem = currentItem;
+            currentItem = currentItem.next;
+
+            if(currentItem.item.equals(item) && currentItem.item != null){
+                previousItem.next = currentItem.next;
+                currentItem.next = null;
+                n--;
+                return;
+            }
+        }
+     }
  
      private class LinkedIterator implements Iterator<Item> {
          private Node<Item> current;

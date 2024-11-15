@@ -96,6 +96,13 @@ import java.util.NoSuchElementException;
         contractedStatus.put(vertex, true);
     }
 
+    public void removeForce(int node){
+        Bag<Edge> bagOfEdges = adj[node];
+        for(Edge edge : bagOfEdges){
+            adj[edge.other(node)].remove(edge);
+        }
+    }
+
     
     public boolean isContracted(int vertex) {
         return contractedStatus.getOrDefault(vertex, false);

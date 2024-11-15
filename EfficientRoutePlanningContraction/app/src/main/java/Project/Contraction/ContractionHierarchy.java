@@ -27,7 +27,9 @@ public class ContractionHierarchy {
         this.PQ = new IndexMinPQ<>(graph.V());
         this.lazyCounter = 0;
         ld = new LocalDijkstra5(graph);
+        System.out.println("1");
         createContractionHierarchy();
+        System.out.println("2");
         lazyUpdate();
     }
 
@@ -43,6 +45,7 @@ public class ContractionHierarchy {
 
     private void lazyUpdate(){
         int counter = 0;
+        int secondCounter =0;
         // int testCounter = 0;
 
         
@@ -75,6 +78,8 @@ public class ContractionHierarchy {
             }else{
                 PQ.delMin();
                 contractNode(leastNode);
+                System.out.println(secondCounter);
+                secondCounter++;
 
                 for(Edge e : graph.adjacentEdges(leastNode)){
                     int neighbor = e.other(leastNode);
@@ -83,7 +88,9 @@ public class ContractionHierarchy {
                         if (PQ.contains(neighbor)) {
                             PQ.changeKey(neighbor, newPriority);
                         } else {
+                            if(!ld.isNodeContracted(neighbor)){
                             PQ.insert(neighbor, newPriority);
+                            }
                         }
                     }
                 }

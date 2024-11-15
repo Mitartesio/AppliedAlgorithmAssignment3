@@ -176,7 +176,7 @@ import java.util.NoSuchElementException;
       */
 
      public void writeEdge(String edgeAsString){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("/users/andre/OneDrive/Dokumenter/AppliedAssignment3Second/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/EfficientRoutePlanningContraction/app/src/main/resources/shortcuts.graph", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:/users/andre/OneDrive/Dokumenter/AppliedAssignment3Second/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/shortcuts.graph", true))) {
             
             writer.write(edgeAsString);
             writer.newLine(); // Start a new line after each edge

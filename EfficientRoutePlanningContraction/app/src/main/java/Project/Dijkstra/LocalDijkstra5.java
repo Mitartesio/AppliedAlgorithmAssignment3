@@ -33,24 +33,18 @@ public class LocalDijkstra5 {
         ArrayList<Integer> listOfEndNodes = new ArrayList<>();
         visitedNodes = new HashSet<>();
 
+        shortCuts.clear();
+
         for(Edge edge : initialBag){
+            if(!G.isContracted(edge.other(s))){
             listOfEndNodes.add(edge.other(s));
-        }
-        for(Integer integer : listOfEndNodes){
-            System.out.println(integer);
+            }
         }
 
         for(int i = 0; i<listOfEndNodes.size(); i++){
-            if(G.isContracted(listOfEndNodes.get(i))){
-                contractedCounter++;
-                continue;
-            }
             int startNode = listOfEndNodes.get(i);
             
             for(int j = i+1; j<listOfEndNodes.size(); j++){
-                if(G.isContracted(listOfEndNodes.get(j))){
-                    continue;
-                }
                 int endNode = listOfEndNodes.get(j);
                 int nodeCounter = 0;
                 visitedNodes.add(startNode);
@@ -101,7 +95,7 @@ public class LocalDijkstra5 {
         contract();
         G.contractVertex(s);
     }
-    return counter - initialBag.size();
+    return counter - (listOfEndNodes.size()-contractedCounter);
     }
 
         
@@ -113,7 +107,8 @@ public class LocalDijkstra5 {
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                // G.writeEdge(contractString);
+                System.out.println(contractString);
+                G.writeEdge(contractString);
         }
         // for (Edge edge : shortCuts) {
         //     int nodeA = edge.either();
@@ -167,7 +162,6 @@ public class LocalDijkstra5 {
         } 
         //Maybe change to java util pq
         visitedNodes.clear();
-        shortCuts.clear();
         }
 
     private HashSet<Integer> initializeSet(Bag<Edge> bag, int node, HashSet<Integer> visitedEndNodes){

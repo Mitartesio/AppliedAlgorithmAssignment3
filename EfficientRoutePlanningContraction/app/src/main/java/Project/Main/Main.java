@@ -5,11 +5,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Dijkstra.LocalDijkstra5;
-import Project.Dijkstra.QueryBidirectionalDijkstra;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
@@ -19,13 +17,17 @@ import Project.Graphs.ShortcutAppender;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
                 GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
-        LocalDijkstra5 ld = new LocalDijkstra5(graphResultTest.getGraph());
-        ld.computeEdgeDifference(10, true);
+                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                LocalDijkstra5 ld = new LocalDijkstra5(graphResultTest.getGraph());
+                System.out.println("value 10 is: " + ld.computeEdgeDifference(10, true));
+                System.out.println("value 12 is: " + ld.computeEdgeDifference(12, true));
+                System.out.println("value 8 is: " + ld.computeEdgeDifference(8, true));
+
         // Make sure there are enough arguments before accessing them
         if (args.length == 0) {
             System.out.println("No arguments provided. Please specify 'Test', 'Dijkstra', or 'BiDijkstra'.");
@@ -37,13 +39,11 @@ public class Main {
             if (args[i].equals("Test")) {
                 System.out.println("Running Test...");
                 // Load the graph from the resource
-              
-
                 // Test the graph using the existing logic
                 long start = System.nanoTime();
                 // LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
                 // ld.computeEdgeDifference(13);
-                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 long end = System.nanoTime();
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks

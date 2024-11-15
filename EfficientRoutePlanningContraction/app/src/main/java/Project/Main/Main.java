@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Dijkstra.LocalDijkstra5;
@@ -17,7 +18,7 @@ import Project.Graphs.ShortcutAppender;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
@@ -43,7 +44,8 @@ public class Main {
                 long start = System.nanoTime();
                 // LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
                 // ld.computeEdgeDifference(13);
-                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                cont.print();
                 long end = System.nanoTime();
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks

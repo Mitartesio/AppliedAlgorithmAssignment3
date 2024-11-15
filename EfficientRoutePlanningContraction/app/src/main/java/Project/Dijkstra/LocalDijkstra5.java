@@ -15,12 +15,14 @@ public class LocalDijkstra5 {
     private HashSet<Integer> visitedNodes;
     private int s;
     private HashSet<Edge> shortCuts;
+    private int totalCounter;
 
     public LocalDijkstra5(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
         shortCuts = new HashSet<>();
+        totalCounter = 0;
     }
 
     public int computeEdgeDifference(int s,boolean insertEdges){
@@ -107,9 +109,12 @@ public class LocalDijkstra5 {
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                System.out.println(contractString);
-                G.writeEdge(contractString);
+                // System.out.println(contractString)p;
+                // G.writeEdge(contractString);
+                totalCounter++;
         }
+
+
         // for (Edge edge : shortCuts) {
         //     int nodeA = edge.either();
         //     int nodeB = edge.other(nodeA);
@@ -130,6 +135,10 @@ public class LocalDijkstra5 {
         //     }
         // }
         // shortCuts.clear();
+    }
+
+    public void printTotal(){
+        System.out.println(totalCounter);
     }
 
     //finds edge based on node n

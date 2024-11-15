@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import Project.Dijkstra.IndexMinPQ;
 import Project.Dijkstra.LocalDijkstra5;
-import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class ContractionHierarchy {
@@ -30,7 +29,7 @@ public class ContractionHierarchy {
         System.out.println("1");
         createContractionHierarchy();
         System.out.println("2");
-        lazyUpdate();
+        // lazyUpdate();
     }
 
     private void createContractionHierarchy(){
@@ -45,7 +44,6 @@ public class ContractionHierarchy {
 
     private void lazyUpdate(){
         int counter = 0;
-        int secondCounter =0;
         // int testCounter = 0;
 
         
@@ -58,6 +56,7 @@ public class ContractionHierarchy {
                 createContractionHierarchy();
                 counter=0;
             }
+            System.out.println(PQ.size());
 
             
             int leastNode = PQ.minIndex();
@@ -78,27 +77,29 @@ public class ContractionHierarchy {
             }else{
                 PQ.delMin();
                 contractNode(leastNode);
-                System.out.println(secondCounter);
-                secondCounter++;
 
-                for(Edge e : graph.adjacentEdges(leastNode)){
-                    int neighbor = e.other(leastNode);
-                    if (!ld.isNodeContracted(neighbor)) {
-                        int newPriority = ld.computeEdgeDifference(neighbor, false);
-                        if (PQ.contains(neighbor)) {
-                            PQ.changeKey(neighbor, newPriority);
-                        } else {
-                            if(!ld.isNodeContracted(neighbor)){
-                            PQ.insert(neighbor, newPriority);
-                            }
-                        }
-                    }
-                }
+                // for(Edge e : graph.adjacentEdges(leastNode)){
+                //     int neighbor = e.other(leastNode);
+                //     if (!ld.isNodeContracted(neighbor)) {
+                //         int newPriority = ld.computeEdgeDifference(neighbor, false);
+                //         if (PQ.contains(neighbor)) {
+                //             PQ.changeKey(neighbor, newPriority);
+                //         } else {
+                //             if(!ld.isNodeContracted(neighbor)){
+                //             PQ.insert(neighbor, newPriority);
+                //             }
+                //         }
+                //     }
+                // }
 
                 
             }
         }
         
+    }
+
+    public void print(){
+        ld.printTotal();
     }
 
 

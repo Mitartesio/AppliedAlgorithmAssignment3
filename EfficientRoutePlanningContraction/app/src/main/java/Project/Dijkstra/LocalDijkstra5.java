@@ -110,7 +110,7 @@ public class LocalDijkstra5 {
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                // System.out.println(contractString)p;
+                System.out.println(contractString);
                 // G.writeEdge(contractString);
                 totalCounter++;
         }

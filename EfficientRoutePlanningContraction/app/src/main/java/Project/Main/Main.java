@@ -17,11 +17,12 @@ import Project.Graphs.ShortcutAppender;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
                 GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 // LocalDijkstra4 ld = new LocalDijkstra4(graphResultTest.getGraph());
                 // System.out.println("value 5 is: " + ld.computeEdgeDifference(16, false));
@@ -43,15 +44,14 @@ public class Main {
                 long start = System.nanoTime();
                 // LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
                 // ld.computeEdgeDifference(13);
-                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 // cont.print();
                 long end = System.nanoTime();
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks
 
-            }else if(args[i].equals("Contraction Hierarchy Test")) {
-                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
-                
+            }else if(args[i].equals("ContractionHierarchyTest")) {
+                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
             }
             
             else if (args[i].equals("Write")) {

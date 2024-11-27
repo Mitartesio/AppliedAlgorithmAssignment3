@@ -1,7 +1,6 @@
 package Project.Contraction;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 import Project.Dijkstra.IndexMinPQ;
 import Project.Dijkstra.LocalDijkstra4;
@@ -32,7 +31,6 @@ public class ContractionHierarchy {
     }
 
     private void createContractionHierarchy(){
-        int falseCounter = 0;
         //     while(!PQ.isEmpty()){
         //         PQ.delMin();
         // }
@@ -41,20 +39,17 @@ public class ContractionHierarchy {
         }
         for(int i = 0; i<graph.V(); i++){
             if(!ld.isNodeContracted(i)){
-            PQ.insert(i, ld.computeEdgeDifference(i,false));}else{
-                falseCounter++;
-            }
+            PQ.insert(i, ld.computeEdgeDifference(i,false));}
         }
-        System.out.println(falseCounter);
     }
 
     private void lazyUpdate(){
         int counter = 0;
         int testcounter = 0;
-        HashSet<Integer> set = new HashSet<>();
         
 
         while(!PQ.isEmpty()){
+
             if(counter == 50){
                 //reset PQ
                 IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
@@ -62,7 +57,6 @@ public class ContractionHierarchy {
                 System.out.println(testcounter);
                 testcounter = 0;
                 createContractionHierarchy();
-                System.out.println("Done Done Done Done Done Done Done Done Done Done Done Done Done Done Done Done Done ");
                 counter=0;
             }
             
@@ -76,11 +70,7 @@ public class ContractionHierarchy {
                 PQ.changeKey(leastNode,updatedPriority);
                 counter++;
             }else{
-                if(!set.contains(leastNode)){
-                set.add(leastNode);}
-                else{
-                    System.out.println(leastNode);
-                }
+                System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
                 PQ.delMin();
                 // System.out.println("The test counter is now: " + testcounter);
                 // System.out.println("The counter is now" + counter);
@@ -117,9 +107,9 @@ public class ContractionHierarchy {
 
         assignRank(node);
 
-        graph.contractVertex(node);
-
         ld.computeEdgeDifference(node, true);
+
+        graph.contractVertex(node);
     }
 
     public void assignRank(int node) {

@@ -8,7 +8,6 @@ import java.util.Scanner;
 import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
-import Project.Dijkstra.LocalDijkstra5;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
@@ -24,10 +23,10 @@ public class Main {
                 }
                 GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
                 // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
-                LocalDijkstra5 ld = new LocalDijkstra5(graphResultTest.getGraph());
-                System.out.println("value 10 is: " + ld.computeEdgeDifference(10, true));
-                System.out.println("value 12 is: " + ld.computeEdgeDifference(12, true));
-                System.out.println("value 8 is: " + ld.computeEdgeDifference(8, true));
+                // LocalDijkstra4 ld = new LocalDijkstra4(graphResultTest.getGraph());
+                // System.out.println("value 5 is: " + ld.computeEdgeDifference(16, false));
+                // System.out.println("value 3 is: " + ld.computeEdgeDifference(14, true));
+                // System.out.println("value 1 is: " + ld.computeEdgeDifference(16, true));
 
         // Make sure there are enough arguments before accessing them
         if (args.length == 0) {
@@ -45,7 +44,7 @@ public class Main {
                 // LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
                 // ld.computeEdgeDifference(13);
                 ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
-                cont.print();
+                // cont.print();
                 long end = System.nanoTime();
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks

@@ -116,8 +116,9 @@ package Project.Graphs;
         Node<Item> currentItem = first;
         Node<Item> previousItem = null;
 
-        if(currentItem.item.equals(item) && currentItem != null){
+        if(currentItem.item.equals(item)){
             first = currentItem.next;
+            n--;
             return;
         }
         while(currentItem != null){
@@ -136,8 +137,9 @@ package Project.Graphs;
         Node<Item> currentItem = first;
         Node<Item> previousItem = null;
 
-        if(currentItem.item.equals(item) && currentItem.item != null){
+        if(currentItem.item.equals(item)){
             first = currentItem.next;
+            n--;
             return;
         }
 

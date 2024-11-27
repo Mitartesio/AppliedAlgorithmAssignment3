@@ -3,14 +3,14 @@ package Project.Contraction;
 import java.util.Arrays;
 
 import Project.Dijkstra.IndexMinPQ;
-import Project.Dijkstra.LocalDijkstra5;
+import Project.Dijkstra.LocalDijkstra4;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class ContractionHierarchy {
     private IndexMinPQ<Integer> PQ;
     private EdgeWeightedGraph graph;
     private int lazyCounter;
-    private LocalDijkstra5 ld;
+    private LocalDijkstra4 ld;
 
     private int[] rank;
 
@@ -25,10 +25,8 @@ public class ContractionHierarchy {
         rankCounter = 0;
         this.PQ = new IndexMinPQ<>(graph.V());
         this.lazyCounter = 0;
-        ld = new LocalDijkstra5(graph);
-        System.out.println("1");
+        ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
-        System.out.println("2");
         // lazyUpdate();
     }
 
@@ -56,7 +54,6 @@ public class ContractionHierarchy {
                 createContractionHierarchy();
                 counter=0;
             }
-            System.out.println(PQ.size());
 
             
             int leastNode = PQ.minIndex();
@@ -99,7 +96,8 @@ public class ContractionHierarchy {
     }
 
     public void print(){
-        ld.printTotal();
+        // System.out.println("This is the total number of shortCuts");
+        // ld.printTotal();
     }
 
 

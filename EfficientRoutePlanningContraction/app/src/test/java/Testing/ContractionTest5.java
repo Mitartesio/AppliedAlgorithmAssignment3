@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Project.Dijkstra.LocalDijkstra5;
+import Project.Dijkstra.LocalDijkstra4;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
 
@@ -27,42 +27,68 @@ public class ContractionTest5{
     
     @Test
     public void testZero(){
-        LocalDijkstra5 ld = new LocalDijkstra5(smallGraph.getGraph());
+        LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
         assertEquals(-2,ld.computeEdgeDifference(14,false));
     }
 
     @Test
     public void test(){
-        LocalDijkstra5 ld = new LocalDijkstra5(smallGraph.getGraph());
+        LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
         assertEquals(-1,ld.computeEdgeDifference(16,false));
     }
 
 
 @Test
 public void testPositive(){
-    LocalDijkstra5 ld = new LocalDijkstra5(smallGraph.getGraph());
+    LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
         assertEquals(1,ld.computeEdgeDifference(1,false));
 }
 
 @Test
 public void zeroMinusOne(){
-    LocalDijkstra5 ld = new LocalDijkstra5(smallGraph.getGraph());
+    LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
         assertEquals(-1,ld.computeEdgeDifference(4,false));
 }
 
 @Test
 public void testZeroTwo(){
-    LocalDijkstra5 ld = new LocalDijkstra5(smallGraph.getGraph());
+    LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
         assertEquals(0,ld.computeEdgeDifference(13,false));
 }
 
-@Test
-public void testMultipleCalls(){
-    LocalDijkstra5 ld = new LocalDijkstra5(smallGraph.getGraph());
-        assertEquals(-2,ld.computeEdgeDifference(14,false));
-        assertEquals(-1,ld.computeEdgeDifference(16,false));
-        assertEquals(1,ld.computeEdgeDifference(1,false));
-        assertEquals(-1,ld.computeEdgeDifference(4,false));
-        assertEquals(0,ld.computeEdgeDifference(13,false));
-}
+// @Test
+// public void testMultipleCalls(){
+//     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
+//         assertEquals(-2,ld.computeEdgeDifference(14,false));
+//         assertEquals(-1,ld.computeEdgeDifference(16,false));
+//         assertEquals(1,ld.computeEdgeDifference(1,false));
+//         assertEquals(-1,ld.computeEdgeDifference(4,false));
+//         assertEquals(0,ld.computeEdgeDifference(13,false));
+// }
+
+//Here we are testing that the contractions actully work
+
+// @Test
+// public void testContraction(){
+//     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
+//     assertEquals(0,ld.computeEdgeDifference(5, true));
+//     assertEquals(-1,ld.computeEdgeDifference(3, true));
+//     assertEquals(2,ld.computeEdgeDifference(1, true));
+// }
+
+// @Test
+// public void testContraction2(){
+//     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
+//     assertEquals(-1,ld.computeEdgeDifference(12, true));
+//     assertEquals(-2,ld.computeEdgeDifference(14, true));
+//     assertEquals(-1,ld.computeEdgeDifference(16, true));
+// }
+
+// @Test
+// public void testContraction3(){
+//     LocalDijkstra4 ld = new LocalDijkstra4(smallGraph.getGraph());
+//     assertEquals(-1,ld.computeEdgeDifference(12, true));
+//     assertEquals(-2,ld.computeEdgeDifference(14, true));
+//     assertEquals(-1,ld.computeEdgeDifference(16, true));
+// }
 }

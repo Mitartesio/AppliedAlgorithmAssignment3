@@ -99,6 +99,7 @@ import java.util.NoSuchElementException;
     public void removeForce(int node){
         Bag<Edge> bagOfEdges = adj[node];
         for(Edge edge : bagOfEdges){
+            
             adj[edge.other(node)].remove(edge);
         }
     }

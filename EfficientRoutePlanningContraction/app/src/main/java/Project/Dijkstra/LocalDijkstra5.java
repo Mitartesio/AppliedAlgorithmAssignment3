@@ -95,7 +95,7 @@ public class LocalDijkstra5 {
 }
     if(insertEdges){
         contract();
-        G.contractVertex(s);
+        G.removeForce(s);
     }
     return counter - (listOfEndNodes.size()-contractedCounter);
     }
@@ -114,27 +114,6 @@ public class LocalDijkstra5 {
                 totalCounter++;
         }
 
-
-        // for (Edge edge : shortCuts) {
-        //     int nodeA = edge.either();
-        //     int nodeB = edge.other(nodeA);
-    
-        //     // Ensure that nodeA and nodeB each have a HashSet in addedShortCuts
-        //     addedShortCuts.putIfAbsent(nodeA, new HashSet<>());
-        //     addedShortCuts.putIfAbsent(nodeB, new HashSet<>());
-    
-        //     // Add edge if it's not already present
-        //     if (!addedShortCuts.get(nodeA).contains(nodeB) && !addedShortCuts.get(nodeB).contains(nodeA)) {
-        //         G.addEdge(edge);
-        //         String contractString = nodeA + " " + nodeB + " " + edge.weight();
-        //         G.writeEdge(contractString);
-    
-        //         // Add short cuts in both directions
-        //         addedShortCuts.get(nodeA).add(nodeB);
-        //         addedShortCuts.get(nodeB).add(nodeA);
-        //     }
-        // }
-        // shortCuts.clear();
     }
 
     public void printTotal(){

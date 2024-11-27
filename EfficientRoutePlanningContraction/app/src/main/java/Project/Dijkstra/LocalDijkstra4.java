@@ -62,20 +62,20 @@ public class LocalDijkstra4 {
                 //Add to visited nodes
                 visitedNodes.add(leastNode);
 
-                //Check if the path just found is more expensive than highest value and break if so
-                    // if(distTo.get(leastNode) > highestValue){
-                    //     int plus = endNodes.size();
+                // Check if the path just found is more expensive than highest value and break if so
+                    if(distTo.get(leastNode) > highestValue){
+                        int plus = endNodes.size();
     
-                    //     if(insertEdges){
-                    //         for(Integer integer : endNodes){
-                    //             double weight = edge.weight() + findEdge(initialBag, integer).weight();
-                    //             Edge shortCutEdge = new Edge(startNode, integer, weight);
-                    //             shortCuts.add(shortCutEdge);
-                    //         }
-                    //     }
-                    //     counter = counter + plus;
-                    //     break;
-                    // }
+                        if(insertEdges){
+                            for(Integer integer : endNodes){
+                                double weight = edge.weight() + findEdge(initialBag, integer).weight();
+                                Edge shortCutEdge = new Edge(startNode, integer, weight);
+                                shortCuts.add(shortCutEdge);
+                            }
+                        }
+                        counter = counter + plus;
+                        break;
+                    }
                 
                 //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
@@ -113,7 +113,8 @@ public class LocalDijkstra4 {
         }
         if(insertEdges){
             contract();
-        G.contractVertex(s);
+            System.out.println(s);
+        G.removeForce(s);
     }
         //return
         return counter-initialBag.size(); 
@@ -147,7 +148,7 @@ public class LocalDijkstra4 {
         //         addedShortCuts.get(nodeB).add(nodeA);
         //     }
         // }
-        // shortCuts.clear();
+        shortCuts.clear();
     }
 
     //finds edge based on node n
@@ -177,7 +178,7 @@ public class LocalDijkstra4 {
         distTo.clear();  
         while(!pq.isEmpty()){
             pq.delMin();
-        } 
+        }
         //Maybe change to java util pq
         visitedNodes.clear();
         }

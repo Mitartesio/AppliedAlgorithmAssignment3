@@ -55,7 +55,6 @@ public class ContractionHierarchy {
         
 
         while(!PQ.isEmpty()){
-            long start = System.nanoTime();
             if(counter == 50){
                 //reset PQ
                 IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
@@ -104,8 +103,6 @@ public class ContractionHierarchy {
 
                 
             }
-            long end = System.nanoTime();
-            System.out.println((end-start)/1_000_000_000.0);
         }
         
     }

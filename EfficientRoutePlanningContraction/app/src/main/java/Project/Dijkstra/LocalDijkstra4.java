@@ -112,8 +112,11 @@ public class LocalDijkstra4 {
             reset();
         }
         if(insertEdges){
-            contract();
+        contract();
+        long start = System.nanoTime();
         G.removeForce(s);
+        long end = System.nanoTime();
+        System.out.println((end-start)/1_000_000_000.0);
     }
         //return
         return counter-initialBag.size(); 
@@ -126,7 +129,7 @@ public class LocalDijkstra4 {
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                // G.writeEdge(contractString);
+                G.writeEdge(contractString);
         }
         // for (Edge edge : shortCuts) {
         //     int nodeA = edge.either();

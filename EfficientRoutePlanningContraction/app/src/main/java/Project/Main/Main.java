@@ -17,7 +17,7 @@ import Project.Graphs.ShortcutAppender;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
@@ -49,7 +49,12 @@ public class Main {
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks
 
-            } else if (args[i].equals("Write")) {
+            }else if(args[i].equals("Contraction Hierarchy Test")) {
+                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                
+            }
+            
+            else if (args[i].equals("Write")) {
                 HashMap<Long, Integer> actualIDtoIndexMap = graphResultTest.getActualIDtoIndexMap();
                 HashMap<Integer, Long> indexToActualIDMap = MappingInverter.invertMap(actualIDtoIndexMap);
 

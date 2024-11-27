@@ -113,7 +113,6 @@ public class LocalDijkstra4 {
         }
         if(insertEdges){
             contract();
-            System.out.println(s);
         G.removeForce(s);
     }
         //return
@@ -127,7 +126,7 @@ public class LocalDijkstra4 {
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                G.writeEdge(contractString);
+                // G.writeEdge(contractString);
         }
         // for (Edge edge : shortCuts) {
         //     int nodeA = edge.either();

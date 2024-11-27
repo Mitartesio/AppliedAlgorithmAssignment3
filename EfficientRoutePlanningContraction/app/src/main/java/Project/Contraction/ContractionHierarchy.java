@@ -1,6 +1,7 @@
 package Project.Contraction;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import Project.Dijkstra.IndexMinPQ;
 import Project.Dijkstra.LocalDijkstra4;
@@ -27,52 +28,64 @@ public class ContractionHierarchy {
         this.lazyCounter = 0;
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
-        // lazyUpdate();
+        lazyUpdate();
     }
 
     private void createContractionHierarchy(){
-            while(!PQ.isEmpty()){
-                PQ.delMin();
+        int falseCounter = 0;
+        //     while(!PQ.isEmpty()){
+        //         PQ.delMin();
+        // }
+        if(!PQ.isEmpty()){
+            this.PQ = new IndexMinPQ<>(graph.V());
         }
         for(int i = 0; i<graph.V(); i++){
             if(!ld.isNodeContracted(i)){
-            PQ.insert(i, ld.computeEdgeDifference(i,false));}
+            PQ.insert(i, ld.computeEdgeDifference(i,false));}else{
+                falseCounter++;
+            }
         }
+        System.out.println(falseCounter);
     }
 
     private void lazyUpdate(){
         int counter = 0;
-        // int testCounter = 0;
-
+        int testcounter = 0;
+        HashSet<Integer> set = new HashSet<>();
         
 
         while(!PQ.isEmpty()){
+            long start = System.nanoTime();
             if(counter == 50){
                 //reset PQ
                 IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
                 this.PQ = newPq;
+                System.out.println(testcounter);
+                testcounter = 0;
                 createContractionHierarchy();
+                System.out.println("Done Done Done Done Done Done Done Done Done Done Done Done Done Done Done Done Done ");
                 counter=0;
             }
-
             
             int leastNode = PQ.minIndex();
             int currentPriority = PQ.minKey();
 
 
             int updatedPriority = ld.computeEdgeDifference(leastNode,false);
-
-            if(PQ.size() == 0){
-                // testCounter++;
-                //write method
-            }
             
-            else if(updatedPriority > currentPriority){
+            if(updatedPriority > currentPriority){
                 PQ.changeKey(leastNode,updatedPriority);
                 counter++;
-                continue;
             }else{
+                if(!set.contains(leastNode)){
+                set.add(leastNode);}
+                else{
+                    System.out.println(leastNode);
+                }
                 PQ.delMin();
+                // System.out.println("The test counter is now: " + testcounter);
+                // System.out.println("The counter is now" + counter);
+                testcounter++;
                 contractNode(leastNode);
 
                 // for(Edge e : graph.adjacentEdges(leastNode)){
@@ -91,6 +104,8 @@ public class ContractionHierarchy {
 
                 
             }
+            long end = System.nanoTime();
+            System.out.println((end-start)/1_000_000_000.0);
         }
         
     }

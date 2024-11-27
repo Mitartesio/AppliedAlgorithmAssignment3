@@ -96,6 +96,7 @@ public class LocalDijkstra5 {
     if(insertEdges){
         contract();
         G.removeForce(s);
+        G.contractVertex(s);
     }
     return counter - (listOfEndNodes.size()-contractedCounter);
     }

@@ -31,12 +31,12 @@ public class ContractionHierarchy {
     }
 
     private void createContractionHierarchy(){
-        //     while(!PQ.isEmpty()){
-        //         PQ.delMin();
-        // }
-        if(!PQ.isEmpty()){
-            this.PQ = new IndexMinPQ<>(graph.V());
+            while(!PQ.isEmpty()){
+                PQ.delMin();
         }
+        // if(!PQ.isEmpty()){
+        //     this.PQ = new IndexMinPQ<>(graph.V());
+        // }
         for(int i = 0; i<graph.V(); i++){
             if(!ld.isNodeContracted(i)){
             PQ.insert(i, ld.computeEdgeDifference(i,false));}
@@ -50,10 +50,8 @@ public class ContractionHierarchy {
 
         while(!PQ.isEmpty()){
 
-            if(counter == 50){
+            if(counter == 1){
                 //reset PQ
-                IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
-                this.PQ = newPq;
                 System.out.println(testcounter);
                 testcounter = 0;
                 createContractionHierarchy();
@@ -70,6 +68,7 @@ public class ContractionHierarchy {
                 PQ.changeKey(leastNode,updatedPriority);
                 counter++;
             }else{
+                counter++;
                 System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
                 PQ.delMin();
                 // System.out.println("The test counter is now: " + testcounter);

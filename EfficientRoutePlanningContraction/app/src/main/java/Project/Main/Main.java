@@ -17,7 +17,7 @@ import Project.Graphs.ShortcutAppender;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph /denmark.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }

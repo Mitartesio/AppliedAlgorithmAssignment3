@@ -74,11 +74,11 @@ public class ContractionHierarchy {
 
             int updatedPriority = ld.computeEdgeDifference(leastNode,false);
             
-            // if(updatedPriority > currentPriority){
-            //     PQ.changeKey(leastNode,updatedPriority);
-            //     counter++;
-            // }else{
-                // System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
+            if(updatedPriority > currentPriority){
+                PQ.changeKey(leastNode,updatedPriority);
+                counter++;
+            }else{
+                System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
                 if(currentPriority <-50){
                     System.out.println("THis is the current pri: " + currentPriority);
                 }
@@ -106,7 +106,7 @@ public class ContractionHierarchy {
                 // }
 
                 
-            // }
+            }
         }
         System.out.println("This is the highest value: " + highestValue);
         

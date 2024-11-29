@@ -31,31 +31,41 @@ public class ContractionHierarchy {
     }
 
     private void createContractionHierarchy(){
-            while(!PQ.isEmpty()){
-                PQ.delMin();
-        }
-        // if(!PQ.isEmpty()){
-        //     this.PQ = new IndexMinPQ<>(graph.V());
+        //     while(!PQ.isEmpty()){
+        //         PQ.delMin();
         // }
+        if(!PQ.isEmpty()){
+        IndexMinPQ<Integer> newPQ = new IndexMinPQ<>(graph.V());
+        this.PQ = newPQ;
+    }
         for(int i = 0; i<graph.V(); i++){
-            if(!ld.isNodeContracted(i)){
-            PQ.insert(i, ld.computeEdgeDifference(i,false));}
+            if(!graph.isContracted(i)){
+            PQ.insert(i, ld.computeEdgeDifference(i,false));
+        }
         }
     }
 
     private void lazyUpdate(){
         int counter = 0;
         int testcounter = 0;
+        int highestValue = 0;
+        int secondTestCounter = 0;
         
 
         while(!PQ.isEmpty()){
+            testcounter++;
 
-            if(counter == 1){
+            if(counter == 50){
+                secondTestCounter++;
+                System.out.println("This is the " + secondTestCounter + " time we update and the counter is on " + testcounter);
                 //reset PQ
-                System.out.println(testcounter);
-                testcounter = 0;
+                // System.out.println(testcounter);
                 createContractionHierarchy();
                 counter=0;
+                // System.out.println("NOWNOWNOWNOWNOWNOWNOW");
+            }
+            if(testcounter > 550000){
+                System.out.println(testcounter);
             }
             
             int leastNode = PQ.minIndex();
@@ -64,16 +74,21 @@ public class ContractionHierarchy {
 
             int updatedPriority = ld.computeEdgeDifference(leastNode,false);
             
-            if(updatedPriority > currentPriority){
-                PQ.changeKey(leastNode,updatedPriority);
-                counter++;
-            }else{
-                counter++;
-                System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
+            // if(updatedPriority > currentPriority){
+            //     PQ.changeKey(leastNode,updatedPriority);
+            //     counter++;
+            // }else{
+                // System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
+                if(currentPriority <-50){
+                    System.out.println("THis is the current pri: " + currentPriority);
+                }
+                if(testcounter%10000 == 0){
+                    System.out.println(testcounter);
+                }
                 PQ.delMin();
+                // counter++;
                 // System.out.println("The test counter is now: " + testcounter);
                 // System.out.println("The counter is now" + counter);
-                testcounter++;
                 contractNode(leastNode);
 
                 // for(Edge e : graph.adjacentEdges(leastNode)){
@@ -91,8 +106,9 @@ public class ContractionHierarchy {
                 // }
 
                 
-            }
+            // }
         }
+        System.out.println("This is the highest value: " + highestValue);
         
     }
 

@@ -27,6 +27,7 @@ public class LocalDijkstra4 {
     public int computeEdgeDifference(int s,boolean insertEdges){
         this.s = s;
         int counter = 0;
+        int contractedCounter = 0;
 
         //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
@@ -36,6 +37,7 @@ public class LocalDijkstra4 {
 
         for(Edge edge : initialBag){
             if(G.isContracted(edge.other(s))){
+                contractedCounter++;
                 continue;
             }
             int startNode = edge.other(s);
@@ -55,7 +57,7 @@ public class LocalDijkstra4 {
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
 
-            while(nodeCounter <50 && !endNodes.isEmpty() && !pq.isEmpty()){
+            while(nodeCounter<50 && !endNodes.isEmpty() && !pq.isEmpty()){
                 //Find least node by deleting from Min pq
                 int leastNode = pq.delMin();
                 
@@ -100,11 +102,14 @@ public class LocalDijkstra4 {
                 }
                 nodeCounter++;
                 if(nodeCounter == 50){
-                    for(int vertex2 : endNodes){
-                        double weight = findEdge(initialBag, vertex2).weight() + edge.weight();
-                        Edge shortCutedge = new Edge(startNode, vertex2, weight);
-                        shortCuts.add(shortCutedge);
+                    if(insertEdges){
+                    for(Integer integer : endNodes){
+                        double weight = edge.weight() + findEdge(initialBag, integer).weight();
+                        Edge shortCutEdge = new Edge(startNode, integer, weight);
+                        shortCuts.add(shortCutEdge);
                     }
+                }
+                counter += endNodes.size();
                 }
                 //Fill minpq from least node
                 fillMinPq(leastNode);
@@ -113,23 +118,25 @@ public class LocalDijkstra4 {
         }
         if(insertEdges){
         contract();
-        long start = System.nanoTime();
-        G.removeForce(s);
-        long end = System.nanoTime();
+        // long start = System.nanoTime();
+        // G.removeForce(s);
+        // long end = System.nanoTime();
         // System.out.println((end-start)/1_000_000_000.0);
     }
         //return
-        return counter-initialBag.size(); 
+        return counter-initialBag.size()+contractedCounter; 
     }
 
     //Method for adding all the shortCuts
     private void contract() {
+        // G.contractVertex(s);
+        G.removeForce(s);
         for(Edge edge : shortCuts){
             int nodeA = edge.either();
             int nodeB = edge.other(edge.either());
             G.addEdge(edge);
                 String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                System.out.println(contractString);
+                // System.out.println(contractString);
                 // G.writeEdge(contractString);
         }
         // for (Edge edge : shortCuts) {

@@ -34,6 +34,7 @@ public class LocalDijkstra5 {
         Bag<Edge> initialBag = G.adjacentEdges(s);
         ArrayList<Integer> listOfEndNodes = new ArrayList<>();
         visitedNodes = new HashSet<>();
+        
 
         shortCuts.clear();
 
@@ -95,7 +96,7 @@ public class LocalDijkstra5 {
 }
     if(insertEdges){
         contract();
-        G.removeForce(s);
+        // G.removeForce(s);
         G.contractVertex(s);
     }
     return counter - (listOfEndNodes.size()-contractedCounter);

@@ -17,17 +17,22 @@ import Project.Graphs.ShortcutAppender;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph /denmark.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph /denmark.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
                 GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+                System.out.println("Start");
+                Long start1 = System.nanoTime();
                 ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
-                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 // LocalDijkstra4 ld = new LocalDijkstra4(graphResultTest.getGraph());
-                // System.out.println("value 5 is: " + ld.computeEdgeDifference(16, false));
-                // System.out.println("value 3 is: " + ld.computeEdgeDifference(14, true));
-                // System.out.println("value 1 is: " + ld.computeEdgeDifference(16, true));
+                // System.out.println("value 1 is: " + ld.computeEdgeDifference(18497, true));
+                // System.out.println("value 5 is: " + ld.computeEdgeDifference(121887, true));
+                // System.out.println("value 3 is: " + ld.computeEdgeDifference(121888, true));
+                // System.out.println("value 1 is: " + ld.computeEdgeDifference(18497, true));
+                // System.out.println("value 1 is: " + ld.computeEdgeDifference(488310, true));
+                Long end1 = System.nanoTime();
+                System.out.println((end1-start1)/1_000_000_000.0);
 
         // Make sure there are enough arguments before accessing them
         if (args.length == 0) {

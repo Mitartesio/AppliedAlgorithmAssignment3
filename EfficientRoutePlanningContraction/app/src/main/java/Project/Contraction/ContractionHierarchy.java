@@ -68,20 +68,14 @@ public class ContractionHierarchy {
                 System.out.println(testcounter);
             }
             
-            int leastNode = PQ.minIndex();
-            int currentPriority = PQ.minKey();
-
-
+            int leastNode = PQ.delMin();
             int updatedPriority = ld.computeEdgeDifference(leastNode,false);
             
-            if(updatedPriority > currentPriority){
-                PQ.changeKey(leastNode,updatedPriority);
+            if(updatedPriority > PQ.minKey()){
+                PQ.insert(leastNode, updatedPriority);
                 counter++;
             }else{
-                System.out.println("Deleting: " + leastNode + "With the original value of: " + currentPriority + "updated value: " + updatedPriority);
-                if(currentPriority <-50){
-                    System.out.println("THis is the current pri: " + currentPriority);
-                }
+                // System.out.println("Deleting: " + leastNode + "With the original value of: " + updatedPriority);
                 if(testcounter%10000 == 0){
                     System.out.println(testcounter);
                 }

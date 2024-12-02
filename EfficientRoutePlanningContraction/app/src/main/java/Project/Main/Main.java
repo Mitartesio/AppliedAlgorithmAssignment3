@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.EdgeWeightedGraph;
@@ -24,7 +23,17 @@ public class Main {
                 GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
                 System.out.println("Start");
                 Long start1 = System.nanoTime();
-                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+
+                // Fpr dijstra test***
+
+                DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graphResultTest.getGraph());
+
+                System.out.print("This is the result: ");
+                System.out.println(dijkstra.computeShortestPath(171516, 244966));
+
+                //***** 
+
+                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 // LocalDijkstra4 ld = new LocalDijkstra4(graphResultTest.getGraph());
                 // System.out.println("value 1 is: " + ld.computeEdgeDifference(18497, true));
                 // System.out.println("value 5 is: " + ld.computeEdgeDifference(121887, true));

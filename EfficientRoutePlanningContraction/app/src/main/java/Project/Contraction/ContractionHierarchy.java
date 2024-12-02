@@ -47,39 +47,39 @@ public class ContractionHierarchy {
 
     private void lazyUpdate(){
         int counter = 0;
-        int testcounter = 0;
-        int highestValue = 0;
-        int secondTestCounter = 0;
+        // int secondTestCounter = 0;
         
 
         while(!PQ.isEmpty()){
-            testcounter++;
-
             if(counter == 50){
-                secondTestCounter++;
-                System.out.println("This is the " + secondTestCounter + " time we update and the counter is on " + testcounter);
+                // secondTestCounter++;
                 //reset PQ
                 // System.out.println(testcounter);
                 createContractionHierarchy();
                 counter=0;
                 // System.out.println("NOWNOWNOWNOWNOWNOWNOW");
             }
-            if(testcounter > 550000){
-                System.out.println(testcounter);
-            }
+            // if(testcounter > 550000){
+            //     System.out.println(testcounter);
+            // }
             
             int leastNode = PQ.delMin();
+            if(PQ.size() == 0){
+                contractNode(leastNode);
+                break;
+            }
             int updatedPriority = ld.computeEdgeDifference(leastNode,false);
+
             
             if(updatedPriority > PQ.minKey()){
                 PQ.insert(leastNode, updatedPriority);
                 counter++;
             }else{
                 // System.out.println("Deleting: " + leastNode + "With the original value of: " + updatedPriority);
-                if(testcounter%10000 == 0){
-                    System.out.println(testcounter);
-                }
-                PQ.delMin();
+                // if(testcounter%10000 == 0){
+                //     System.out.println(testcounter);
+                // }
+                // PQ.delMin();
                 // counter++;
                 // System.out.println("The test counter is now: " + testcounter);
                 // System.out.println("The counter is now" + counter);
@@ -102,7 +102,6 @@ public class ContractionHierarchy {
                 
             }
         }
-        System.out.println("This is the highest value: " + highestValue);
         
     }
 

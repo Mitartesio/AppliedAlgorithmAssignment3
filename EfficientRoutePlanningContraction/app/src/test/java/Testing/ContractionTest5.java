@@ -4,7 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
-import org.junit.BeforeClass;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import Project.Dijkstra.LocalDijkstra4;
@@ -13,11 +14,11 @@ import Project.Graphs.GraphBuilderResult;
 
 public class ContractionTest5{
 
-    private static GraphBuilderResult smallGraph;
+    private GraphBuilderResult smallGraph;
     // private static LocalDijkstra2 ld;
 
-    @BeforeClass // Use @BeforeClass if you want to initialize the graph once for all tests
-    public static void graphInit() throws FileNotFoundException {
+    @Before
+    public void graphInit() throws FileNotFoundException {
         InputStream inputStream = SmallGraphTesting.class.getResourceAsStream("/Small_graph_for_test.graph");
         if (inputStream == null) {
             throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");

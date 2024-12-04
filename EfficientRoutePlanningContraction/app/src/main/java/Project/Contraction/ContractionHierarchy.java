@@ -30,10 +30,9 @@ public class ContractionHierarchy {
         lazyUpdate();
     }
 
+    //Make a PQ with all nodes not contracted yet
     private void createContractionHierarchy(){
-        //     while(!PQ.isEmpty()){
-        //         PQ.delMin();
-        // }
+        //Check if PQ is empty and create new PQ with remaining nodes if not
         if(!PQ.isEmpty()){
         IndexMinPQ<Integer> newPQ = new IndexMinPQ<>(graph.V());
         this.PQ = newPQ;
@@ -45,46 +44,43 @@ public class ContractionHierarchy {
         }
     }
 
+    //Method for executing lazy updating on the PQ
     private void lazyUpdate(){
+        //Lazy counter
         int counter = 0;
-        // int secondTestCounter = 0;
+        
         
 
         while(!PQ.isEmpty()){
+            //If lazy counter hits 50 compute all edges and fill the PQ
             if(counter == 50){
-                // secondTestCounter++;
-                //reset PQ
-                // System.out.println(testcounter);
                 createContractionHierarchy();
                 counter=0;
-                // System.out.println("NOWNOWNOWNOWNOWNOWNOW");
             }
-            // if(testcounter > 550000){
-            //     System.out.println(testcounter);
-            // }
             
+            //Get least node in the PQ
             int leastNode = PQ.delMin();
+
+            //Check if PQ is empty and execute if so
             if(PQ.size() == 0){
                 contractNode(leastNode);
                 break;
             }
+
+            //Find the updated priority of leastNode
             int updatedPriority = ld.computeEdgeDifference(leastNode,false);
 
-            
+            //If the updated priority is bigger than the minimum value in the PQ insert it again with updated value
             if(updatedPriority > PQ.minKey()){
                 PQ.insert(leastNode, updatedPriority);
                 counter++;
             }else{
-                // System.out.println("Deleting: " + leastNode + "With the original value of: " + updatedPriority);
-                // if(testcounter%10000 == 0){
-                //     System.out.println(testcounter);
-                // }
-                // PQ.delMin();
-                // counter++;
-                // System.out.println("The test counter is now: " + testcounter);
-                // System.out.println("The counter is now" + counter);
+                //Contract
                 contractNode(leastNode);
 
+                //Vi skal lige snakke om vi vil gøre det her
+
+                
                 // for(Edge e : graph.adjacentEdges(leastNode)){
                 //     int neighbor = e.other(leastNode);
                 //     if (!ld.isNodeContracted(neighbor)) {
@@ -105,21 +101,18 @@ public class ContractionHierarchy {
         
     }
 
-    public void print(){
-        // System.out.println("This is the total number of shortCuts");
-        // ld.printTotal();
-    }
-
-
+    //Method for contracting the node
     public void contractNode(int node){
 
         assignRank(node);
 
+        //Compute edge difference with removal
         ld.computeEdgeDifference(node, true);
 
         graph.contractVertex(node);
     }
 
+    //Assign rank to the node
     public void assignRank(int node) {
         rank[node] = rankCounter;
         rankCounter++;

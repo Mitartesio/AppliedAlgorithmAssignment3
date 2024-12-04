@@ -24,9 +24,10 @@ package Project.Graphs;
  */
 public class Edge implements Comparable<Edge> {
 
-    private final int v;
-    private final int w;
-    private final double weight;
+    private final Vertex vertex1;
+    private final Vertex vertex2;
+    private double weight;
+    private double backupWeight;
 
     /**
      * Initializes an edge between vertices {@code v} and {@code w} of
@@ -39,13 +40,14 @@ public class Edge implements Comparable<Edge> {
      *         is a negative integer
      * @throws IllegalArgumentException if {@code weight} is {@code NaN}
      */
-    public Edge(int v, int w, double weight) {
-        if (v < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
-        if (w < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
+    public Edge(Vertex vertex1, Vertex vertex2, double weight) {
+        if (vertex1.getVertexIndex() < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
+        if (vertex2.getVertexIndex() < 0) throw new IllegalArgumentException("vertex index must be a non-negative integer");
         if (Double.isNaN(weight)) throw new IllegalArgumentException("Weight is NaN");
-        this.v = v;
-        this.w = w;
+        this.vertex1 = vertex1;
+        this.vertex2 = vertex2;
         this.weight = weight;
+        this.backupWeight=weight;
     }
 
     /**
@@ -57,8 +59,12 @@ public class Edge implements Comparable<Edge> {
         return weight;
     }
 
-    public int either2(){
-        return w;
+    public Vertex either(){
+        return vertex1;
+    }
+
+    public int eitherInt(){
+        return vertex1.getVertexIndex();
     }
 
     /**
@@ -66,8 +72,21 @@ public class Edge implements Comparable<Edge> {
      *
      * @return either endpoint of this edge
      */
-    public int either() {
-        return v;
+    public Vertex other(Vertex vertex) {
+        if (vertex.equals(vertex1)) {
+            return vertex2;
+        } else if (vertex.equals(vertex2)) {
+            return vertex1;
+        } else {
+            throw new IllegalArgumentException("Vertex is not part of this edge");
+        }
+    }
+
+    // same but for integer index and not vertex object
+    public int other(int index) {
+        if (vertex1.getVertexIndex() == index) return vertex2.getVertexIndex();
+        if (vertex2.getVertexIndex() == index) return vertex1.getVertexIndex();
+        throw new IllegalArgumentException("Vertex index not part of this edge");
     }
 
     /**
@@ -78,11 +97,11 @@ public class Edge implements Comparable<Edge> {
      * @throws IllegalArgumentException if the vertex is not one of the
      *         endpoints of this edge
      */
-    public int other(int vertex) {
-        if      (vertex == v) return w;
-        else if (vertex == w) return v;
-        else throw new IllegalArgumentException("Illegal endpoint");
-    }
+    // public int other(int vertex) {
+    //     if      (vertex == v) return w;
+    //     else if (vertex == w) return v;
+    //     else throw new IllegalArgumentException("Illegal endpoint");
+    // }
 
     /**
      * Compares two edges by weight.
@@ -105,7 +124,15 @@ public class Edge implements Comparable<Edge> {
      * @return a string representation of this edge
      */
     public String toString() {
-        return String.format("%d-%d %.5f", v, w, weight);
+        return String.format("%d-%d %.5f", vertex1, vertex2, weight);
+    }
+
+    public void setWeight(double weight){
+        this.weight = weight;
+
+    }
+    public void restoreWeight(){
+        this.weight=backupWeight;
     }
 
     /**

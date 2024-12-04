@@ -5,11 +5,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Project.Dijkstra.BidirectionalDijkstra;
+//import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
-import Project.Graphs.GraphBuilderResult;
 import Project.Graphs.MappingInverter;
 import Project.Graphs.ShortcutAppender;
 
@@ -20,13 +19,14 @@ public class Main {
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
-                GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+                //GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
                 System.out.println("Start");
                 Long start1 = System.nanoTime();
 
                 // Fpr dijstra test***
+                EdgeWeightedGraph graph = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
 
-                DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graphResultTest.getGraph());
+                DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graph);
 
                 System.out.print("This is the result: ");
                 System.out.println(dijkstra.computeShortestPath(171516, 244966));
@@ -44,7 +44,7 @@ public class Main {
                 System.out.println((end1-start1)/1_000_000_000.0);
 
         // Make sure there are enough arguments before accessing them
-        if (args.length == 0) {
+        /* if (args.length == 0) {
             System.out.println("No arguments provided. Please specify 'Test', 'Dijkstra', or 'BiDijkstra'.");
             return; // Exit gracefully
         }
@@ -187,5 +187,6 @@ public class Main {
                 System.out.println("Unknown argument: " + args[i]);
             }
         }
+        */
     }
 }

@@ -82,56 +82,6 @@ public class DijkstraUndirectedSP {
     private int counterRelaxed = 0;
     //private HashMap<Integer,Boolean> settled;
 
-    /**
-     * Computes a shortest-paths tree from the source vertex {@code s} to every
-     * other vertex in the edge-weighted graph {@code G}.
-     *
-     * @param  G the edge-weighted digraph
-     * @param  s the source vertex
-     * @throws IllegalArgumentException if an edge weight is negative
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
-     */
-    public DijkstraUndirectedSP(EdgeWeightedGraph G, int s,int t) {
-        this.G = G;
-        for (Edge e : G.edges()) {
-            if (e.weight() < 0)
-                throw new IllegalArgumentException("edge " + e + " has negative weight");
-        }
-
-        distTo = new double[G.V()];
-        edgeTo = new Edge[G.V()];
-        //settled = new HashMap<>();
-
-        validateVertex(s);
-
-        for (int v = 0; v < G.V(); v++)
-            distTo[v] = Double.POSITIVE_INFINITY;
-        distTo[s] = 0.0;
-
-        // relax vertices in order of distance from s
-        pq = new IndexMinPQ<Double>(G.V());
-        pq.insert(s, distTo[s]);
-        while (!pq.isEmpty()) {
-
-            int v = pq.delMin();
-            //settled.put(v, true);
-
-            // Check if the vertex just removed is the target
-            if (v == t) {
-                double distToT = distTo[v]; // The shortest distance to t is now finalized
-                System.out.println(distToT);
-                return;
-            }
-            
-            for (Edge e : G.adj(v))
-                relax(e, v);
-        }
-
-        // check optimality conditions
-        assert check(G, s);
-    }
-
-
     /* 
      * New constructor for dijkstra without starting vertex
      */
@@ -162,7 +112,7 @@ public class DijkstraUndirectedSP {
             if (v == t) {
                 return distTo(v); // Return the distance
             }
-            for (Edge e : G.adj(v)) {
+            for (Edge e : G.adjacentEdges(v)) {
                 relax(e, v);
             }
         }
@@ -270,7 +220,7 @@ public class DijkstraUndirectedSP {
 
         // check that all edges e = v-w satisfy distTo[w] <= distTo[v] + e.weight()
         for (int v = 0; v < G.V(); v++) {
-            for (Edge e : G.adj(v)) {
+            for (Edge e : G.adjacentEdges(v)) {
                 int w = e.other(v);
                 if (distTo[v] + e.weight() < distTo[w]) {
                     System.err.println("edge " + e + " not relaxed");
@@ -283,7 +233,7 @@ public class DijkstraUndirectedSP {
         for (int w = 0; w < G.V(); w++) {
             if (edgeTo[w] == null) continue;
             Edge e = edgeTo[w];
-            if (w != e.either() && w != e.other(e.either())) return false;
+            if (w != e.eitherInt() && w != e.other(e.eitherInt())) return false;
             int v = e.other(w);
             if (distTo[v] + e.weight() != distTo[w]) {
                 System.err.println("edge " + e + " on shortest path not tight");

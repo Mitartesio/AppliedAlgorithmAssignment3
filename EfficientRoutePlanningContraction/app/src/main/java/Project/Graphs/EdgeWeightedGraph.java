@@ -26,7 +26,10 @@ package Project.Graphs;
  import java.io.BufferedWriter;
  import java.io.FileWriter;
  import java.io.IOException;
+ import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
  import Project.backing_Classes.*;
  import Project.Dijkstra.*;
@@ -68,8 +71,11 @@ import java.util.NoSuchElementException;
  
      private final int V;
      private int E;
-     private Bag<Edge>[] adj;
-     private HashMap<Integer,Boolean> contractedStatus;
+    //private Bag<Edge>[] adj;
+
+     private Map<Integer,Vertex> vertices;
+
+     private Map<Long, Vertex> idToVertexMap = new HashMap<>();
  
      /**
       * Initializes an empty edge-weighted graph with {@code V} vertices and 0 edges.
@@ -81,56 +87,45 @@ import java.util.NoSuchElementException;
          if (V < 0) throw new IllegalArgumentException("Number of vertices must be non-negative");
          this.V = V;
          this.E = 0;
-
-        contractedStatus = new HashMap<>();
-
-
-         adj = (Bag<Edge>[]) new Bag[V];
-         for (int v = 0; v < V; v++) {
-             adj[v] = new Bag<Edge>();
-             contractedStatus.put(v, false);
-         }
+        this.vertices = new HashMap<>();
+        
      }
 
-     public void contractVertex(int vertex) {
-        contractedStatus.put(vertex, true);
+     public void addVertex(long id, float[] coordinates) {
+        int index = vertices.size();
+        Vertex vertex = new Vertex(index, id,coordinates[0],coordinates[1]);
+        vertices.put(index, vertex);
+        idToVertexMap.put(id, vertex);
     }
 
-    public void removeForce(int node){
-        Bag<Edge> bagOfEdges = adj[node];
-        for(Edge edge : bagOfEdges){
-            adj[edge.other(node)].remove(edge);
-        }
+     public Vertex getVertex(int index) {
+        return vertices.get(index);
+    }
+
+    public Vertex getVertexById(long id) {
+        return idToVertexMap.get(id);
+    }
+
+    public Collection<Vertex> getVertices() {
+        return vertices.values();
+    }
+
+     public void markVertexAsContracted(Vertex v) {
+        v.contract();
+    }
+
+    public void removeVertex(Vertex node){
+        node.removeAllEdgesFromVertex(node);
     }
 
     
-    public boolean isContracted(int vertex) {
-        return contractedStatus.getOrDefault(vertex, false);
+    public boolean isContracted(Vertex v) {
+        return v.isContracted();
     }
  
 
-     public Bag<Edge> adjacentEdges(int s){
-        return adj[s];
-     }
- 
-     /**
-      * Initializes a new edge-weighted graph that is a deep copy of {@code G}.
-      *
-      * @param  G the edge-weighted graph to copy
-      */
-     public EdgeWeightedGraph(EdgeWeightedGraph G) {
-         this(G.V());
-         this.E = G.E();
-         for (int v = 0; v < G.V(); v++) {
-             // reverse so that adjacency list is in same order as original
-             Stack<Edge> reverse = new Stack<Edge>();
-             for (Edge e : G.adj[v]) {
-                 reverse.push(e);
-             }
-             for (Edge e : reverse) {
-                 adj[v].add(e);
-             }
-         }
+     public List<Edge> adjacentEdges(int s){
+        return getVertex(s).getEdges();
      }
  
  
@@ -153,8 +148,8 @@ import java.util.NoSuchElementException;
      }
  
      // throw an IllegalArgumentException unless {@code 0 <= v < V}
-     private void validateVertex(int v) {
-         if (v < 0 || v >= V)
+     private void validateVertex(Vertex v) {
+         if (v.getVertexIndex() < 0 || v.getVertexIndex() >= V)
              throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
      }
  
@@ -165,18 +160,18 @@ import java.util.NoSuchElementException;
       * @throws IllegalArgumentException unless both endpoints are between {@code 0} and {@code V-1}
       */
      public void addEdge(Edge e) {
-         int v = e.either();
-         int w = e.other(v);
-         validateVertex(v);
-         validateVertex(w);
-         adj[v].add(e);
-         adj[w].add(e);
+         Vertex vertex1 = e.either();
+         Vertex vertex2 = e.other(vertex1);
+         validateVertex(vertex1);
+         validateVertex(vertex2);
+         vertex1.addEdge(e);
+         vertex2.addEdge(e);
          E++;
      }
 
 
       /**
-      * Adds the undirected edge {@code e} to the specified file.
+      * writes the undirected edge {@code e} to the specified file.
       *
       * @param  edgeAsString the edge we want to write into the file
       * @throws IllegalArgumentException unless both endpoints are between {@code 0} and {@code V-1}
@@ -191,10 +186,6 @@ import java.util.NoSuchElementException;
         } catch (IOException e) {
             System.err.println("Error writing edge to graph file: " + e.getMessage());
         }
-
-
-
-
      }
  
      /**
@@ -204,11 +195,12 @@ import java.util.NoSuchElementException;
       * @return the edges incident on vertex {@code v} as an Iterable
       * @throws IllegalArgumentException unless {@code 0 <= v < V}
       */
-     public Iterable<Edge> adj(int v) {
+     public Iterable<Edge> adj(Vertex v) {
          validateVertex(v);
-         return adj[v];
+         return v.getEdges();
      }
  
+     
      /**
       * Returns the degree of vertex {@code v}.
       *
@@ -216,9 +208,9 @@ import java.util.NoSuchElementException;
       * @return the degree of vertex {@code v}
       * @throws IllegalArgumentException unless {@code 0 <= v < V}
       */
-     public int degree(int v) {
+     public int degree(Vertex v) {
          validateVertex(v);
-         return adj[v].size();
+         return v.getEdges().size();
      }
  
      /**
@@ -232,7 +224,7 @@ import java.util.NoSuchElementException;
          Bag<Edge> list = new Bag<Edge>();
          for (int v = 0; v < V; v++) {
              int selfLoops = 0;
-             for (Edge e : adj(v)) {
+             for (Edge e : adjacentEdges(v)) {
                  if (e.other(v) > v) {
                      list.add(e);
                  }
@@ -258,7 +250,7 @@ import java.util.NoSuchElementException;
          s.append(V + " " + E + NEWLINE);
          for (int v = 0; v < V; v++) {
              s.append(v + ": ");
-             for (Edge e : adj[v]) {
+             for (Edge e : adjacentEdges(v)) {
                  s.append(e + "  ");
              }
              s.append(NEWLINE);

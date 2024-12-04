@@ -60,7 +60,7 @@ public class QueryBidirectionalDijkstra {
 
 
 
-            for (Edge e : G.adj(u)) {
+            for (Edge e : G.adjacentEdges(u)) {
                 relax(e, u, r);
                 distanceTotal = Math.min(distanceTotal, distToS[u] + distToT[u]);
             }

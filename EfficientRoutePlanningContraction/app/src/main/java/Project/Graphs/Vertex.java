@@ -28,6 +28,10 @@ public class Vertex {
         return vertexIndex;
     }
 
+    public long getVertexId(){
+        return id;
+    }
+
     public int getRank() {
         return rank;
     }

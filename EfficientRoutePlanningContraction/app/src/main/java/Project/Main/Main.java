@@ -11,6 +11,7 @@ import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.MappingInverter;
 import Project.Graphs.ShortcutAppender;
+import Project.Contraction.*;
 
 public class Main {
 
@@ -20,11 +21,12 @@ public class Main {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
                 //GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
-                System.out.println("Start");
-                Long start1 = System.nanoTime();
+                
 
                 // Fpr dijstra test***
                 EdgeWeightedGraph graph = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+                System.out.println("Start");
+                Long start1 = System.nanoTime();
 
                 DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graph);
 
@@ -33,7 +35,7 @@ public class Main {
 
                 //***** 
 
-                // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+                ContractionHierarchy cont = new ContractionHierarchy(graph);
                 // LocalDijkstra4 ld = new LocalDijkstra4(graphResultTest.getGraph());
                 // System.out.println("value 1 is: " + ld.computeEdgeDifference(18497, true));
                 // System.out.println("value 5 is: " + ld.computeEdgeDifference(121887, true));

@@ -130,9 +130,9 @@ public class LocalDijkstra4 {
             long nodeA = edge.either().getVertexId();
             long nodeB = edge.other(edge.either()).getVertexId();
             G.addEdge(edge);
-                String contractString = nodeA + " " + nodeB + " " + edge.weight();
-                System.out.println(contractString);
-                // G.writeEdge(contractString);
+                //String contractString = nodeA + " " + nodeB + " " + edge.weight();
+                // System.out.println(contractString);
+                //G.writeEdge(contractString);
         }
         shortCuts.clear();
     }

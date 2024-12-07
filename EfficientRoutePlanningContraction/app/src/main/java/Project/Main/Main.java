@@ -10,7 +10,7 @@ import Project.Graphs.GraphBuilder;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///Small_graph_for_test.graph /denmark.graph
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph /denmark.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
@@ -19,9 +19,10 @@ public class Main {
 
                 // Fpr dijstra test***
                 EdgeWeightedGraph graph = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+                System.out.println("Start");
+                Long start1 = System.nanoTime();
                 ContractionHierarchy cont = new ContractionHierarchy(graph);
-                // System.out.println("Start");
-                // Long start1 = System.nanoTime();
+                
 
                 // DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graph);
 
@@ -38,7 +39,7 @@ public class Main {
                 // System.out.println("value 1 is: " + ld.computeEdgeDifference(18497, true));
                 // System.out.println("value 1 is: " + ld.computeEdgeDifference(488310, true));
                 Long end1 = System.nanoTime();
-                // System.out.println((end1-start1)/1_000_000_000.0);
+                System.out.println((end1-start1)/1_000_000_000.0);
 
         // Make sure there are enough arguments before accessing them
         /* if (args.length == 0) {

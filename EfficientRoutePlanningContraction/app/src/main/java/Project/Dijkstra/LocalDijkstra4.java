@@ -14,14 +14,12 @@ public class LocalDijkstra4 {
     private HashSet<Integer> visitedNodes;
     private int s;
     private HashSet<Edge> shortCuts;
-    private HashMap<Integer, HashSet<Integer>> addedShortCuts;
 
     public LocalDijkstra4(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
         shortCuts = new HashSet<>();
-        addedShortCuts = new HashMap<>();
     }
 
     public int computeEdgeDifference(int s,boolean insertEdges){
@@ -36,7 +34,7 @@ public class LocalDijkstra4 {
         visitedNodes = new HashSet<>();
 
         for(Edge edge : initialBag){
-            if(G.getVertex(s).isContracted()){
+            if(G.getVertex(edge.other(s)).isContracted()){
                 contractedCounter++;
                 continue;
             }
@@ -118,10 +116,6 @@ public class LocalDijkstra4 {
         }
         if(insertEdges){
         contract();
-        // long start = System.nanoTime();
-        // G.removeForce(s);
-        // long end = System.nanoTime();
-        // System.out.println((end-start)/1_000_000_000.0);
     }
         //return
         return counter-initialBag.size()+contractedCounter; 
@@ -130,7 +124,8 @@ public class LocalDijkstra4 {
     //Method for adding all the shortCuts
     private void contract() {
         // G.contractVertex(s);
-        G.removeVertex(G.getVertex(s));
+        // G.removeVertex(G.getVertex(s));
+        G.markVertexAsContracted(G.getVertex(s));
         for(Edge edge : shortCuts){
             long nodeA = edge.either().getVertexId();
             long nodeB = edge.other(edge.either()).getVertexId();
@@ -139,25 +134,6 @@ public class LocalDijkstra4 {
                 System.out.println(contractString);
                 // G.writeEdge(contractString);
         }
-        // for (Edge edge : shortCuts) {
-        //     int nodeA = edge.either();
-        //     int nodeB = edge.other(nodeA);
-    
-        //     // Ensure that nodeA and nodeB each have a HashSet in addedShortCuts
-        //     addedShortCuts.putIfAbsent(nodeA, new HashSet<>());
-        //     addedShortCuts.putIfAbsent(nodeB, new HashSet<>());
-    
-        //     // Add edge if it's not already present
-        //     if (!addedShortCuts.get(nodeA).contains(nodeB) && !addedShortCuts.get(nodeB).contains(nodeA)) {
-        //         G.addEdge(edge);
-        //         String contractString = nodeA + " " + nodeB + " " + edge.weight();
-        //         G.writeEdge(contractString);
-    
-        //         // Add short cuts in both directions
-        //         addedShortCuts.get(nodeA).add(nodeB);
-        //         addedShortCuts.get(nodeB).add(nodeA);
-        //     }
-        // }
         shortCuts.clear();
     }
 
@@ -208,9 +184,6 @@ public class LocalDijkstra4 {
     private void fillMinPq(int node){   
         List<Edge> bag = G.adjacentEdges(node);
             for(Edge edge2 : bag){
-                // System.out.println(edge2.other(node));
-                // System.out.println(G.getVertex(edge2.other(s)));
-                // System.out.println(!G.getVertex(edge2.other(s)).isContracted());
                 if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s && !G.getVertex(edge2.other(node)).isContracted()){
                 //If value is contained in the distTo we only decrease it if a new shorter path is found
                 if(pq.contains(edge2.other(node))){
@@ -229,8 +202,4 @@ public class LocalDijkstra4 {
                 
             }
     }
-
-    // public boolean isNodeContracted(int n){
-    //     return G.isContracted(G.getVertex(n));
-    // }
 }

@@ -28,6 +28,7 @@ public class ContractionHierarchy {
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
         lazyUpdate();
+        
     }
 
     private void createContractionHierarchy(){

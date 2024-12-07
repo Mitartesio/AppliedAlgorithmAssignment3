@@ -76,6 +76,8 @@ import java.util.NoSuchElementException;
      private Map<Integer,Vertex> vertices;
 
      private Map<Long, Vertex> idToVertexMap = new HashMap<>();
+
+     private int[] rankArray;
  
      /**
       * Initializes an empty edge-weighted graph with {@code V} vertices and 0 edges.
@@ -89,6 +91,14 @@ import java.util.NoSuchElementException;
          this.E = 0;
         this.vertices = new HashMap<>();
         
+     }
+
+     public void setRankArray(int[] rankArray){
+        this.rankArray=rankArray;
+     }
+
+     public int[] getRankArray(){
+        return rankArray;
      }
 
      public void addVertex(long id, float[] coordinates) {

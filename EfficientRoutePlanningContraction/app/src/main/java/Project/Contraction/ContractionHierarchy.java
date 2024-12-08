@@ -20,7 +20,7 @@ public class ContractionHierarchy {
     public ContractionHierarchy(EdgeWeightedGraph graph){
         this.graph = graph;
         this.rank = new int[graph.V()];
-        Arrays.fill(rank, -1);
+        //Arrays.fill(rank, -1);
 
         rankCounter = 0;
         this.PQ = new IndexMinPQ<>(graph.V());
@@ -28,7 +28,7 @@ public class ContractionHierarchy {
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
         lazyUpdate();
-        
+        graph.setRankArray(rank);
     }
 
     private void createContractionHierarchy(){

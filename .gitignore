@@ -128,3 +128,6 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/osx,gradle
+.idea/vcs.xml
+.idea/.idea.AppliedAlgorithmsAssignment3.dir/.idea/indexLayout.xml
+.idea/.idea.AppliedAlgorithmsAssignment3.dir/.idea/vcs.xml

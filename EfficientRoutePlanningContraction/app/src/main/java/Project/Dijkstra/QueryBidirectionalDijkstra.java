@@ -21,7 +21,7 @@ public class QueryBidirectionalDijkstra {
 
     private int[] rank;
 
-     public QueryBidirectionalDijkstra(EdgeWeightedGraph G,int[] rank) {
+     public QueryBidirectionalDijkstra(EdgeWeightedGraph G) {
         this.G = G;
         distToS = new double[G.V()];
         distToT = new double[G.V()];
@@ -29,49 +29,55 @@ public class QueryBidirectionalDijkstra {
         edgeTo = new Edge[G.V()]; // lets see if we will use it
         distanceTotal = Double.POSITIVE_INFINITY;
         settled = new HashMap<>();
-        this.rank = rank;
+        this.rank = G.getRankArray();
 
         }
         
 
-    public double computeShortestPath(int s, int t) {
-        validateVertex(s); validateVertex(t);
-        initialize(s, t);
-        boolean r = true;
-
-        while (!pqs.isEmpty() || !pqt.isEmpty()) {
-            int u;
-
-
-            if (r && !pqs.isEmpty()) {
-                u = pqs.delMin();
-            } else if(!r && !pqt.isEmpty()) {
-                u = pqt.delMin();
-            } else{
+        public double computeShortestPath(int s, int t) {
+            validateVertex(s);
+            validateVertex(t);
+            initialize(s, t);
+            boolean r = true; // Alternates forward and backward
+        
+            while (!pqs.isEmpty() || !pqt.isEmpty()) {
+                int u;
+        
+                if (r && !pqs.isEmpty()) {
+                    u = pqs.delMin();
+                } else if (!r && !pqt.isEmpty()) {
+                    u = pqt.delMin();
+                } else {
+                    r = !r;
+                    continue;
+                }
+        
+                // Mark node as settled
+                settled.put(u, true);
+        
+                // Update distanceTotal for any overlap in settled nodes
+                if (distToS[u] < Double.POSITIVE_INFINITY && distToT[u] < Double.POSITIVE_INFINITY) {
+                    distanceTotal = Math.min(distanceTotal, distToS[u] + distToT[u]);
+                }
+        
+                // Relax neighbors
+                for (Edge e : G.adjacentEdges(u)) {
+                    relax(e, u, r);
+                }
+        
+                // Alternate between forward and backward searches
                 r = !r;
-                continue;
             }
-
-            if (settled.get(u)) {
-                break;
-            }
-
-            settled.put(u, true);
-
-
-
-            for (Edge e : G.adjacentEdges(u)) {
-                relax(e, u, r);
-                distanceTotal = Math.min(distanceTotal, distToS[u] + distToT[u]);
-            }
-
-            // Should set it back to true or false, debug to check
-            r = !r;
-
-        }
-        return distanceTotal;
         
-    }
+            // Final pass over all nodes to ensure the true shortest path is found
+            for (int v = 0; v < G.V(); v++) {
+                if (distToS[v] < Double.POSITIVE_INFINITY && distToT[v] < Double.POSITIVE_INFINITY) {
+                    distanceTotal = Math.min(distanceTotal, distToS[v] + distToT[v]);
+                }
+            }
+        
+            return distanceTotal;
+        }
 
 
     private void initialize(int s, int t) {

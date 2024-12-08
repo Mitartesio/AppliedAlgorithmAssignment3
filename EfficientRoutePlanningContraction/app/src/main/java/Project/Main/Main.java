@@ -44,8 +44,7 @@ public class Main {
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    System.out.println(spGraph.getCounterRelaxed());
-                    System.out.println(duration);
+                    System.out.println(spGraph.getCounterRelaxed() + " " + duration);
                 }
                 scanner. close();
                 }
@@ -62,8 +61,7 @@ public class Main {
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    // System.out.println(spGraph.getCounterRelaxed());
-                    System.out.println(duration);
+                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration);
                 }
                 scanner. close();
                 }else if (args[0].equals("QueryDijkstra")) {
@@ -81,8 +79,7 @@ public class Main {
                     //     long endTime = System.nanoTime();
     
                     //     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    //     System.out.println(spGraph.getCounterRelaxed());
-                    //     System.out.println(duration);
+                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration);
                     // }
                     // scanner. close();
                 }

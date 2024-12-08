@@ -55,7 +55,7 @@ public class LocalDijkstra4 {
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
 
-            while(nodeCounter<100 && !endNodes.isEmpty() && !pq.isEmpty()){
+            while(nodeCounter<50 && !endNodes.isEmpty() && !pq.isEmpty()){
                 //Find least node by deleting from Min pq
                 int leastNode = pq.delMin();
                 
@@ -99,7 +99,7 @@ public class LocalDijkstra4 {
                 }
                 }
                 nodeCounter++;
-                if(nodeCounter == 100){
+                if(nodeCounter == 50){
                     if(insertEdges){
                     for(Integer integer : endNodes){
                         double weight = edge.weight() + findEdge(initialBag, integer).weight();
@@ -130,9 +130,9 @@ public class LocalDijkstra4 {
             long nodeA = edge.either().getVertexId();
             long nodeB = edge.other(edge.either()).getVertexId();
             G.addEdge(edge);
-                // String contractString = nodeA + " " + nodeB + " " + edge.weight();
+                String contractString = nodeA + " " + nodeB + " " + edge.weight();
                 // System.out.println(contractString);
-                //G.writeEdge(contractString);
+                G.writeEdge(contractString);
         }
         shortCuts.clear();
     }

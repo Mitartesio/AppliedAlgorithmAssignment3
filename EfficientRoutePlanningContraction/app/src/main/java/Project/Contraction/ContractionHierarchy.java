@@ -9,7 +9,6 @@ import Project.Graphs.EdgeWeightedGraph;
 public class ContractionHierarchy {
     private IndexMinPQ<Integer> PQ;
     private EdgeWeightedGraph graph;
-    private int lazyCounter;
     private LocalDijkstra4 ld;
 
     private int[] rank;
@@ -20,11 +19,10 @@ public class ContractionHierarchy {
     public ContractionHierarchy(EdgeWeightedGraph graph){
         this.graph = graph;
         this.rank = new int[graph.V()];
-        //Arrays.fill(rank, -1);
+        Arrays.fill(rank, -1);
 
         rankCounter = 0;
         this.PQ = new IndexMinPQ<>(graph.V());
-        this.lazyCounter = 0;
         ld = new LocalDijkstra4(graph);
         createContractionHierarchy();
         lazyUpdate();
@@ -32,9 +30,6 @@ public class ContractionHierarchy {
     }
 
     private void createContractionHierarchy(){
-        //     while(!PQ.isEmpty()){
-        //         PQ.delMin();
-        // }
         if(!PQ.isEmpty()){
         IndexMinPQ<Integer> newPQ = new IndexMinPQ<>(graph.V());
         this.PQ = newPQ;
@@ -48,21 +43,13 @@ public class ContractionHierarchy {
 
     private void lazyUpdate(){
         int counter = 0;
-        // int secondTestCounter = 0;
         
 
         while(!PQ.isEmpty()){
             if(counter == 50){
-                // secondTestCounter++;
-                //reset PQ
-                // System.out.println(testcounter);
                 createContractionHierarchy();
                 counter=0;
-                // System.out.println("NOWNOWNOWNOWNOWNOWNOW");
             }
-            // if(testcounter > 550000){
-            //     System.out.println(testcounter);
-            // }
             
             int leastNode = PQ.delMin();
             if(PQ.size() == 0){
@@ -76,14 +63,6 @@ public class ContractionHierarchy {
                 PQ.insert(leastNode, updatedPriority);
                 counter++;
             }else{
-                // System.out.println("Deleting: " + leastNode + "With the original value of: " + updatedPriority);
-                // if(testcounter%10000 == 0){
-                //     System.out.println(testcounter);
-                // }
-                // PQ.delMin();
-                // counter++;
-                // System.out.println("The test counter is now: " + testcounter);
-                // System.out.println("The counter is now" + counter);
                 contractNode(leastNode);
 
                 // for(Edge e : graph.adjacentEdges(leastNode)){
@@ -104,11 +83,6 @@ public class ContractionHierarchy {
             }
         }
         
-    }
-
-    public void print(){
-        // System.out.println("This is the total number of shortCuts");
-        // ld.printTotal();
     }
 
 

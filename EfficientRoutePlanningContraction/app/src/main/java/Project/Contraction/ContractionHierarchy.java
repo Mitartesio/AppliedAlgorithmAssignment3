@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import Project.Dijkstra.IndexMinPQ;
 import Project.Dijkstra.LocalDijkstra4;
-import Project.Graphs.EdgeWeightedGraph;
+import Project.Graphs.*;
 
 public class ContractionHierarchy {
     private IndexMinPQ<Integer> PQ;
@@ -65,19 +65,19 @@ public class ContractionHierarchy {
             }else{
                 contractNode(leastNode);
 
-                // for(Edge e : graph.adjacentEdges(leastNode)){
-                //     int neighbor = e.other(leastNode);
-                //     if (!ld.isNodeContracted(neighbor)) {
-                //         int newPriority = ld.computeEdgeDifference(neighbor, false);
-                //         if (PQ.contains(neighbor)) {
-                //             PQ.changeKey(neighbor, newPriority);
-                //         } else {
-                //             if(!ld.isNodeContracted(neighbor)){
-                //             PQ.insert(neighbor, newPriority);
-                //             }
-                //         }
-                //     }
-                // }
+                for(Edge e : graph.adjacentEdges(leastNode)){
+                    int neighbor = e.other(leastNode);
+                    if (!graph.isContracted(graph.getVertex(neighbor))) {
+                        int newPriority = ld.computeEdgeDifference(neighbor, false);
+                        if (PQ.contains(neighbor)) {
+                            PQ.changeKey(neighbor, newPriority);
+                        } else {
+                            if(!graph.isContracted(graph.getVertex(neighbor))){
+                            PQ.insert(neighbor, newPriority);
+                            }
+                        }
+                    }
+                }
 
                 
             }

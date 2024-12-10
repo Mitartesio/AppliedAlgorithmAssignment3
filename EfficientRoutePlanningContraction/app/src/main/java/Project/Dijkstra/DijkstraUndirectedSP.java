@@ -97,6 +97,7 @@ public class DijkstraUndirectedSP {
 
     public double computeShortestPath(int s, int t) {
         validateVertex(s);
+        counterRelaxed = 0;
 
         for (int v = 0; v < G.V(); v++)
         distTo[v] = Double.POSITIVE_INFINITY;

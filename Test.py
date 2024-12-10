@@ -23,18 +23,15 @@ def createRandomInput()->list[tuple[int,int]]:
         listOfInputs.append(randomTuple)
     return listOfInputs
 
-class Triple(NamedTuple):
-    algorithm: str
-    relaxation: int
-    time: float
 
 
-def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Triple]:
+
+def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Tuple[str,int,float]]:
     results = []
     inputStr = " ".join(f"{element[0]} {element[1]}" for element in input)
     for line in run_java(jar, algorithm, inputStr).splitlines():
-        algorithm, relaxation, time = line.split()
-        results.append(Triple(str(algorithm),int(relaxation),float(time)))
+        relaxation, time = line.split()
+        results.append((str(algorithm), int(relaxation), float(time)))
     return results
 
 def benchmark1(input1: str, input2: str, algorithm:str, jar:str):
@@ -45,23 +42,24 @@ def benchmark1(input1: str, input2: str, algorithm:str, jar:str):
 
 INSTANCES: List[Tuple[str,str]] = [
     ('Dijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
-    ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
+    # ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    # ('QueryDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
 ]
 
-# if __name__ == '__main__':
-#     with open('TestResults.csv','w') as f:
-#         writer = csv.DictWriter(f,fieldnames=["method", "relaxations", "time"])
-#         writer.writeheader()
-#         randomInput = createRandomInput()
-#         for test, jar in INSTANCES:
-#             resultList = benchmark(randomInput, test, jar)
-#             for result in resultList:
-#                 writer.writerow(
-#                     {
-#                         "method": result.algorithm,
-#                         "relaxations": result.relaxation,
-#                         "time": result.time
-#                     }
-#                 )
 if __name__ == '__main__':
-    benchmark1("10","9382","Test","EfficientRoutePlanningContraction/app/build/libs/app.jar")
+    with open('TestResultsTest.csv','w') as f:
+        writer = csv.DictWriter(f,fieldnames=["method", "relaxations", "time"])
+        writer.writeheader()
+        randomInput = createRandomInput()
+        for test, jar in INSTANCES:
+            resultList = benchmark(randomInput, test, jar)
+            for result in resultList:
+                writer.writerow(
+                    {
+                        "method": result[0],
+                        "relaxations": result[1],
+                        "time": result[2]
+                    }
+                )
+# if __name__ == '__main__':
+#     benchmark1("10","9382","Test","EfficientRoutePlanningContraction/app/build/libs/app.jar")

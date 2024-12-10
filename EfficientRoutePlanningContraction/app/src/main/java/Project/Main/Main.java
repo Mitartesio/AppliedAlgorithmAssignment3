@@ -35,6 +35,7 @@ public class Main {
                     System.out.println((end1-start1)/1_000_000_000.0);
                     // QueryBidirectionalDijkstra qDijkstra = new QueryBidirectionalDijkstra(graph);
                     // qDijkstra.computeShortestPath(0, 0)
+                    GraphBuilder.writeContractedGraphToFile(graph, "/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/denmarkWithOurContractions.graph");
                 }
                 else if(args[0].equals("Dijkstra")){
 
@@ -73,24 +74,24 @@ public class Main {
 
                     //Need to fix how to give the graph int[] rank
 
-                    int[] rank = graph.readRankArrayFromFile("/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ranks.txt");
-                    EdgeWeightedGraph contractedGraph = null;
-                    try {
-                        contractedGraph =  GraphBuilder.addShortcuts(graph, "/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/shortcuts4.graph");
-                    } catch (Exception e) {
-                        System.out.println("contracted graph not instantiated");
-                    }
-                    contractedGraph.setRankArray(rank);
-                    
+                    // int[] rank = graph.readRankArrayFromFile("/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ranks.txt");
+                    EdgeWeightedGraph contractedGraph = GraphBuilder.readContractedGraphFromFile("/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/denmarkWithOurContractions.graph");
+                    // try {
+                    //     contractedGraph =  GraphBuilder.addShortcuts(graph, "/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/shortcuts4.graph");
+                    // } catch (Exception e) {
+                    //     System.out.println("contracted graph not instantiated");
+                    // }
+                    //contractedGraph.setRankArray(rank);
+                    System.out.println(contractedGraph.V());
                     QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(contractedGraph);
                     System.out.println(contractedGraph.E());
                     Scanner scanner = new Scanner(System.in);
                     while (scanner.hasNextInt()) {
-                        long startNode = scanner.nextLong();
-                        long endNode = scanner.nextLong();
+                        int startNode = scanner.nextInt();
+                        int endNode = scanner.nextInt();
                         
                         long startTime = System.nanoTime();
-                        Double distance = spGraph.computeShortestPath(graph.getVertexById(startNode).getVertexIndex(), graph.getVertexById(endNode).getVertexIndex());
+                        Double distance = spGraph.computeShortestPath(startNode,endNode);
                         long endTime = System.nanoTime();
     
                         double duration = (endTime - startTime) / 1_000_000_000.0;

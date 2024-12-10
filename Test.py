@@ -30,8 +30,9 @@ def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Tuple
     results = []
     inputStr = " ".join(f"{element[0]} {element[1]}" for element in input)
     for line in run_java(jar, algorithm, inputStr).splitlines():
-        relaxation, time, distance = line.split()
-        results.append((str(algorithm), int(relaxation), float(time), float(distance)))
+        print(line)
+        # relaxation, time, distance = line.split()
+        # results.append((str(algorithm), int(relaxation), float(time), float(distance)))
     return results
 
 def benchmark1(input1: str, input2: str, algorithm:str, jar:str):
@@ -41,8 +42,8 @@ def benchmark1(input1: str, input2: str, algorithm:str, jar:str):
 
 
 INSTANCES: List[Tuple[str,str]] = [
-    ('Dijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
-    # ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    # ('Dijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
     # ('QueryDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
 ]
 

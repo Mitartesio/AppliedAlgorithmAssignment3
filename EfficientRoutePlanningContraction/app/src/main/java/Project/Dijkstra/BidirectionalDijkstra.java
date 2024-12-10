@@ -51,6 +51,7 @@ public class BidirectionalDijkstra {
         
 
     public double computeShortestPath(int s, int t) {
+        counterRelaxed = 0;
         validateVertex(s);
         validateVertex(t);
 

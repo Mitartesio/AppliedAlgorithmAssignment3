@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import Project.Contraction.ContractionHierarchy;
+import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Dijkstra.QueryBidirectionalDijkstra;
 import Project.Graphs.EdgeWeightedGraph;
@@ -54,18 +55,18 @@ public class Main {
                 }
                 else if(args[0].equals("BiDijkstra")){
                     //Bidijkstra run
-                // BidirectionalDijkstra spGraph = new BidirectionalDijkstra(graph);
+                BidirectionalDijkstra spGraph = new BidirectionalDijkstra(graph);
                 Scanner scanner = new Scanner(System.in);
                 while (scanner.hasNextInt()) {
                     int startNode = scanner.nextInt();
                     int endNode = scanner.nextInt();
                     
                     long startTime = System.nanoTime();
-                    // Double distance = spGraph.computeShortestPath(startNode, endNode);
+                    Double distance = spGraph.computeShortestPath(startNode, endNode);
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
+                    System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
                 }
                 scanner. close();
                 }else if (args[0].equals("QueryDijkstra")) {

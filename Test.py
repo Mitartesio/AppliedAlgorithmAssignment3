@@ -26,7 +26,7 @@ def createRandomInput()->list[tuple[int,int]]:
 
 
 
-def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Tuple[str,int,float]]:
+def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Tuple[str,int,float,float]]:
     results = []
     inputStr = " ".join(f"{element[0]} {element[1]}" for element in input)
     for line in run_java(jar, algorithm, inputStr).splitlines():
@@ -48,7 +48,7 @@ INSTANCES: List[Tuple[str,str]] = [
 
 if __name__ == '__main__':
     with open('TestResultsTest.csv','w') as f:
-        writer = csv.DictWriter(f,fieldnames=["method", "relaxations", "time"])
+        writer = csv.DictWriter(f,fieldnames=["method", "relaxations", "time", "distance"])
         writer.writeheader()
         randomInput = createRandomInput()
         for test, jar in INSTANCES:
@@ -58,7 +58,8 @@ if __name__ == '__main__':
                     {
                         "method": result[0],
                         "relaxations": result[1],
-                        "time": result[2]
+                        "time": result[2],
+                        "distance": result[3]
                     }
                 )
 # if __name__ == '__main__':

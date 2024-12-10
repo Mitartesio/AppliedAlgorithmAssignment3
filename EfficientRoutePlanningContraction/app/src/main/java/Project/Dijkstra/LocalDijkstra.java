@@ -7,7 +7,7 @@ import Project.Graphs.Bag;
 import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
-public class LocalDijkstra4 {
+public class LocalDijkstra {
     private HashMap<Integer, Double> distTo;          // distTo[v] = distance  of shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
@@ -16,7 +16,7 @@ public class LocalDijkstra4 {
     private HashSet<Edge> shortCuts;
     private HashMap<Integer, HashSet<Integer>> addedShortCuts;
 
-    public LocalDijkstra4(EdgeWeightedGraph G){
+    public LocalDijkstra(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());

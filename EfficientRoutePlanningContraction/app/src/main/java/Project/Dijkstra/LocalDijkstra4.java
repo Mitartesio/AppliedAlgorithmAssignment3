@@ -63,19 +63,19 @@ public class LocalDijkstra4 {
                 visitedNodes.add(leastNode);
 
                 // Check if the path just found is more expensive than highest value and break if so
-                    if(distTo.get(leastNode) > highestValue){
-                        int plus = endNodes.size();
+                    // if(distTo.get(leastNode) > highestValue){
+                    //     int plus = endNodes.size();
     
-                        if(insertEdges){
-                            for(Integer integer : endNodes){
-                                double weight = edge.weight() + findEdge(initialBag, integer).weight();
-                                Edge shortCutEdge = new Edge(G.getVertex(startNode), G.getVertex(integer), weight);
-                                shortCuts.add(shortCutEdge);
-                            }
-                        }
-                        counter = counter + plus;
-                        break;
-                    }
+                    //     if(insertEdges){
+                    //         for(Integer integer : endNodes){
+                    //             double weight = edge.weight() + findEdge(initialBag, integer).weight();
+                    //             Edge shortCutEdge = new Edge(G.getVertex(startNode), G.getVertex(integer), weight);
+                    //             shortCuts.add(shortCutEdge);
+                    //         }
+                    //     }
+                    //     counter = counter + plus;
+                    //     break;
+                    // }
                 
                 //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
@@ -130,9 +130,9 @@ public class LocalDijkstra4 {
             long nodeA = edge.either().getVertexId();
             long nodeB = edge.other(edge.either()).getVertexId();
             G.addEdge(edge);
-                String contractString = nodeA + " " + nodeB + " " + edge.weight();
+                //String contractString = nodeA + " " + nodeB + " " + edge.weight();
                 // System.out.println(contractString);
-                G.writeEdge(contractString);
+                //G.writeEdge(contractString);
         }
         shortCuts.clear();
     }

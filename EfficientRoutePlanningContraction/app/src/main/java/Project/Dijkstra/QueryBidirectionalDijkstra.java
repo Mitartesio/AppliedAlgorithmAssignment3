@@ -12,8 +12,8 @@ public class QueryBidirectionalDijkstra {
     private double[] distToT;
     private int counterRelaxed;
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
-    private IndexMinPQ<Double> pqs;    // priority queue of vertices
-    private IndexMinPQ<Double> pqt;    // priority queue of vertices
+    private IndexMinPQ<Double> pqs;    // priority queue of vertices start
+    private IndexMinPQ<Double> pqt;    // priority queue of vertices term
 
     private EdgeWeightedGraph G;
     private double distanceTotal;
@@ -52,24 +52,24 @@ public class QueryBidirectionalDijkstra {
                     continue;
                 }
         
-                // Mark node as settled
+                // put to settled map
                 settled.put(u, true);
         
-                // Update distanceTotal for any overlap in settled nodes
+                // Update distanceTotal for overlap in settled nodes
                 if (distToS[u] < Double.POSITIVE_INFINITY && distToT[u] < Double.POSITIVE_INFINITY) {
                     distanceTotal = Math.min(distanceTotal, distToS[u] + distToT[u]);
                 }
         
-                // Relax neighbors
+                // Relax
                 for (Edge e : G.adjacentEdges(u)) {
                     relax(e, u, r);
                 }
         
-                // Alternate between forward and backward searches
+                // switch, to make sure we alternate if possible. Could be fixed with stopping if its PQ is empty
                 r = !r;
             }
         
-            // Final pass over all nodes to ensure the true shortest path is found
+            // Final pass over nodes to check if we have found the actual shortest path
             for (int v = 0; v < G.V(); v++) {
                 if (distToS[v] < Double.POSITIVE_INFINITY && distToT[v] < Double.POSITIVE_INFINITY) {
                     distanceTotal = Math.min(distanceTotal, distToS[v] + distToT[v]);
@@ -82,8 +82,8 @@ public class QueryBidirectionalDijkstra {
 
     private void initialize(int s, int t) {
         for (int v = 0; v < G.V(); v++) {
-            distToS[v] = Double.POSITIVE_INFINITY; // int.POSITIVE_INFINITY;
-            distToT[v] = Double.POSITIVE_INFINITY; //int.POSITIVE_INFINITY;
+            distToS[v] = Double.POSITIVE_INFINITY; 
+            distToT[v] = Double.POSITIVE_INFINITY; 
             settled.put(v, false);
         }
         distToS[s] = 0.0;

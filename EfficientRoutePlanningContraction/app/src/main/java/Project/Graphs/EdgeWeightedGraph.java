@@ -95,9 +95,21 @@ import java.util.NoSuchElementException;
         
      }
 
-     public void setRankArray(int[] rankArray){
-        this.rankArray=rankArray;
-     }
+     public void setRankArray(int[] rank) {
+        if (rank.length != this.V()) {
+            throw new IllegalArgumentException("Rank array size does not match the number of vertices in the graph");
+        }
+        this.rankArray = rank;
+    
+        // Assign rank to each vertex
+        for (int i = 0; i < V(); i++) {
+            Vertex v = getVertex(i);
+            if (v != null) {
+                v.setRank(rank[i]);
+            }
+        }
+    }
+    
 
 
      public int[] getRankArray(){

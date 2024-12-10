@@ -36,6 +36,15 @@ public class Vertex {
         return rank;
     }
 
+    public float getCoordinateX(){
+        return coordinateX;
+    }
+
+    public float getCoordinateY(){
+        return coordinateY;
+    }
+
+
     public void setRank(int rank) {
         this.rank = rank;
     }

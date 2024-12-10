@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
+import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 
 

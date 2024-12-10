@@ -41,11 +41,11 @@ public class Main {
                     int endNode = scanner.nextInt();
                     
                     long startTime = System.nanoTime();
-                    spGraph.computeShortestPath(startNode, endNode);
+                    Double distance = spGraph.computeShortestPath(startNode, endNode);
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    System.out.println(spGraph.getCounterRelaxed() + " " + duration);
+                    System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
                 }
                 scanner. close();
                 }
@@ -58,11 +58,11 @@ public class Main {
                     int endNode = scanner.nextInt();
                     
                     long startTime = System.nanoTime();
-                    // spGraph.computeShortestPath(startNode, endNode);
+                    // Double distance = spGraph.computeShortestPath(startNode, endNode);
                     long endTime = System.nanoTime();
 
                     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration);
+                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
                 }
                 scanner. close();
                 }else if (args[0].equals("QueryDijkstra")) {
@@ -76,11 +76,11 @@ public class Main {
                     //     int endNode = scanner.nextInt();
                         
                     //     long startTime = System.nanoTime();
-                    //     spGraph.computeShortestPath(startNode, endNode);
+                        // Double distance = spGraph.computeShortestPath(startNode, endNode);
                     //     long endTime = System.nanoTime();
     
                     //     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration);
+                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
                     // }
                     // scanner. close();
                 }

@@ -16,13 +16,12 @@
 
 //     @Before
 //     public void graphInit() throws FileNotFoundException {
-//         InputStream inputStream = ContractionTest5.class.getResourceAsStream("/Denmark.graph");
+//         InputStream inputStream = QueryDijkstraTest.class.getResourceAsStream("/Denmark.graph");
 //         this.bigGraph = GraphBuilder.buildGraphFromInputStream(inputStream);
 //         if (inputStream == null) {
 //             throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
 //         }
 
-//         //We also need to set the graph up with 
         
 //     }
 //     @Test

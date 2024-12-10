@@ -108,6 +108,12 @@ import java.util.NoSuchElementException;
         idToVertexMap.put(id, vertex);
     }
 
+    public void addVertexByIndex(Vertex v) {
+        
+        vertices.put(v.getVertexIndex(), v);
+
+    }
+
      public Vertex getVertex(int index) {
         return vertices.get(index);
     }

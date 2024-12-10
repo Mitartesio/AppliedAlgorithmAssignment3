@@ -83,10 +83,11 @@ public class Main {
                     // }
                     //contractedGraph.setRankArray(rank);
                     System.out.println(contractedGraph.V());
-                    QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(contractedGraph);
+                    
                     System.out.println(contractedGraph.E());
                     Scanner scanner = new Scanner(System.in);
                     while (scanner.hasNextInt()) {
+                        QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(contractedGraph);
                         int startNode = scanner.nextInt();
                         int endNode = scanner.nextInt();
                         

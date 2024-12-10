@@ -30,8 +30,8 @@ def benchmark(input: List[Tuple[int,int]], algorithm: str, jar: str)->List[Tuple
     results = []
     inputStr = " ".join(f"{element[0]} {element[1]}" for element in input)
     for line in run_java(jar, algorithm, inputStr).splitlines():
-        relaxation, time = line.split()
-        results.append((str(algorithm), int(relaxation), float(time)))
+        relaxation, time, distance = line.split()
+        results.append((str(algorithm), int(relaxation), float(time), float(distance)))
     return results
 
 def benchmark1(input1: str, input2: str, algorithm:str, jar:str):
@@ -47,7 +47,7 @@ INSTANCES: List[Tuple[str,str]] = [
 ]
 
 if __name__ == '__main__':
-    with open('TestResultsTest.csv','w') as f:
+    with open('ResultsTest.csv','w') as f:
         writer = csv.DictWriter(f,fieldnames=["method", "relaxations", "time", "distance"])
         writer.writeheader()
         randomInput = createRandomInput()

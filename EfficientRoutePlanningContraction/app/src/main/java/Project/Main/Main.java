@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
+import Project.Dijkstra.QueryBidirectionalDijkstra;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 
@@ -69,20 +70,20 @@ public class Main {
 
                     //Need to fix how to give the graph int[] rank
 
-                    // QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(graphResultTest.getGraph(), );
-                    // Scanner scanner = new Scanner(System.in);
-                    // while (scanner.hasNextInt()) {
-                    //     int startNode = scanner.nextInt();
-                    //     int endNode = scanner.nextInt();
+                    QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(graph);
+                    Scanner scanner = new Scanner(System.in);
+                    while (scanner.hasNextInt()) {
+                        int startNode = scanner.nextInt();
+                        int endNode = scanner.nextInt();
                         
-                    //     long startTime = System.nanoTime();
-                        // Double distance = spGraph.computeShortestPath(startNode, endNode);
-                    //     long endTime = System.nanoTime();
+                        long startTime = System.nanoTime();
+                        Double distance = spGraph.computeShortestPath(startNode, endNode);
+                        long endTime = System.nanoTime();
     
-                    //     double duration = (endTime - startTime) / 1_000_000_000.0;
-                    // System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
-                    // }
-                    // scanner. close();
+                        double duration = (endTime - startTime) / 1_000_000_000.0;
+                    System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
+                    }
+                    scanner. close();
                 }
             }
         }

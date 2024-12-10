@@ -7,7 +7,7 @@ import java.util.List;
 import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
-public class LocalDijkstra4 {
+public class LocalDijkstra {
     private HashMap<Integer, Double> distTo;          // distTo[v] = distance  of shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private EdgeWeightedGraph G;
@@ -15,7 +15,7 @@ public class LocalDijkstra4 {
     private int s;
     private HashSet<Edge> shortCuts;
 
-    public LocalDijkstra4(EdgeWeightedGraph G){
+    public LocalDijkstra(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
@@ -123,8 +123,6 @@ public class LocalDijkstra4 {
 
     //Method for adding all the shortCuts
     private void contract() {
-        // G.contractVertex(s);
-        // G.removeVertex(G.getVertex(s));
         G.markVertexAsContracted(G.getVertex(s));
         for(Edge edge : shortCuts){
             long nodeA = edge.either().getVertexId();

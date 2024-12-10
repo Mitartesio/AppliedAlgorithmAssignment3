@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
-import Project.Dijkstra.QueryBidirectionalDijkstra;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 
@@ -19,19 +18,6 @@ public class Main {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
                 EdgeWeightedGraph graph = GraphBuilder.buildGraphFromInputStream(inputStreamTest); 
-
-                Long start1 = System.nanoTime();
-                    ContractionHierarchy cont = new ContractionHierarchy(graph);
-                    Long end1 = System.nanoTime();
-                    System.out.println((end1-start1)/1_000_000_000.0);
-
-                    DijkstraUndirectedSP dj = new DijkstraUndirectedSP(graph);
-                    QueryBidirectionalDijkstra query = new QueryBidirectionalDijkstra(graph);
-
-                    System.out.println("normal dijkstra shortest path: " + dj.computeShortestPath(graph.getVertexById(445047695L).getVertexIndex(),graph.getVertexById(7449627L).getVertexIndex()));
-                    System.out.println("relaxations: " + dj.getCounterRelaxed());
-                    System.out.println("query dijkstra shortest path: " + query.computeShortestPath(graph.getVertexById(445047695L).getVertexIndex(),graph.getVertexById(7449627L).getVertexIndex()));
-                    System.out.println("relaxations: " + query.getCounterRelaxed());
                 
                 // Make sure there are enough arguments before accessing them
                 // Example of handling different arguments
@@ -41,19 +27,10 @@ public class Main {
 
                 }else if (args[0].equals("ContractionHierarchy")){
                     //Create the contraction hierarchy
-                    // Long start1 = System.nanoTime();
-                    // ContractionHierarchy cont = new ContractionHierarchy(graph);
-                    // Long end1 = System.nanoTime();
-                    // System.out.println((end1-start1)/1_000_000_000.0);
-
-                    // DijkstraUndirectedSP dj = new DijkstraUndirectedSP(graph);
-                    // QueryBidirectionalDijkstra query = new QueryBidirectionalDijkstra(graph);
-
-                    // System.out.println("normal dijkstra shortest path: " + dj.computeShortestPath(graph.getVertexById(252531593L).getVertexIndex(),graph.getVertexById(3329107267L).getVertexIndex()));
-                    // System.out.println("relaxations: " + dj.getCounterRelaxed());
-                    // System.out.println("query dijkstra shortest path: " + query.computeShortestPath(graph.getVertexById(252531593L).getVertexIndex(),graph.getVertexById(3329107267L).getVertexIndex()));
-                    // System.out.println("relaxations: " + query.getCounterRelaxed());
-
+                    Long start1 = System.nanoTime();
+                    ContractionHierarchy cont = new ContractionHierarchy(graph);
+                    Long end1 = System.nanoTime();
+                    System.out.println((end1-start1)/1_000_000_000.0);
                 }
                 else if(args[0].equals("Dijkstra")){
 

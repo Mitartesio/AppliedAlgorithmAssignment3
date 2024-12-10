@@ -82,9 +82,9 @@ public class Main {
                     //     System.out.println("contracted graph not instantiated");
                     // }
                     //contractedGraph.setRankArray(rank);
-                    System.out.println(contractedGraph.V());
+                    //System.out.println(contractedGraph.V());
                     
-                    System.out.println(contractedGraph.E());
+                    //System.out.println(contractedGraph.E());
                     Scanner scanner = new Scanner(System.in);
                     while (scanner.hasNextInt()) {
                         QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(contractedGraph);

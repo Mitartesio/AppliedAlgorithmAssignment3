@@ -23,8 +23,10 @@ package Project.Graphs;
  *
  ******************************************************************************/
 
+ import java.io.BufferedReader;
  import java.io.BufferedWriter;
- import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
  import java.io.IOException;
  import java.util.Collection;
 import java.util.HashMap;
@@ -96,6 +98,7 @@ import java.util.NoSuchElementException;
      public void setRankArray(int[] rankArray){
         this.rankArray=rankArray;
      }
+
 
      public int[] getRankArray(){
         return rankArray;
@@ -202,6 +205,33 @@ import java.util.NoSuchElementException;
         } catch (IOException e) {
             System.err.println("Error writing edge to graph file: " + e.getMessage());
         }
+     }
+
+     public void writeRankArray(int[] rankArray){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ranks.txt",true))) {
+            for (int i = 0; i < rankArray.length; i++) {
+                writer.write(Integer.toString(rankArray[i]));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+     }
+
+     public int[] readRankArrayFromFile(String dir){
+                    int[] rank = new int[this.V]; // hopefully getting it from graph, should work
+            try (BufferedReader reader = new BufferedReader(new FileReader(dir))) {
+                for (int i = 0; i < V; i++) {
+                    String line = reader.readLine();
+                    if (line == null) {
+                        throw new IOException("Not enough lines in rank file");
+                    }
+                    rank[i] = Integer.parseInt(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return rank;
      }
  
      /**

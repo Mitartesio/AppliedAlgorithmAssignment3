@@ -1,7 +1,10 @@
 package Project.Graphs;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
@@ -56,6 +59,30 @@ public class GraphBuilder {
         myScanner.close();
         return graph;
 
+    }
+
+    public static EdgeWeightedGraph addShortcuts(EdgeWeightedGraph graph, String shortcutsFilePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(shortcutsFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                
+                String[] parts = line.split("\\s+"); // Split by whitespace
+                if (parts.length != 3) {
+                    throw new IllegalArgumentException("Invalid shortcut format: " + line);
+                }
+
+                Long source = Long.parseLong(parts[0]);
+                Long target = Long.parseLong(parts[1]);
+                double weight = Double.parseDouble(parts[2]);
+
+                // Add the shortcut edge
+                Vertex sourceVertex = graph.getVertexById(source);
+                Vertex targetVertex = graph.getVertexById(target);
+                Edge shortcutEdge = new Edge(sourceVertex, targetVertex, weight);
+                graph.addEdge(shortcutEdge);
+            }
+        }
+        return graph;
     }
 
 

@@ -55,6 +55,16 @@ public class BidirectionalDijkstra {
         validateVertex(s);
         validateVertex(t);
 
+        distanceTotal = Double.POSITIVE_INFINITY;
+
+        relaxedEdges = new HashSet<>();
+
+
+        settled = new HashMap<>();
+            for (int i = 0; i < G.V(); i++) {
+                settled.put(i, false); // 0 for false, 1 for true
+            }
+
         for (int v = 0; v < G.V(); v++){
             distToS[v] = Double.POSITIVE_INFINITY; 
             distToT[v] = Double.POSITIVE_INFINITY; 
